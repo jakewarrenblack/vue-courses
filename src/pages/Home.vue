@@ -1,59 +1,44 @@
 <template>
   <b-col>
-    <h2>Welcome to the CHAD Festivals Website</h2>
+    <h2>Welcome to the Festivals Website</h2>
 
     <div v-if="!loggedIn">
-    <h4>Email</h4>
-    <input type="email" v-model="form.email" />
-    <br>
-     <h4>Password</h4>
-     <input type="password" v-model="form.password" />
-     <br>
-     <button @click="login()">Submit</button>
+      <h4>Email</h4>
+      <input type="email" v-model="form.email" />
+      <br />
+      <h4>Password</h4>
+      <input type="password" v-model="form.password" />
+      <br />
+      <!-- we can still refer to a nonexistent login() method, because it exists
+      inside the vuex store, it's like it gets pasted in by ...mapActions -->
+
+      <!-- pass the entire form data as the 'credentials' param of the login method -->
+      <button @click="login(form)">Submit</button>
     </div>
-    <p v-else>
-      You are logged in 
-    </p>
+    <p v-else>You are logged in</p>
   </b-col>
 </template>
 
 <script>
-import axios from 'axios'
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Home",
-  components: {
-
-  },
-  props: {
-    loggedIn: Boolean,
-  },
   data() {
     return {
-      form : {
+      form: {
         email: "admin@festivals.ie",
         password: "secret",
       },
-  
-    }
+    };
   },
-  methods:{
- 
-    login(){
-        axios.post(`http://festivals-api.herokuapp.com/api/users/login`, {
-          email: this.form.email, 
-          password: this.form.password
-        })
-              .then(response => {
-               console.log(response.data.token)
-            
-               this.$emit('login', response.data.token)
-              })
-              .catch(error => {
-                console.log(error)
-                console.log(error.response.data.message)
-              })
-    }
-  }
+  computed: {
+    // make the 'loggedIn' state available directly inside home
+    ...mapState(["loggedIn"]),
+  },
+  methods: {
+    // this provides a reference to a method within the vuex store
+    ...mapActions(["login"]),
+  },
 };
 </script>

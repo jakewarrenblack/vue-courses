@@ -16,11 +16,19 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <router-link class="nav-link" to="/">Home</router-link>
-          <router-link class="nav-link" :to="{name: 'festivals_index'}">Festivals</router-link>
+          <router-link class="nav-link" :to="{ name: 'festivals_index' }"
+            >Festivals</router-link
+          >
         </div>
       </div>
 
-      <button v-if="loggedIn" @click="logOut()" class="btn btn-outline-info my-2 my-sm-0 flex-right btn-sm">Logout</button>
+      <button
+        v-if="$store.state.loggedIn"
+        @click="logOut()"
+        class="btn btn-outline-info my-2 my-sm-0 flex-right btn-sm"
+      >
+        Logout
+      </button>
     </div>
   </nav>
 </template>
@@ -28,14 +36,11 @@
 <script>
 export default {
   name: "MyNavBar",
-  props: {
-    loggedIn: Boolean,
-  },
   methods: {
     logOut() {
-      this.$emit('logOut')
-    }
-  }
+      this.$store.dispatch("logout");
+    },
+  },
 };
 </script>
 

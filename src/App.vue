@@ -1,10 +1,10 @@
 <template>
   <div>
-    <MyNavBar :loggedIn="loggedIn" v-on:logOut="setLoggedOut"/>
+    <MyNavBar />
     <b-container>
       <br />
       <b-row>
-        <router-view :loggedIn="loggedIn" v-on:login="setLoggedIn"  />
+        <router-view />
       </b-row>
       <MyFooter />
     </b-container>
@@ -12,37 +12,26 @@
 </template>
 
 <script>
-import MyNavBar from "@/components/MyNavBar.vue"
-import MyFooter from "@/components/MyFooter.vue"
+import MyNavBar from "@/components/MyNavBar.vue";
+import MyFooter from "@/components/MyFooter.vue";
 
 export default {
   name: "App",
   components: {
     MyNavBar,
-    MyFooter
+    MyFooter,
   },
   data() {
-    return{
-      loggedIn: false
-    }
+    return {
+      loggedIn: false,
+    };
   },
-  created(){
-    localStorage.getItem('token') ? this.loggedIn = true : this.loggedIn= false
+  created() {
+    localStorage.getItem("token")
+      ? this.$store.commit("SET_LOGGED_IN_STATUS", true)
+      : this.$store.commit("SET_LOGGED_IN_STATUS", false);
   },
-  methods: {
-    setLoggedIn(token) {
-      this.loggedIn=true
-      localStorage.setItem('token', token)
-    },
-    setLoggedOut() {
-      this.loggedIn=false
-      localStorage.removeItem('token')
-      this.$router.replace({name: 'home'})
-    },
-  }
 };
 </script>
 
-<style>
-
-</style>
+<style></style>
