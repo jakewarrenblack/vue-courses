@@ -1,12 +1,13 @@
 <template>
   <b-col>
-    <h2>ShowFestivals page</h2>
+    <h2>course page</h2>
+    <hr />
 
     <p>
-      {{ festival.title }}
+      {{ course.title }}
     </p>
     <p>
-      {{ festival.description }}
+      {{ course.description }}
     </p>
   </b-col>
 </template>
@@ -19,7 +20,7 @@ export default {
   components: {},
   data() {
     return {
-      festival: {},
+      course: {},
     };
   },
   mounted() {
@@ -30,14 +31,14 @@ export default {
       let token = localStorage.getItem("token");
       axios
         .get(
-          `http://festivals-api.herokuapp.com/api/festivals/${this.$route.params.id}`,
+          `https://college-api-mo.herokuapp.com/api/courses/${this.$route.params.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         )
         .then((response) => {
           console.log(response);
-          this.festival = response.data;
+          this.course = response.data.data;
         })
         .catch((error) => {
           console.log(error);

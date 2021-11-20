@@ -24,6 +24,11 @@ export default new Router({
       name: "festivals_show",
       component: () => import("./pages/festivals/Show.vue"),
     },
+    {
+      path: "/festivals/add",
+      name: "festivals_add",
+      component: () => import("./pages/festivals/Add.vue"),
+    },
     ///////////////////
   ],
 });

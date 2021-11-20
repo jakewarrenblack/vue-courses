@@ -22,7 +22,7 @@ export default new Vuex.Store({
       console.log(credentials);
 
       axios
-        .post(`http://festivals-api.herokuapp.com/api/users/login`, {
+        .post(`https://college-api-mo.herokuapp.com/api/login`, {
           email: credentials.email,
           password: credentials.password,
         })
