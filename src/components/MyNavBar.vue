@@ -22,6 +22,9 @@
           <router-link class="nav-link" :to="{ name: 'enrolments_index' }"
             >Enrolments</router-link
           >
+          <router-link class="nav-link" :to="{ name: 'lecturers_index' }"
+            >Lecturers</router-link
+          >
         </div>
       </div>
 

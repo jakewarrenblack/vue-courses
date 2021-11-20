@@ -56,6 +56,27 @@ export default new Router({
       name: "enrolments_edit",
       component: () => import("./pages/enrolments/Edit.vue"),
     },
+    ////LECTURERS////
+    {
+      path: "/lecturers",
+      name: "lecturers_index",
+      component: () => import("./pages/lecturers/Index.vue"),
+    },
+    {
+      path: "/lecturers/:id",
+      name: "lecturers_show",
+      component: () => import("./pages/lecturers/Show.vue"),
+    },
+    {
+      path: "/lecturers/add",
+      name: "lecturers_add",
+      component: () => import("./pages/lecturers/Add.vue"),
+    },
+    {
+      path: "/lecturers/edit/:id",
+      name: "lecturers_edit",
+      component: () => import("./pages/lecturers/Edit.vue"),
+    },
     ///////////////////
   ],
 });
