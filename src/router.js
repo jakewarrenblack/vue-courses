@@ -34,6 +34,28 @@ export default new Router({
       name: "festivals_edit",
       component: () => import("./pages/festivals/Edit.vue"),
     },
+
+    ////ENROLMENTS////
+    {
+      path: "/enrolments",
+      name: "enrolments_index",
+      component: () => import("./pages/enrolments/Index.vue"),
+    },
+    {
+      path: "/enrolments/:id",
+      name: "enrolments_show",
+      component: () => import("./pages/enrolments/Show.vue"),
+    },
+    {
+      path: "/enrolments/add",
+      name: "enrolments_add",
+      component: () => import("./pages/enrolments/Add.vue"),
+    },
+    {
+      path: "/enrolments/edit/:id",
+      name: "enrolments_edit",
+      component: () => import("./pages/enrolments/Edit.vue"),
+    },
     ///////////////////
   ],
 });
