@@ -29,6 +29,11 @@ export default new Router({
       name: "festivals_add",
       component: () => import("./pages/festivals/Add.vue"),
     },
+    {
+      path: "/festivals/edit/:id",
+      name: "festivals_edit",
+      component: () => import("./pages/festivals/Edit.vue"),
+    },
     ///////////////////
   ],
 });

@@ -1,7 +1,11 @@
 <template>
   <b-col>
-    <h2>course page</h2>
+    <button @click="deleteCourse(course.id)">Delete</button>
+    <router-link :to="{ name: 'festivals_edit', params: { id: course.id } }"
+      ><button>Edit</button>
+    </router-link>
     <hr />
+    <h2>course page</h2>
 
     <p>
       {{ course.title }}
@@ -27,6 +31,24 @@ export default {
     this.getData();
   },
   methods: {
+    async deleteCourse(id) {
+      let token = localStorage.getItem("token");
+      await axios
+        .delete(`https://college-api-mo.herokuapp.com/api/courses/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(async (response) => {
+          console.log(response);
+          alert("Success");
+          // this.courses = response.data.data;
+          //this.courses.pop()
+
+          //await this.getData().then((res) => (this.courses = res));
+        })
+        .catch((error) => console.log(error));
+    },
     getData() {
       let token = localStorage.getItem("token");
       axios

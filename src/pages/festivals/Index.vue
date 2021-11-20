@@ -7,22 +7,22 @@
 
     <hr />
 
-    <button @submit.prevent="deleteCourse(selectedCourse)" type="submit">
-      Delete
-    </button>
+    <!-- <form @submit="deleteCourse(selectedCourse)">
+      <button type="button">Delete</button> -->
     <p v-for="course in courses" :key="course.id">
-      <input
-        v-model="selectedCourse"
-        type="radio"
-        id="course"
-        name="course"
-        :value="`${course.id}`"
-      />&nbsp;
+      <!-- <input
+          v-model="selectedCourse"
+          type="radio"
+          id="course"
+          name="course"
+          :value="`${course.id}`"
+        />&nbsp; -->
       <router-link
         :to="{ name: 'festivals_show', params: { id: course.id } }"
         >{{ course.title }}</router-link
       >
     </p>
+    <!-- </form> -->
   </b-col>
 </template>
 
@@ -38,37 +38,43 @@ export default {
       selectedCourse: null,
     };
   },
-  mounted() {
-    this.getData();
+  async created() {
+    await this.getData().then((res) => (this.courses = res));
   },
   methods: {
-    deleteCourse(id) {
+    // async deleteCourse(id) {
+    //   let token = localStorage.getItem("token");
+    //   await axios
+    //     .delete(`https://college-api-mo.herokuapp.com/api/courses/${id}`, {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     })
+    //     .then(async (response) => {
+    //       console.log(response);
+    //       // this.courses = response.data.data;
+    //       //this.courses.pop()
+
+    //       await this.getData().then((res) => (this.courses = res));
+    //     })
+    //     .catch((error) => console.log(error));
+    // },
+    async getData() {
       let token = localStorage.getItem("token");
-      axios
-        .delete(`https://college-api-mo.herokuapp.com/api/courses/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          this.courses = response.data.data;
-        })
-        .catch((error) => console.log(error));
-    },
-    getData() {
-      let token = localStorage.getItem("token");
-      axios
-        .get(`https://college-api-mo.herokuapp.com/api/courses`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((response) => {
-          console.log(response);
-          this.courses = response.data.data;
-        })
-        .catch((error) => console.log(error));
+      try {
+        const response = await axios.get(
+          `https://college-api-mo.herokuapp.com/api/courses`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        console.log(response);
+        return response.data.data;
+      } catch (error) {
+        return console.log(error);
+      }
     },
   },
 };
