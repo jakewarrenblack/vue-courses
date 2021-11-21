@@ -1,16 +1,24 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app>
-      <router-link class="nav-link" to="/">Home</router-link>
-      <router-link class="nav-link" :to="{ name: 'festivals_index' }"
-        >Festivals</router-link
-      >
-      <router-link class="nav-link" :to="{ name: 'enrolments_index' }"
-        >Enrolments</router-link
-      >
-      <router-link class="nav-link" :to="{ name: 'lecturers_index' }"
-        >Lecturers</router-link
-      >
+      <v-list-item>
+        <router-link class="nav-link" to="/">Home</router-link>
+      </v-list-item>
+      <v-list-item>
+        <router-link class="nav-link" :to="{ name: 'festivals_index' }"
+          >Festivals</router-link
+        >
+      </v-list-item>
+      <v-list-item>
+        <router-link class="nav-link" :to="{ name: 'enrolments_index' }"
+          >Enrolments</router-link
+        >
+      </v-list-item>
+      <v-list-item>
+        <router-link class="nav-link" :to="{ name: 'lecturers_index' }"
+          >Lecturers</router-link
+        >
+      </v-list-item>
     </v-navigation-drawer>
 
     <v-app-bar app class="d-flex justify-space-between">
