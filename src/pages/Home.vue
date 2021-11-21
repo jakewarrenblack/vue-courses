@@ -13,7 +13,7 @@
       inside the vuex store, it's like it gets pasted in by ...mapActions -->
 
       <!-- pass the entire form data as the 'credentials' param of the login method -->
-      <button @click="login(form)">Submit</button>
+      <v-btn @click="login(form)">Submit</v-btn>
     </div>
     <p v-else>You are logged in</p>
   </b-col>

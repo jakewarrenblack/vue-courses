@@ -2,7 +2,7 @@
   <b-col>
     <h2>Welcome to the course Index page</h2>
     <router-link :to="{ name: 'festivals_add' }"
-      ><button>Add Course</button>
+      ><v-btn>Add Course</v-btn>
     </router-link>
 
     <hr />

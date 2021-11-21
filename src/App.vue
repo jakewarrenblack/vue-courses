@@ -1,37 +1,50 @@
 <template>
-  <div>
-    <MyNavBar />
-    <b-container>
+  <v-app id="inspire">
+    <v-navigation-drawer v-model="drawer" app>
+      <router-link class="nav-link" to="/">Home</router-link>
+      <router-link class="nav-link" :to="{ name: 'festivals_index' }"
+        >Festivals</router-link
+      >
+      <router-link class="nav-link" :to="{ name: 'enrolments_index' }"
+        >Enrolments</router-link
+      >
+      <router-link class="nav-link" :to="{ name: 'lecturers_index' }"
+        >Lecturers</router-link
+      >
+    </v-navigation-drawer>
+
+    <v-app-bar app class="d-flex justify-space-between">
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title>RESTful College</v-toolbar-title>
+      <v-btn
+        v-if="$store.state.loggedIn"
+        @click="logout()"
+        class="v-btn secondary"
+        >Log Out</v-btn
+      >
+    </v-app-bar>
+
+    <v-main>
       <br />
-      <b-row>
-        <router-view />
-      </b-row>
-      <MyFooter />
-    </b-container>
-  </div>
+      <router-view />
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import MyNavBar from "@/components/MyNavBar.vue";
-import MyFooter from "@/components/MyFooter.vue";
-
 export default {
-  name: "App",
-  components: {
-    MyNavBar,
-    MyFooter,
-  },
-  data() {
-    return {
-      loggedIn: false,
-    };
-  },
-  created() {
-    localStorage.getItem("token")
-      ? this.$store.commit("SET_LOGGED_IN_STATUS", true)
-      : this.$store.commit("SET_LOGGED_IN_STATUS", false);
+  data: () => ({ drawer: null }),
+  methods: {
+    logOut() {
+      this.$store.dispatch("logout");
+    },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+v-main {
+  margin: 1rem;
+  padding: 5rem;
+}
+</style>
