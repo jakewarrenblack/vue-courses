@@ -2,7 +2,7 @@
   <b-col>
     <h2>Welcome to the lecturers Index page</h2>
     <router-link :to="{ name: 'festivals_add' }"
-      ><button>Add lecturer</button>
+      ><v-btn>Add lecturer</v-btn>
     </router-link>
 
     <hr />

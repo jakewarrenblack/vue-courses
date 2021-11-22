@@ -2,7 +2,7 @@
   <b-col>
     <h2>Welcome to the enrolments Index page</h2>
     <router-link :to="{ name: 'enrolments_add' }"
-      ><button>Add Enrolment</button>
+      ><v-btn>Add Enrolment</v-btn>
     </router-link>
 
     <hr />

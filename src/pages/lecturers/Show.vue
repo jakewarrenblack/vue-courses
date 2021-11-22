@@ -1,8 +1,8 @@
 <template>
   <b-col>
-    <button @click="deletelecturer(lecturer.id)">Delete</button>
+    <v-btn class="mr-5" @click="deletelecturer(lecturer.id)">Delete</v-btn>
     <router-link :to="{ name: 'lecturers_edit', params: { id: lecturer.id } }"
-      ><button>Edit</button>
+      ><v-btn>Edit</v-btn>
     </router-link>
     <hr />
     <h2>lecturer page</h2>

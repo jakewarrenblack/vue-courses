@@ -2,39 +2,60 @@
   <b-col>
     <h2>Add course page</h2>
     <hr />
-    <form @submit.prevent="addCourse(form)">
+    <v-form @submit.prevent="addCourse(form)">
       <div class="input-contain">
-        <label for="status">Status:</label>
-        <select v-model="form.status" name="status" id="status">
-          <option default value="interested">interested</option>
-          <option value="assigned">assigned</option>
-          <option value="career_break">career break</option>
-          <option value="associate">associate</option>
-        </select>
+        <v-select
+          v-model="form.status"
+          :hint="`${select.state}`"
+          persistent-hint
+          single-line
+          item-text="state"
+          item-value="state"
+          label="Select"
+          :items="items"
+          name="status"
+          id="status"
+        >
+        </v-select>
       </div>
       <br />
       <div class="input-contain">
-        <label for="course_id">Course ID</label>
-        <input v-model="form.course_id" type="text" name="course_id" />
+        <v-text-field
+          label="Course ID"
+          v-model="form.course_id"
+          type="text"
+          name="course_id"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="description">Lecturer ID</label>
-        <textarea v-model="form.lecturer_id" name="lecturer_id" />
+        <v-text-field
+          label="Lecturer ID"
+          v-model="form.lecturer_id"
+          name="lecturer_id"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="date">Date</label>
-        <input v-model="form.date" type="date" name="date" />
+        <v-text-field
+          label="Date"
+          v-model="form.date"
+          type="date"
+          name="date"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="time">Time</label>
-        <input v-model="form.time" type="time" name="time" />
+        <v-text-field
+          label="Time"
+          v-model="form.time"
+          type="time"
+          name="time"
+        />
       </div>
       <br />
-      <button type="submit">Submit</button>
-    </form>
+      <v-btn type="submit">Submit</v-btn>
+    </v-form>
   </b-col>
 </template>
 <script>
@@ -52,6 +73,13 @@ export default {
         date: "30-05-2021",
         time: "00:00:00",
       },
+      select: { state: "interested" },
+      items: [
+        { state: "interested" },
+        { state: "assigned" },
+        { state: "career break" },
+        { state: "associate" },
+      ],
     };
   },
   mounted() {

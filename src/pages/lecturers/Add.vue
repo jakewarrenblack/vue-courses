@@ -2,34 +2,53 @@
   <b-col>
     <h2>Add course page</h2>
     <hr />
-    <form @submit.prevent="addCourse(form)">
+    <v-form @submit.prevent="addCourse(form)">
       <div class="input-contain">
-        <label for="title">Title</label>
-        <input v-model="form.title" type="text" name="title" />
+        <v-text-field
+          label="Title"
+          v-model="form.title"
+          type="text"
+          name="title"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="code">Code</label>
-        <input v-model="form.code" type="text" name="code" />
+        <v-text-field
+          label="Code"
+          v-model="form.code"
+          type="text"
+          name="code"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="description">Description</label>
-        <textarea v-model="form.description" name="description" />
+        <v-text-area
+          label="Description"
+          v-model="form.description"
+          name="description"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="points">Points</label>
-        <input v-model="form.points" type="text" name="points" />
+        <v-text-field
+          label="Points"
+          v-model="form.points"
+          type="text"
+          name="points"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="level">Level</label>
-        <input v-model="form.level" type="text" name="level" />
+        <v-text-field
+          label="level"
+          v-model="form.level"
+          type="text"
+          name="level"
+        />
       </div>
       <br />
       <button type="submit">Submit</button>
-    </form>
+    </v-form>
   </b-col>
 </template>
 <script>

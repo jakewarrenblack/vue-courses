@@ -13,12 +13,7 @@
       </div>
       <br />
       <div class="input-contain">
-        <v-text-field
-          label="Code"
-          v-model="form.code"
-          type="text"
-          name="code"
-        />
+        <v-list-item label="Code" v-model="form.code" type="text" name="code" />
       </div>
       <br />
       <div class="input-contain">
@@ -40,7 +35,6 @@
       </div>
       <br />
       <div class="input-contain">
-        <label for="level">Level</label>
         <v-text-field
           label="Level"
           v-model="form.level"
