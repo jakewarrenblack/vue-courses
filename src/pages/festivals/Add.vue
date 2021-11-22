@@ -4,31 +4,52 @@
     <hr />
     <v-form @submit.prevent="addCourse(form)">
       <div class="input-contain">
-        <label for="title">Title</label>
-        <v-text-field v-model="form.title" type="text" name="title" />
+        <v-text-field
+          label="Title"
+          v-model="form.title"
+          type="text"
+          name="title"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="code">Code</label>
-        <v-text-field v-model="form.code" type="text" name="code" />
+        <v-text-field
+          label="Code"
+          v-model="form.code"
+          type="text"
+          name="code"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="description">Description</label>
-        <v-textarea v-model="form.description" name="description" />
+        <v-textarea
+          height="90"
+          label="Description"
+          v-model="form.description"
+          name="description"
+        />
       </div>
       <br />
       <div class="input-contain">
-        <label for="points">Points</label>
-        <v-text-field v-model="form.points" type="text" name="points" />
+        <v-text-field
+          label="Points"
+          v-model="form.points"
+          type="text"
+          name="points"
+        />
       </div>
       <br />
       <div class="input-contain">
         <label for="level">Level</label>
-        <v-text-field v-model="form.level" type="text" name="level" />
+        <v-text-field
+          label="Level"
+          v-model="form.level"
+          type="text"
+          name="level"
+        />
       </div>
       <br />
-      <button type="submit">Submit</button>
+      <v-btn type="submit">Submit</v-btn>
     </v-form>
   </div>
 </template>

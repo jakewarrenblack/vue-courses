@@ -21,9 +21,10 @@
       </v-list-item>
     </v-navigation-drawer>
 
-    <v-app-bar app class="d-flex justify-space-between">
+    <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>RESTful College</v-toolbar-title>
+      <v-toolbar-title>College management system</v-toolbar-title>
+      <v-spacer></v-spacer>
       <v-btn
         v-if="$store.state.loggedIn"
         @click="logout()"
@@ -56,3 +57,4 @@ v-main {
   padding: 5rem;
 }
 </style>
+.
