@@ -6,23 +6,12 @@
     </router-link>
 
     <hr />
-
-    <!-- <form @submit="deleteCourse(selectedCourse)">
-      <button type="button">Delete</button> -->
     <p v-for="lecturer in lecturers" :key="lecturer.id">
-      <!-- <input
-          v-model="selectedCourse"
-          type="radio"
-          id="course"
-          name="course"
-          :value="`${course.id}`"
-        />&nbsp; -->
       <router-link
         :to="{ name: 'lecturers_show', params: { id: lecturer.id } }"
         >{{ lecturer.name }}</router-link
       >
     </p>
-    <!-- </form> -->
   </b-col>
 </template>
 
@@ -42,23 +31,6 @@ export default {
     await this.getData().then((res) => (this.lecturers = res));
   },
   methods: {
-    // async deleteCourse(id) {
-    //   let token = localStorage.getItem("token");
-    //   await axios
-    //     .delete(`https://college-api-mo.herokuapp.com/api/courses/${id}`, {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     })
-    //     .then(async (response) => {
-    //       console.log(response);
-    //       // this.courses = response.data.data;
-    //       //this.courses.pop()
-
-    //       await this.getData().then((res) => (this.courses = res));
-    //     })
-    //     .catch((error) => console.log(error));
-    // },
     async getData() {
       let token = localStorage.getItem("token");
       try {

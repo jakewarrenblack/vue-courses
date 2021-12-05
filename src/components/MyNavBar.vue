@@ -17,7 +17,7 @@
         <div class="navbar-nav">
           <router-link class="nav-link" to="/">Home</router-link>
           <router-link class="nav-link" :to="{ name: 'festivals_index' }"
-            >Festivals</router-link
+            >Courses</router-link
           >
           <router-link class="nav-link" :to="{ name: 'enrolments_index' }"
             >Enrolments</router-link

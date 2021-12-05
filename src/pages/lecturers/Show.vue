@@ -1,6 +1,8 @@
 <template>
   <b-col>
-    <v-btn class="mr-5" @click="deletelecturer(lecturer.id)">Delete</v-btn>
+    <v-btn class="mr-5" @click="deletelecturer(lecturer.id)"
+      >Delete {{ lecturer.id }}</v-btn
+    >
     <router-link :to="{ name: 'lecturers_edit', params: { id: lecturer.id } }"
       ><v-btn>Edit</v-btn>
     </router-link>
@@ -59,7 +61,7 @@ export default {
       let token = localStorage.getItem("token");
       axios
         .get(
-          `https://college-api-mo.herokuapp.com/api/lecturers/1${this.$route.params.id}`,
+          `https://college-api-mo.herokuapp.com/api/lecturers/${this.$route.params.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -70,7 +72,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          localStorage.removeItem("token");
+          //localStorage.removeItem("token");
           // this.$emit('invalid-token')
         });
     },
