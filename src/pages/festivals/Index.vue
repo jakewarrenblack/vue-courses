@@ -4,25 +4,42 @@
     <router-link :to="{ name: 'festivals_add' }"
       ><v-btn>Add Course</v-btn>
     </router-link>
-
     <hr />
 
-    <!-- <form @submit="deleteCourse(selectedCourse)">
-      <button type="button">Delete</button> -->
-    <p v-for="course in courses" :key="course.id">
-      <!-- <input
-          v-model="selectedCourse"
-          type="radio"
-          id="course"
-          name="course"
-          :value="`${course.id}`"
-        />&nbsp; -->
-      <router-link
-        :to="{ name: 'festivals_show', params: { id: course.id } }"
-        >{{ course.title }}</router-link
+    <v-container class="my-5">
+      <!-- pa = padding 'all' -->
+      <v-card
+        v-for="course in courses"
+        :key="course.id"
+        flat
+        class="pa-3 mb-5 course"
       >
-    </p>
-    <!-- </form> -->
+        <router-link
+          :to="{ name: 'festivals_show', params: { id: course.id } }"
+        >
+          <!-- elements will wrap if not enough space -->
+          <v-layout row wrap>
+            <!-- mobile - full width, desktop - half width -->
+            <v-flex xs12 md6>
+              <div class="caption grey--text">Course title</div>
+              <div>{{ course.title }}</div>
+            </v-flex>
+            <v-flex xs6 sm4 md2>
+              <div class="caption grey--text">Course Code</div>
+              <div>{{ course.code }}</div>
+            </v-flex>
+            <v-flex xs6 sm4 md2>
+              <div class="caption grey--text">Points</div>
+              <div>{{ course.points }}</div>
+            </v-flex>
+            <v-flex xs2 sm4 md2>
+              <div class="caption grey--text">Level</div>
+              <div>{{ course.level }}</div>
+            </v-flex>
+          </v-layout>
+        </router-link>
+      </v-card>
+    </v-container>
   </b-col>
 </template>
 
@@ -42,23 +59,6 @@ export default {
     await this.getData().then((res) => (this.courses = res));
   },
   methods: {
-    // async deleteCourse(id) {
-    //   let token = localStorage.getItem("token");
-    //   await axios
-    //     .delete(`https://college-api-mo.herokuapp.com/api/courses/${id}`, {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     })
-    //     .then(async (response) => {
-    //       console.log(response);
-    //       // this.courses = response.data.data;
-    //       //this.courses.pop()
-
-    //       await this.getData().then((res) => (this.courses = res));
-    //     })
-    //     .catch((error) => console.log(error));
-    // },
     async getData() {
       let token = localStorage.getItem("token");
       try {
