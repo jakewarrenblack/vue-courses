@@ -4,10 +4,16 @@ import Vuetify from "vuetify/lib/framework";
 Vue.use(Vuetify);
 
 export default new Vuetify({
+  // Material design
+  iconfont: "md",
+  // Provide colours to override default theme
   theme: {
     themes: {
-      standard: {
-        navPrimary: "#535352",
+      light: {
+        primary: "#535352",
+        secondary: "#60B664",
+        lessEmphasis: "#E1E1E1",
+        background: "#EEEEEE",
       },
     },
   },

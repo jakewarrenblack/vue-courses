@@ -1,48 +1,64 @@
 <template>
   <b-col>
-    <h2>Edit course page</h2>
+    <h2>Edit Enrolment</h2>
     <hr />
-    <v-form @submit.prevent="editCourse(form, course.id)">
+    <!-- Prevent default, which is to refresh the page -->
+    <v-form @submit.prevent="addEnrolment(form)">
       <div class="input-contain">
-        <v-text-field
-          label="Title"
-          v-model="form.title"
-          type="text"
-          name="title"
-        />
+        <v-select
+          v-model="form.status"
+          :hint="`${select.state}`"
+          persistent-hint
+          single-line
+          item-text="state"
+          item-value="state"
+          label="Select"
+          :items="items"
+          name="status"
+          id="status"
+        >
+        </v-select>
       </div>
+      <br />
+      <div class="input-contain">
+        <v-select
+          v-model="form.course_id"
+          :items="courses"
+          label="Course"
+          single-line
+          item-text="title"
+          item-value="id"
+        >
+        </v-select>
+      </div>
+      <br />
+      <div class="input-contain">
+        <v-select
+          v-model="form.lecturer_id"
+          :items="lecturers"
+          label="Lecturer"
+          single-line
+          item-text="name"
+          item-value="id"
+        >
+        </v-select>
+      </div>
+      <br />
       <div class="input-contain">
         <v-text-field
-          label="Code"
-          v-model="form.code"
-          type="text"
-          name="code"
+          label="Date"
+          v-model="form.date"
+          type="date"
+          name="date"
         />
       </div>
       <br />
       <div class="input-contain">
-        <v-text-area
-          label="Description"
-          v-model="form.description"
-          name="description"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
         <v-text-field
-          label="Points"
-          v-model="form.points"
-          type="text"
-          name="points"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Level"
-          v-model="form.level"
-          type="text"
-          name="level"
+          label="Time"
+          v-model="form.time"
+          type="time"
+          name="time"
         />
       </div>
       <br />
@@ -58,59 +74,45 @@ export default {
   components: {},
   data() {
     return {
-      course: null,
       form: {
-        title: null,
-        code: null,
-        description: null,
-        points: null,
-        level: null,
+        status: "",
+        course_id: "",
+        lecturer_id: "",
+        date: "",
+        time: "",
       },
+      // Dropdown models the items, default is interested
+      select: { state: "interested" },
+      items: [
+        { state: "interested" },
+        { state: "assigned" },
+        { state: "career break" },
+        { state: "associate" },
+      ],
+      // Init to empty arrays, then fill them on mount
+      courses: [],
+      lecturers: [],
     };
   },
-  async mounted() {
-    await this.getData().then((res) => {
-      this.course = res;
-      this.form.title = this.course.title;
-      this.form.code = this.course.code;
-      this.form.description = this.course.description;
-      this.form.points = this.course.points;
-      this.form.level = this.course.level;
-    });
+  mounted() {
+    //this.getData();\
+    console.log(localStorage.getItem("token"));
+    this.getCourses();
+    this.getLecturers();
   },
   methods: {
-    async getData() {
-      let token = localStorage.getItem("token");
-      return axios
-        .get(
-          `https://college-api-mo.herokuapp.com/api/courses/${this.$route.params.id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-        .then((response) => {
-          console.log(response);
-          return response.data.data;
-          //this.course = response.data.data;
-        })
-        .catch((error) => {
-          console.log(error);
-          localStorage.removeItem("token");
-          // this.$emit('invalid-token')
-        });
-    },
-    editCourse(form, id) {
+    addEnrolment(form) {
       let token = localStorage.getItem("token");
 
       axios
-        .put(
-          `https://college-api-mo.herokuapp.com/api/courses/${id}`,
+        .post(
+          `https://college-api-mo.herokuapp.com/api/enrolments`,
           {
-            title: form.title,
-            code: form.code,
-            description: form.description,
-            points: form.points,
-            level: form.level,
+            status: form.status,
+            course_id: form.course_id,
+            lecturer_id: form.lecturer_id,
+            date: form.date,
+            time: form.time,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -122,7 +124,48 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          //localStorage.removeItem("token");
+        });
+    },
+    getCourses() {
+      let token = localStorage.getItem("token");
+      axios
+        .get(`https://college-api-mo.herokuapp.com/api/courses`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          this.courses = response.data.data;
+        })
+        .catch((err) => console.log(err));
+    },
+    getLecturers() {
+      let token = localStorage.getItem("token");
+      axios
+        .get(`https://college-api-mo.herokuapp.com/api/lecturers`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          console.log("lecturers:");
+          console.log(response.data.data);
+          this.lecturers = response.data.data;
+        })
+        .catch((err) => console.log(err));
+    },
+    getData() {
+      let token = localStorage.getItem("token");
+      axios
+        .get(
+          `https://college-api-mo.herokuapp.com/api/enrolments/${this.$route.params.id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          this.enrolment = response.data.data;
+        })
+        .catch((error) => {
+          console.log(error);
+          localStorage.removeItem("token");
           // this.$emit('invalid-token')
         });
     },

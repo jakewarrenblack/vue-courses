@@ -1,6 +1,6 @@
 <template>
   <b-col>
-    <h2>Add course page</h2>
+    <h2>Add Enrolment</h2>
     <hr />
     <v-form @submit.prevent="addEnrolment(form)">
       <div class="input-contain">
@@ -74,11 +74,11 @@ export default {
   data() {
     return {
       form: {
-        status: "Interested",
-        course_id: "1234",
-        lecturer_id: "50",
-        date: "30-05-2021",
-        time: "00:00:00",
+        status: "",
+        course_id: "",
+        lecturer_id: "",
+        date: "",
+        time: "",
       },
       // Dropdown models the items, default is interested
       select: { state: "interested" },

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2>Add course page</h2>
+    <h2>Add Course</h2>
     <hr />
     <v-form @submit.prevent="addCourse(form)">
       <div class="input-contain">
@@ -56,11 +56,11 @@ export default {
   data() {
     return {
       form: {
-        title: "Form name",
-        code: "1234",
-        description: "Some description",
-        points: "100",
-        level: "8",
+        title: "",
+        code: "",
+        description: "",
+        points: "",
+        level: "",
       },
     };
   },

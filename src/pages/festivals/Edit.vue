@@ -1,6 +1,6 @@
 <template>
   <b-col>
-    <h2>Edit course page</h2>
+    <h2>Edit Course</h2>
     <hr />
     <v-form @submit.prevent="editCourse(form, course.id)">
       <div class="input-contain">

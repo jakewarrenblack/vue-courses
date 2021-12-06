@@ -3,45 +3,52 @@
   <v-app id="inspire">
     <!-- 'app' prop makes position fixed -->
     <v-navigation-drawer
-      class="grey darken-3 navigation-drawer"
+      class="primary navigation-drawer"
       v-model="drawer"
       app
       temporary
       clipped
       disable-resize-watcher
     >
-      <v-list-item>
-        <router-link class="nav-link mb-5" to="/">
-          <v-btn depressed class="green white--text">
-            <v-icon left>mdi-home</v-icon>
-            <span>Home</span>
-          </v-btn></router-link
-        >
-      </v-list-item>
-      <v-list-item>
-        <router-link class="nav-link mb-5" :to="{ name: 'festivals_index' }">
-          <v-btn depressed class="green white--text">
-            <v-icon left>mdi-school</v-icon>
-            <span>Courses</span>
-          </v-btn>
-        </router-link>
-      </v-list-item>
-      <v-list-item>
-        <router-link class="nav-link mb-5" :to="{ name: 'enrolments_index' }">
-          <v-btn depressed class="green white--text">
-            <v-icon left>mdi-book-open-blank-variant</v-icon>
-            <span>Enrolments</span>
-          </v-btn>
-        </router-link>
-      </v-list-item>
-      <v-list-item>
-        <router-link class="nav-link" :to="{ name: 'lecturers_index' }">
-          <v-btn depressed class="green white--text">
-            <v-icon left>mdi-account-multiple</v-icon>
-            <span>Lecturers</span>
-          </v-btn>
-        </router-link>
-      </v-list-item>
+      <v-list class="d-flex flex-column fill-height">
+        <div>
+          <v-list-item
+            class="d-flex flex-column justify-center text-center mt-2"
+          >
+            <h3 class="lessEmphasis--text">College Dashboard</h3>
+          </v-list-item>
+
+          <!-- router props means the vue-router is invoked when this element is created, it's a router link -->
+          <v-list-item
+            class="mb-5 secondary m-3 rounded"
+            v-for="link in links"
+            :key="link"
+            router
+            :to="{ name: `${link.route}` }"
+          >
+            <v-list-tile-action>
+              <v-icon left class="lessEmphasis--text">{{ link.icon }}</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-action>
+              <v-list-tile-title class="lessEmphasis--text">
+                {{ link.text }}
+              </v-list-tile-title>
+            </v-list-tile-action>
+          </v-list-item>
+        </div>
+        <div class="mt-auto">
+          <v-list-item class="mb-5 secondary m-3 rounded" @click="logOut()">
+            <v-list-tile-action>
+              <v-icon left class="lessEmphasis--text">mdi-exit-to-app</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-action>
+              <v-list-tile-title class="lessEmphasis--text">
+                Logout
+              </v-list-tile-title>
+            </v-list-tile-action>
+          </v-list-item>
+        </div>
+      </v-list>
     </v-navigation-drawer>
 
     <v-app-bar app>
@@ -51,7 +58,7 @@
       <v-spacer></v-spacer>
       <v-btn
         v-if="$store.state.loggedIn"
-        @click="logout()"
+        @click="logOut()"
         class="v-btn secondary"
         >Log Out</v-btn
       >
@@ -59,14 +66,31 @@
 
     <v-main>
       <br />
-      <router-view />
+      <router-view class="background" />
     </v-main>
   </v-app>
 </template>
 
 <script>
 export default {
-  data: () => ({ drawer: null }),
+  data: () => ({
+    drawer: null,
+    links: [
+      { icon: "mdi-home", text: "Home", route: "home" },
+      { icon: "mdi-school", text: "Courses", route: "festivals_index" },
+      {
+        icon: "mdi-book-open-blank-variant",
+        text: "Enrolments",
+        route: "enrolments_index",
+      },
+      {
+        icon: "mdi-account-multiple",
+        text: "Lecturers",
+        route: "lecturers_index",
+      },
+    ],
+  }),
+
   methods: {
     logOut() {
       this.$store.dispatch("logout");
@@ -79,6 +103,9 @@ export default {
 v-main {
   margin: 1rem;
   padding: 5rem;
+}
+.nav-link {
+  width: 100%;
 }
 </style>
 .
