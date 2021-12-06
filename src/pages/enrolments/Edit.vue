@@ -70,7 +70,7 @@
 import axios from "axios";
 
 export default {
-  name: "FestivalsAdd",
+  name: "coursesAdd",
   components: {},
   data() {
     return {

@@ -16,7 +16,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <router-link class="nav-link" to="/">Home</router-link>
-          <router-link class="nav-link" :to="{ name: 'festivals_index' }"
+          <router-link class="nav-link" :to="{ name: 'courses_index' }"
             >Courses</router-link
           >
           <router-link class="nav-link" :to="{ name: 'enrolments_index' }"

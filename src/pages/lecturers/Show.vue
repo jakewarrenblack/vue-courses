@@ -1,25 +1,33 @@
 <template>
-  <b-col>
-    <v-btn class="mr-5" @click="deletelecturer(lecturer.id)">Delete</v-btn>
-    <router-link :to="{ name: 'lecturers_edit', params: { id: lecturer.id } }"
-      ><v-btn>Edit</v-btn>
-    </router-link>
-    <hr />
-    <h2>lecturer page</h2>
-
-    <p>
-      {{ lecturer.name }}
-    </p>
-    <p>
-      {{ lecturer.email }}
-    </p>
-    <p>
-      {{ lecturer.address }}
-    </p>
-    <p>
-      {{ lecturer.phone }}
-    </p>
-  </b-col>
+  <v-layout>
+    <v-col>
+      <v-flex>
+        <h1 class="m-auto text-center">{{ lecturer.name }}</h1>
+      </v-flex>
+      <v-flex>
+        <v-container>
+          <hr />
+          <p>
+            {{ lecturer.email }}
+          </p>
+          <p>
+            {{ lecturer.address }}
+          </p>
+          <p>
+            {{ lecturer.phone }}
+          </p>
+          <hr />
+          <v-btn class="mr-5" @click="deletelecturer(lecturer.id)"
+            >Delete</v-btn
+          >
+          <router-link
+            :to="{ name: 'lecturers_edit', params: { id: lecturer.id } }"
+            ><v-btn>Edit</v-btn>
+          </router-link>
+        </v-container>
+      </v-flex>
+    </v-col>
+  </v-layout>
 </template>
 
 <script>

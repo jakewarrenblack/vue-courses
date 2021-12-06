@@ -1,7 +1,7 @@
 <template>
   <b-col>
     <v-btn class="mr-5" @click="deleteCourse(course.id)">Delete</v-btn>
-    <router-link :to="{ name: 'festivals_edit', params: { id: course.id } }"
+    <router-link :to="{ name: 'courses_edit', params: { id: course.id } }"
       ><v-btn>Edit</v-btn>
     </router-link>
     <hr />
@@ -20,7 +20,7 @@
 import axios from "axios";
 
 export default {
-  name: "FestivalsShow",
+  name: "coursesShow",
   components: {},
   data() {
     return {

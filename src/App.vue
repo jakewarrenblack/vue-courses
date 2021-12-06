@@ -77,7 +77,7 @@ export default {
     drawer: null,
     links: [
       { icon: "mdi-home", text: "Home", route: "home" },
-      { icon: "mdi-school", text: "Courses", route: "festivals_index" },
+      { icon: "mdi-school", text: "Courses", route: "courses_index" },
       {
         icon: "mdi-book-open-blank-variant",
         text: "Enrolments",
@@ -94,6 +94,7 @@ export default {
   methods: {
     logOut() {
       this.$store.dispatch("logout");
+      this.$router.replace("/");
     },
   },
 };

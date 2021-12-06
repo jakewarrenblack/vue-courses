@@ -1,60 +1,62 @@
 <template>
-  <b-col>
-    <h2>Edit Lecturer</h2>
-    <hr />
-    <v-form @submit.prevent="editCourse(form, course.id)">
-      <div class="input-contain">
-        <v-text-field
-          label="Title"
-          v-model="form.title"
-          type="text"
-          name="title"
-        />
-      </div>
-      <div class="input-contain">
-        <v-text-field
-          label="Code"
-          v-model="form.code"
-          type="text"
-          name="code"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-area
-          label="Description"
-          v-model="form.description"
-          name="description"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Points"
-          v-model="form.points"
-          type="text"
-          name="points"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Level"
-          v-model="form.level"
-          type="text"
-          name="level"
-        />
-      </div>
-      <br />
-      <v-btn type="submit">Submit</v-btn>
-    </v-form>
-  </b-col>
+  <v-layout>
+    <v-container>
+      <h2>Edit Lecturer</h2>
+      <hr />
+      <v-form @submit.prevent="editCourse(form, course.id)">
+        <div class="input-contain">
+          <v-text-field
+            label="Title"
+            v-model="form.title"
+            type="text"
+            name="title"
+          />
+        </div>
+        <div class="input-contain">
+          <v-text-field
+            label="Code"
+            v-model="form.code"
+            type="text"
+            name="code"
+          />
+        </div>
+        <br />
+        <div class="input-contain">
+          <v-text-area
+            label="Description"
+            v-model="form.description"
+            name="description"
+          />
+        </div>
+        <br />
+        <div class="input-contain">
+          <v-text-field
+            label="Points"
+            v-model="form.points"
+            type="text"
+            name="points"
+          />
+        </div>
+        <br />
+        <div class="input-contain">
+          <v-text-field
+            label="Level"
+            v-model="form.level"
+            type="text"
+            name="level"
+          />
+        </div>
+        <br />
+        <v-btn class="secondary" type="submit">Submit</v-btn>
+      </v-form>
+    </v-container>
+  </v-layout>
 </template>
 <script>
 import axios from "axios";
 
 export default {
-  name: "FestivalsAdd",
+  name: "coursesAdd",
   components: {},
   data() {
     return {

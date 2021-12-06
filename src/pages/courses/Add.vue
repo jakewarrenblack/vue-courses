@@ -13,7 +13,12 @@
       </div>
       <br />
       <div class="input-contain">
-        <v-list-item label="Code" v-model="form.code" type="text" name="code" />
+        <v-text-field
+          label="Code"
+          v-model="form.code"
+          type="text"
+          name="code"
+        />
       </div>
       <br />
       <div class="input-contain">
@@ -51,7 +56,7 @@
 import axios from "axios";
 
 export default {
-  name: "FestivalsAdd",
+  name: "coursesAdd",
   components: {},
   data() {
     return {
