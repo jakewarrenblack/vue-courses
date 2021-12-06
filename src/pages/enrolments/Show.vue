@@ -5,13 +5,19 @@
       ><v-btn>Edit</v-btn>
     </router-link>
     <hr />
-    <h2>course page</h2>
+    <h2>Enrolment view</h2>
 
     <p>
-      {{ enrolment.course.title }}
+      {{ enrolment.id }}
     </p>
     <p>
-      {{ enrolment.course.description }}
+      {{ enrolment.status }}
+    </p>
+    <p>
+      {{ enrolment.date }}
+    </p>
+    <p>
+      {{ enrolment.time }}
     </p>
   </b-col>
 </template>

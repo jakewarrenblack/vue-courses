@@ -2,7 +2,7 @@
   <b-col>
     <h2>Add course page</h2>
     <hr />
-    <v-form @submit.prevent="addCourse(form)">
+    <v-form @submit.prevent="addEnrolment(form)">
       <div class="input-contain">
         <v-select
           v-model="form.status"
@@ -20,20 +20,27 @@
       </div>
       <br />
       <div class="input-contain">
-        <v-text-field
-          label="Course ID"
+        <v-select
           v-model="form.course_id"
-          type="text"
-          name="course_id"
-        />
+          :items="courses"
+          label="Course"
+          single-line
+          item-text="title"
+          item-value="id"
+        >
+        </v-select>
       </div>
       <br />
       <div class="input-contain">
-        <v-text-field
-          label="Lecturer ID"
+        <v-select
           v-model="form.lecturer_id"
-          name="lecturer_id"
-        />
+          :items="lecturers"
+          label="Lecturer"
+          single-line
+          item-text="name"
+          item-value="id"
+        >
+        </v-select>
       </div>
       <br />
       <div class="input-contain">
@@ -73,6 +80,7 @@ export default {
         date: "30-05-2021",
         time: "00:00:00",
       },
+      // Dropdown models the items, default is interested
       select: { state: "interested" },
       items: [
         { state: "interested" },
@@ -80,22 +88,20 @@ export default {
         { state: "career break" },
         { state: "associate" },
       ],
+      // Init to empty arrays, then fill them on mount
+      courses: [],
+      lecturers: [],
     };
   },
   mounted() {
     //this.getData();\
     console.log(localStorage.getItem("token"));
+    this.getCourses();
+    this.getLecturers();
   },
   methods: {
-    addCourse(form) {
+    addEnrolment(form) {
       let token = localStorage.getItem("token");
-
-      console.log("LOGGING FORM DATA:");
-      console.log(form.status);
-      console.log(form.course_id);
-      console.log(form.lecturer_id);
-      console.log(form.date);
-      console.log(form.time);
 
       axios
         .post(
@@ -117,9 +123,31 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          //localStorage.removeItem("token");
-          // this.$emit('invalid-token')
         });
+    },
+    getCourses() {
+      let token = localStorage.getItem("token");
+      axios
+        .get(`https://college-api-mo.herokuapp.com/api/courses`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          this.courses = response.data.data;
+        })
+        .catch((err) => console.log(err));
+    },
+    getLecturers() {
+      let token = localStorage.getItem("token");
+      axios
+        .get(`https://college-api-mo.herokuapp.com/api/lecturers`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          console.log("lecturers:");
+          console.log(response.data.data);
+          this.lecturers = response.data.data;
+        })
+        .catch((err) => console.log(err));
     },
   },
 };
