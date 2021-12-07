@@ -3,48 +3,38 @@
     <v-container>
       <h2>Edit Lecturer</h2>
       <hr />
-      <v-form @submit.prevent="editCourse(form, course.id)">
+      <v-form @submit.prevent="editCourse(form)">
         <div class="input-contain">
           <v-text-field
-            label="Title"
-            v-model="form.title"
+            label="Name"
+            v-model="form.name"
             type="text"
             name="title"
           />
         </div>
         <div class="input-contain">
           <v-text-field
-            label="Code"
-            v-model="form.code"
+            label="Address"
+            v-model="form.address"
             type="text"
-            name="code"
+            name="address"
           />
-        </div>
-        <br />
-        <div class="input-contain">
-          <v-text-area
-            label="Description"
-            v-model="form.description"
-            name="description"
-          />
-        </div>
-        <br />
-        <div class="input-contain">
-          <v-text-field
-            label="Points"
-            v-model="form.points"
-            type="text"
-            name="points"
-          />
-        </div>
-        <br />
-        <div class="input-contain">
-          <v-text-field
-            label="Level"
-            v-model="form.level"
-            type="text"
-            name="level"
-          />
+          <div class="input-contain">
+            <v-text-field
+              label="Phone"
+              v-model="form.phone"
+              type="text"
+              name="phone"
+            />
+          </div>
+          <div class="input-contain">
+            <v-text-field
+              label="Email"
+              v-model="form.email"
+              type="text"
+              name="email"
+            />
+          </div>
         </div>
         <br />
         <v-btn class="secondary" type="submit">Submit</v-btn>
@@ -60,40 +50,35 @@ export default {
   components: {},
   data() {
     return {
-      course: null,
       form: {
-        title: null,
-        code: null,
-        description: null,
-        points: null,
-        level: null,
+        name: "",
+        address: "",
+        phone: "",
+        email: "",
       },
     };
   },
-  async mounted() {
-    await this.getData().then((res) => {
-      this.course = res;
-      this.form.title = this.course.title;
-      this.form.code = this.course.code;
-      this.form.description = this.course.description;
-      this.form.points = this.course.points;
-      this.form.level = this.course.level;
-    });
+  mounted() {
+    this.getData();
   },
   methods: {
-    async getData() {
+    getData() {
       let token = localStorage.getItem("token");
-      return axios
+      axios
         .get(
-          `https://college-api-mo.herokuapp.com/api/courses/${this.$route.params.id}`,
+          `https://college-api-mo.herokuapp.com/api/lecturers/${this.$route.params.id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         )
         .then((response) => {
           console.log(response);
-          return response.data.data;
-          //this.course = response.data.data;
+          var res = response.data.data;
+
+          this.form.name = res.name;
+          this.form.address = res.address;
+          this.form.phone = res.phone;
+          this.form.email = res.email;
         })
         .catch((error) => {
           console.log(error);
@@ -101,18 +86,17 @@ export default {
           // this.$emit('invalid-token')
         });
     },
-    editCourse(form, id) {
+    editCourse(form) {
       let token = localStorage.getItem("token");
 
       axios
         .put(
-          `https://college-api-mo.herokuapp.com/api/courses/${id}`,
+          `https://college-api-mo.herokuapp.com/api/lecturers/${this.$route.params.id}`,
           {
-            title: form.title,
-            code: form.code,
-            description: form.description,
-            points: form.points,
-            level: form.level,
+            name: form.name,
+            address: form.address,
+            phone: form.phone,
+            email: form.email,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -124,6 +108,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          console.log(form);
           //localStorage.removeItem("token");
           // this.$emit('invalid-token')
         });

@@ -97,6 +97,7 @@ export default {
   mounted() {
     //this.getData();\
     console.log(localStorage.getItem("token"));
+    this.getData();
     this.getCourses();
     this.getLecturers();
   },
@@ -105,8 +106,8 @@ export default {
       let token = localStorage.getItem("token");
 
       axios
-        .post(
-          `https://college-api-mo.herokuapp.com/api/enrolments`,
+        .put(
+          `https://college-api-mo.herokuapp.com/api/enrolments/${this.$route.params.id}`,
           {
             status: form.status,
             course_id: form.course_id,
@@ -124,6 +125,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          console.log(form);
         });
     },
     getCourses() {
@@ -161,7 +163,12 @@ export default {
         )
         .then((response) => {
           console.log(response);
-          this.enrolment = response.data.data;
+          var resp = response.data.data;
+          this.form.status = resp.status;
+          this.form.course_id = resp.course_id;
+          this.form.lecturer_id = resp.lecturer_id;
+          this.form.date = resp.date;
+          this.form.time = resp.time;
         })
         .catch((error) => {
           console.log(error);

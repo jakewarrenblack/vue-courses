@@ -2,7 +2,7 @@
   <b-col>
     <h2>Edit Course</h2>
     <hr />
-    <v-form @submit.prevent="editCourse(form, course.id)">
+    <v-form @submit.prevent="editCourse(form, course_id)">
       <div class="input-contain">
         <v-text-field
           label="Title"
@@ -58,30 +58,23 @@ export default {
   components: {},
   data() {
     return {
-      course: null,
       form: {
-        title: null,
-        code: null,
-        description: null,
-        points: null,
-        level: null,
+        title: "",
+        code: "",
+        description: "",
+        points: "",
+        level: "",
       },
+      course_id: "",
     };
   },
-  async mounted() {
-    await this.getData().then((res) => {
-      this.course = res;
-      this.form.title = this.course.title;
-      this.form.code = this.course.code;
-      this.form.description = this.course.description;
-      this.form.points = this.course.points;
-      this.form.level = this.course.level;
-    });
+  mounted() {
+    this.getData();
   },
   methods: {
-    async getData() {
+    getData() {
       let token = localStorage.getItem("token");
-      return axios
+      axios
         .get(
           `https://college-api-mo.herokuapp.com/api/courses/${this.$route.params.id}`,
           {
@@ -90,8 +83,14 @@ export default {
         )
         .then((response) => {
           console.log(response);
-          return response.data.data;
-          //this.course = response.data.data;
+          var res = response.data.data;
+          this.form.title = res.title;
+          this.form.code = res.code;
+          this.form.description = res.description;
+          this.form.points = res.points;
+          this.form.level = res.level;
+
+          this.course_id = res.id;
         })
         .catch((error) => {
           console.log(error);

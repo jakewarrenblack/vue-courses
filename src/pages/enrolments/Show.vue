@@ -1,25 +1,35 @@
 <template>
-  <b-col>
-    <v-btn class="mr-5" @click="deleteEnrolment(enrolment.id)">Delete</v-btn>
-    <router-link :to="{ name: 'enrolments_edit', params: { id: enrolment.id } }"
-      ><v-btn>Edit</v-btn>
-    </router-link>
-    <hr />
-    <h2>Enrolment view</h2>
-
-    <p>
-      {{ enrolment.id }}
-    </p>
-    <p>
-      {{ enrolment.status }}
-    </p>
-    <p>
-      {{ enrolment.date }}
-    </p>
-    <p>
-      {{ enrolment.time }}
-    </p>
-  </b-col>
+  <v-layout>
+    <v-col>
+      <v-flex>
+        <h1 class="m-auto text-center">Enrolment view</h1>
+      </v-flex>
+      <v-flex>
+        <v-container>
+          <hr />
+          <p>
+            {{ enrolment.id }}
+          </p>
+          <p>
+            {{ enrolment.status }}
+          </p>
+          <p>
+            {{ enrolment.date }}
+          </p>
+          <p>
+            {{ enrolment.time }}
+          </p>
+          <v-btn class="mr-5" @click="deleteEnrolment(enrolment.id)"
+            >Delete</v-btn
+          >
+          <router-link
+            :to="{ name: 'enrolments_edit', params: { id: enrolment.id } }"
+            ><v-btn>Edit</v-btn>
+          </router-link>
+        </v-container>
+      </v-flex>
+    </v-col>
+  </v-layout>
 </template>
 
 <script>

@@ -66,7 +66,7 @@
 
     <v-main>
       <br />
-      <router-view class="background" />
+      <router-view class="" />
     </v-main>
   </v-app>
 </template>
