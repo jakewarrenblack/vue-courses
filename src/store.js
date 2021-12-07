@@ -28,6 +28,7 @@ export default new Vuex.Store({
         })
         .then((response) => {
           console.log(response.data.token);
+          console.log("username: " + response.data.name);
 
           // we did this in the old way:
           //this.$emit("login", response.data.token);
@@ -35,6 +36,7 @@ export default new Vuex.Store({
           // takes the name of the mutation and the new value
           context.commit("SET_LOGGED_IN_STATUS", true);
           localStorage.setItem("token", response.data.token);
+          localStorage.setItem("name", response.data.name);
         })
         .catch((error) => {
           console.log(error);
