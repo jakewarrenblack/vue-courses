@@ -1,13 +1,14 @@
 <template>
-  <v-layout>
-    <v-col>
-      <v-row class="w-100 d-flex justify-center">
+  <v-container fill-height fluid>
+    <v-row class="w-100 d-flex justify-center">
+      <v-row class="mb-8 w-100 d-flex justify-center">
         <h2 class="">Edit Enrolment</h2>
       </v-row>
       <v-divider />
       <!-- Prevent default, which is to refresh the page -->
-      <v-row class="w-100 d-flex justify-center">
-        <v-col lg="6" sm="12">
+
+      <v-col>
+        <v-card class="p-4">
           <v-form @submit.prevent="addEnrolment(form)">
             <div class="input-contain">
               <v-select
@@ -114,10 +115,10 @@
             <br />
             <v-btn type="submit">Submit</v-btn>
           </v-form>
-        </v-col>
-      </v-row>
-    </v-col>
-  </v-layout>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import axios from "axios";
@@ -239,5 +240,6 @@ export default {
 .input-contain {
   display: flex;
   flex-direction: column;
+  margin: 1rem 0 1rem 0;
 }
 </style>

@@ -1,54 +1,66 @@
 <template>
-  <b-col>
-    <h2>Edit Course</h2>
-    <hr />
-    <v-form @submit.prevent="editCourse(form, course_id)">
-      <div class="input-contain">
-        <v-text-field
-          label="Title"
-          v-model="form.title"
-          type="text"
-          name="title"
-        />
-      </div>
-      <div class="input-contain">
-        <v-text-field
-          label="Code"
-          v-model="form.code"
-          type="text"
-          name="code"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-textarea
-          label="Description"
-          v-model="form.description"
-          name="description"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Points"
-          v-model="form.points"
-          type="text"
-          name="points"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Level"
-          v-model="form.level"
-          type="text"
-          name="level"
-        />
-      </div>
-      <br />
-      <v-btn type="submit">Submit</v-btn>
-    </v-form>
-  </b-col>
+  <v-container class="mx-auto" fill-height fluid>
+    <v-row class="w-100 d-flex justify-center">
+      <v-row class="mb-8 w-100 d-flex justify-center">
+        <h2 class="">Edit Course</h2>
+      </v-row>
+      <v-divider />
+      <!-- Prevent default, which is to refresh the page -->
+
+      <v-col>
+        <v-card class="p-4">
+          <v-form @submit.prevent="editCourse(form)">
+            <div class="input-contain">
+              <v-text-field
+                label="Title"
+                v-model="form.title"
+                type="text"
+                name="title"
+              />
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-text-field
+                label="Code"
+                v-model="form.code"
+                type="text"
+                name="code"
+              />
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-textarea
+                height="90"
+                label="Description"
+                v-model="form.description"
+                name="description"
+              />
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-text-field
+                label="Points"
+                v-model="form.points"
+                type="text"
+                name="points"
+              />
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-text-field
+                label="Level"
+                v-model="form.level"
+                type="text"
+                name="level"
+              />
+            </div>
+            <br />
+            <v-btn type="submit">Submit</v-btn>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import axios from "axios";
@@ -98,12 +110,12 @@ export default {
           // this.$emit('invalid-token')
         });
     },
-    editCourse(form, id) {
+    editCourse(form) {
       let token = localStorage.getItem("token");
 
       axios
         .put(
-          `https://college-api-mo.herokuapp.com/api/courses/${id}`,
+          `https://college-api-mo.herokuapp.com/api/courses/${this.$route.params.id}`,
           {
             title: form.title,
             code: form.code,
@@ -117,6 +129,7 @@ export default {
         )
 
         .then((response) => {
+          this.$router.push({ name: "courses_index" });
           alert(`success\n${response}`);
         })
         .catch((error) => {

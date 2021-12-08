@@ -1,5 +1,11 @@
 <template>
   <v-container>
+    <router-link :to="{ name: 'courses_add' }">
+      <v-btn class="m-5 ml-0" color="secondary ">
+        Add Course
+      </v-btn></router-link
+    >
+
     <v-row>
       <v-col v-for="course in courses" :key="course.id" cols="12" sm="4">
         <v-card :loading="loading" class="mx-auto my-12" max-width="374">

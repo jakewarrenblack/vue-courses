@@ -1,42 +1,62 @@
 <template>
-  <v-container class="my-5">
-    <h2>All Enrolments</h2>
-    <router-link :to="{ name: 'enrolments_add' }"
-      ><v-btn>Add Enrolment</v-btn>
-    </router-link>
-    <hr />
-    <!-- pa = padding 'all' -->
-    <v-card
-      v-for="enrolment in enrolments"
-      :key="enrolment.id"
-      flat
-      :class="`pa-3 pl-8 mb-5 course ${enrolment.status}`"
+  <v-container>
+    <router-link :to="{ name: 'enrolments_add' }">
+      <v-btn class="m-5 ml-0" color="secondary ">
+        Add Enrolment
+      </v-btn></router-link
     >
-      <router-link
-        :to="{ name: 'enrolments_show', params: { id: enrolment.id } }"
+
+    <v-row>
+      <v-col
+        v-for="enrolment in enrolments"
+        :key="enrolment.id"
+        cols="12"
+        sm="4"
       >
-        <!-- elements will wrap if not enough space -->
-        <v-layout row wrap>
-          <!-- mobile - full width, desktop - half width -->
-          <v-flex xs12 md6>
-            <div class="caption grey--text">Course title</div>
-            <div>{{ enrolment.course.title }}</div>
-          </v-flex>
-          <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Lecturer name</div>
-            <div>{{ enrolment.lecturer.name }}</div>
-          </v-flex>
-          <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Date</div>
-            <div>{{ enrolment.date }}</div>
-          </v-flex>
-          <v-flex xs6 sm4 md2>
-            <div class="caption grey--text">Status</div>
-            <div>{{ enrolment.status }}</div>
-          </v-flex>
-        </v-layout>
-      </router-link>
-    </v-card>
+        <v-card :loading="loading" class="mx-auto my-12" max-width="374">
+          <v-card-title>{{ enrolment.lecturer.name }}</v-card-title>
+
+          <v-card-text>
+            <div class="my-4 text-subtitle-1">
+              Course {{ enrolment.course.title }}
+            </div>
+
+            <v-expansion-panels flat>
+              <v-expansion-panel class="pl-0">
+                <v-expansion-panel-header class="p-0"
+                  >Read more</v-expansion-panel-header
+                >
+                <v-expansion-panel-content class="p-0 m-0">
+                  {{ enrolment.course.description }}
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-card-text>
+
+          <v-divider class="mx-4"></v-divider>
+
+          <v-card-title>Status:</v-card-title>
+
+          <v-card-text>
+            <v-chip :class="`${enrolment.status}`">{{
+              enrolment.status
+            }}</v-chip>
+          </v-card-text>
+
+          <v-card-actions>
+            <router-link
+              :to="{ name: 'enrolments_show', params: { id: enrolment.id } }"
+            >
+              <v-btn color="deep-purple lighten-2" text> View </v-btn>
+            </router-link>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-divider />
+    <div class="text-center">
+      <v-pagination v-model="page" :length="6"></v-pagination>
+    </div>
   </v-container>
 </template>
 
@@ -78,15 +98,23 @@ export default {
 </script>
 <style>
 .interested {
-  border-left: 4px solid red !important;
+  background: red !important;
+  color: white !important;
 }
 .assigned {
-  border-left: 4px solid rgb(0, 141, 24) !important;
+  background: rgb(0, 141, 24) !important;
+  color: white !important;
 }
 .career_break {
-  border-left: 4px solid rgb(0, 33, 141) !important;
+  background: rgb(0, 33, 141) !important;
+  color: white !important;
 }
 .associate {
-  border-left: 4px solid rgb(129, 0, 141) !important;
+  background: rgb(129, 0, 141) !important;
+  color: white !important;
+}
+/* Class of p-0 wouldn't override this */
+.v-expansion-panel-content__wrap {
+  padding: 0 !important;
 }
 </style>
