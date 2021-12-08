@@ -1,69 +1,124 @@
 <template>
-  <b-col>
-    <h2>Add Enrolment</h2>
-    <hr />
-    <v-form @submit.prevent="addEnrolment(form)">
-      <div class="input-contain">
-        <v-select
-          v-model="form.status"
-          :hint="`${select.state}`"
-          persistent-hint
-          single-line
-          item-text="state"
-          item-value="state"
-          label="Select"
-          :items="items"
-          name="status"
-          id="status"
-        >
-        </v-select>
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-select
-          v-model="form.course_id"
-          :items="courses"
-          label="Course"
-          single-line
-          item-text="title"
-          item-value="id"
-        >
-        </v-select>
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-select
-          v-model="form.lecturer_id"
-          :items="lecturers"
-          label="Lecturer"
-          single-line
-          item-text="name"
-          item-value="id"
-        >
-        </v-select>
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Date"
-          v-model="form.date"
-          type="date"
-          name="date"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Time"
-          v-model="form.time"
-          type="time"
-          name="time"
-        />
-      </div>
-      <br />
-      <v-btn type="submit">Submit</v-btn>
-    </v-form>
-  </b-col>
+  <v-container fill-height fluid>
+    <v-row class="w-100 d-flex justify-center">
+      <v-row class="mb-8 w-100 d-flex justify-center">
+        <h2 class="">Add Enrolment</h2>
+      </v-row>
+      <v-divider />
+      <!-- Prevent default, which is to refresh the page -->
+
+      <v-col>
+        <v-card class="p-4">
+          <v-form @submit.prevent="addEnrolment(form)">
+            <div class="input-contain">
+              <v-select
+                v-model="form.status"
+                :hint="`${select.state}`"
+                persistent-hint
+                single-line
+                item-text="state"
+                item-value="value"
+                label="Select"
+                :items="items"
+                name="status"
+                id="status"
+              >
+              </v-select>
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-select
+                v-model="form.course_id"
+                :items="courses"
+                label="Course"
+                single-line
+                item-text="title"
+                item-value="id"
+              >
+              </v-select>
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-select
+                v-model="form.lecturer_id"
+                :items="lecturers"
+                label="Lecturer"
+                single-line
+                item-text="name"
+                item-value="id"
+              >
+              </v-select>
+            </div>
+            <br />
+            <div class="input-contain">
+              <div class="mb-6"></div>
+              <v-menu
+                ref="menu2"
+                v-model="date_menu"
+                :close-on-content-click="true"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="date"
+                    label="Date"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-date-picker
+                  v-model="date"
+                  :active-picker.sync="activePicker"
+                  min="1950-01-01"
+                  @change="save"
+                ></v-date-picker>
+              </v-menu>
+            </div>
+            <br />
+            <div class="input-contain">
+              <div class="mb-6">
+                <v-menu
+                  ref="menu"
+                  v-model="menu2"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  :return-value.sync="time"
+                  transition="scale-transition"
+                  offset-y
+                  max-width="290px"
+                  min-width="290px"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="time"
+                      label="Picker in menu"
+                      prepend-icon="mdi-clock-time-four-outline"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-time-picker
+                    v-if="menu2"
+                    v-model="time"
+                    full-width
+                    @click:minute="$refs.menu.save(time)"
+                  ></v-time-picker>
+                </v-menu>
+              </div>
+            </div>
+
+            <br />
+            <v-btn type="submit">Submit</v-btn>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import axios from "axios";
@@ -73,20 +128,22 @@ export default {
   components: {},
   data() {
     return {
+      date_menu: false,
+      time: null,
+      menu2: false,
+      modal2: false,
       form: {
         status: "",
         course_id: "",
         lecturer_id: "",
-        date: "",
-        time: "",
       },
       // Dropdown models the items, default is interested
       select: { state: "interested" },
       items: [
-        { state: "interested" },
-        { state: "assigned" },
-        { state: "career break" },
-        { state: "associate" },
+        { state: "interested", value: "interested" },
+        { state: "assigned", value: "assigned" },
+        { state: "career break", value: "career_break" },
+        { state: "associate", value: "associate" },
       ],
       // Init to empty arrays, then fill them on mount
       courses: [],
@@ -110,8 +167,8 @@ export default {
             status: form.status,
             course_id: form.course_id,
             lecturer_id: form.lecturer_id,
-            date: form.date,
-            time: form.time,
+            date: this.date,
+            time: this.time,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -123,6 +180,9 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+          console.log(form);
+          console.log(this.date);
+          console.log(this.time);
         });
     },
     getCourses() {

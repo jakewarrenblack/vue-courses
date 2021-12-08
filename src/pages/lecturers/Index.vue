@@ -1,7 +1,7 @@
 <template>
   <v-container class="my-5">
     <h2>All Lecturers</h2>
-    <router-link :to="{ name: 'courses_add' }"
+    <router-link :to="{ name: 'lecturers_add' }"
       ><v-btn>Add lecturer</v-btn>
     </router-link>
 

@@ -1,32 +1,125 @@
 <template>
   <v-layout>
-    <v-col>
-      <v-flex>
-        <h1 class="m-auto text-center">{{ lecturer.name }}</h1>
-      </v-flex>
-      <v-flex>
-        <v-container>
-          <hr />
-          <p>
-            {{ lecturer.email }}
-          </p>
-          <p>
-            {{ lecturer.address }}
-          </p>
-          <p>
-            {{ lecturer.phone }}
-          </p>
-          <hr />
-          <v-btn class="mr-5" @click="deletelecturer(lecturer.id)"
-            >Delete</v-btn
-          >
-          <router-link
-            :to="{ name: 'lecturers_edit', params: { id: lecturer.id } }"
-            ><v-btn>Edit</v-btn>
-          </router-link>
-        </v-container>
-      </v-flex>
-    </v-col>
+    <v-row class="w-100">
+      <v-col class="m-auto mt-10" lg="5" sm="12">
+        <v-card class="mx-auto">
+          <v-card-text>
+            <v-chip>ID: {{ lecturer.id }}</v-chip>
+            <br />
+            <br />
+            <p class="text-h2 text--primary">{{ lecturer.name }}</p>
+            <v-divider />
+            <br />
+            <v-list-item class="pl-0" two-line>
+              <v-list-item-content>
+                <v-list-item-title>Email Level</v-list-item-title>
+                <v-list-item-subtitle>{{
+                  lecturer.email
+                }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item class="pl-0" two-line>
+              <v-list-item-content>
+                <v-list-item-title>Address</v-list-item-title>
+                <v-list-item-subtitle>{{
+                  lecturer.address
+                }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item class="pl-0" two-line>
+              <v-list-item-content>
+                <v-list-item-title>Phone</v-list-item-title>
+                <v-list-item-subtitle>{{
+                  lecturer.phone
+                }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-card-text>
+          <v-card-actions>
+            <router-link
+              :to="{
+                name: 'lecturers_edit',
+                params: { id: lecturer.id },
+              }"
+            >
+              <v-btn text color="deep-purple accent-4">Edit</v-btn>
+            </router-link>
+            <v-btn
+              @click="deleteLecturer(lecturer.id)"
+              text
+              color="deep-purple accent-4"
+              >Delete</v-btn
+            >
+          </v-card-actions>
+
+          <v-card-text v-if="lecturer.enrolments.length > 0">
+            <v-divider />
+            <p class="text-h4 text--primary">Enrolments</p>
+          </v-card-text>
+          <v-row>
+            <v-col
+              v-for="enrolment in lecturer.enrolments"
+              :key="enrolment.id"
+              sm="12"
+              lg="6"
+              class=""
+            >
+              <v-card class="m-3 pb-2">
+                <div class="d-flex flex-column justify-space-between">
+                  <v-card-title fill-width class="text-h5">
+                    <v-chip class="mr-4">{{ enrolment.status }}</v-chip>
+                    {{ enrolment.course.title }}
+                  </v-card-title>
+
+                  <v-expansion-panels flat accordion>
+                    <v-expansion-panel>
+                      <v-expansion-panel-header class="pl-6"
+                        >Details</v-expansion-panel-header
+                      >
+                      <v-expansion-panel-content>
+                        <v-list-item class="pl-0" two-line>
+                          <v-list-item-content>
+                            <v-list-item-title>Course code</v-list-item-title>
+                            <v-list-item-subtitle>{{
+                              enrolment.course.code
+                            }}</v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+
+                        <v-list-item class="pl-0" two-line>
+                          <v-list-item-content>
+                            <v-list-item-title>CAO points</v-list-item-title>
+                            <v-list-item-subtitle>{{
+                              enrolment.course.points
+                            }}</v-list-item-subtitle>
+                          </v-list-item-content>
+                        </v-list-item>
+                      </v-expansion-panel-content>
+                    </v-expansion-panel>
+                  </v-expansion-panels>
+
+                  <v-card-actions>
+                    <router-link
+                      :to="{
+                        name: 'enrolments_show',
+                        params: { id: enrolment.id },
+                      }"
+                    >
+                      <v-btn class="ml-2 mt-5" outlined rounded small>
+                        View
+                      </v-btn>
+                    </router-link>
+                  </v-card-actions>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row></v-row>
   </v-layout>
 </template>
 
@@ -85,3 +178,8 @@ export default {
   },
 };
 </script>
+<style scoped>
+/* .v-expansion-panel-content__wrap {
+  padding-left: 0 !important;
+} */
+</style>

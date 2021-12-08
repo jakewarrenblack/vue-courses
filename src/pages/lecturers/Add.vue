@@ -1,55 +1,55 @@
 <template>
-  <b-col>
-    <h2>Add Lecturer</h2>
-    <hr />
-    <v-form @submit.prevent="addCourse(form)">
-      <div class="input-contain">
-        <v-text-field
-          label="Title"
-          v-model="form.title"
-          type="text"
-          name="title"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Code"
-          v-model="form.code"
-          type="text"
-          name="code"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-area
-          label="Description"
-          v-model="form.description"
-          name="description"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="Points"
-          v-model="form.points"
-          type="text"
-          name="points"
-        />
-      </div>
-      <br />
-      <div class="input-contain">
-        <v-text-field
-          label="level"
-          v-model="form.level"
-          type="text"
-          name="level"
-        />
-      </div>
-      <br />
-      <button type="submit">Submit</button>
-    </v-form>
-  </b-col>
+  <v-container class="mx-auto" fill-height fluid>
+    <v-row class="w-100 d-flex justify-center">
+      <v-row class="mb-8 w-100 d-flex justify-center">
+        <h2 class="">Add Lecturer</h2>
+      </v-row>
+      <v-divider />
+      <v-col>
+        <v-card class="p-4">
+          <v-form @submit.prevent="addLecturer(form)">
+            <div class="input-contain">
+              <v-text-field
+                label="Name"
+                v-model="form.name"
+                type="text"
+                name="name"
+              />
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-text-field
+                label="Address"
+                v-model="form.address"
+                type="text"
+                name="address"
+              />
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-text-field
+                label="Phone"
+                v-model="form.phone"
+                type="text"
+                name="phone"
+              />
+            </div>
+            <br />
+            <div class="input-contain">
+              <v-text-field
+                label="Email"
+                v-model="form.email"
+                type="email"
+                name="email"
+              />
+            </div>
+            <br />
+            <v-btn type="submit">Submit</v-btn>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script>
 import axios from "axios";
@@ -60,11 +60,10 @@ export default {
   data() {
     return {
       form: {
-        title: "",
-        code: "",
-        description: "",
-        points: "",
-        level: "",
+        name: "",
+        address: "",
+        phone: "",
+        email: "",
       },
     };
   },
@@ -73,18 +72,17 @@ export default {
     console.log(localStorage.getItem("token"));
   },
   methods: {
-    addCourse(form) {
+    addLecturer(form) {
       let token = localStorage.getItem("token");
 
       axios
         .post(
-          `https://college-api-mo.herokuapp.com/api/courses`,
+          `https://college-api-mo.herokuapp.com/api/lecturers`,
           {
-            title: form.title,
-            code: form.code,
-            description: form.description,
-            points: form.points,
-            level: form.level,
+            name: form.name,
+            address: form.address,
+            phone: form.phone,
+            email: form.email,
           },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -92,6 +90,7 @@ export default {
         )
 
         .then((response) => {
+          this.$router.push({ name: "lecturers_index" });
           alert(`success\n${response}`);
         })
         .catch((error) => {

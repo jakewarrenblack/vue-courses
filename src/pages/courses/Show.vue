@@ -45,7 +45,7 @@
             >
           </v-card-actions>
 
-          <v-card-text v-if="course.enrolments.length > 0">
+          <v-card-text>
             <v-divider />
             <p class="text-h4 text--primary">Enrolments for this course</p>
           </v-card-text>

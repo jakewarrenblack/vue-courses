@@ -81,11 +81,11 @@
 
                   <v-expansion-panels flat accordion>
                     <v-expansion-panel>
-                      <v-expansion-panel-header class="pl-4"
+                      <v-expansion-panel-header class="pl-6"
                         >Details</v-expansion-panel-header
                       >
                       <v-expansion-panel-content>
-                        <v-list-item class="pl-4" two-line>
+                        <v-list-item class="pl-0" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Email</v-list-item-title>
                             <v-list-item-subtitle>{{
@@ -94,7 +94,7 @@
                           </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item class="pl-4" two-line>
+                        <v-list-item class="pl-0" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Phone</v-list-item-title>
                             <v-list-item-subtitle>{{
@@ -154,6 +154,7 @@ export default {
         })
         .then(async (response) => {
           console.log(response);
+          this.$router.push({ name: "enrolments_index" });
           alert("Success");
           // this.courses = response.data.data;
           //this.courses.pop()

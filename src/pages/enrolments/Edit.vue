@@ -9,7 +9,7 @@
 
       <v-col>
         <v-card class="p-4">
-          <v-form @submit.prevent="addEnrolment(form)">
+          <v-form @submit.prevent="editEnrolment(form)">
             <div class="input-contain">
               <v-select
                 v-model="form.status"
@@ -158,7 +158,7 @@ export default {
     this.getLecturers();
   },
   methods: {
-    addEnrolment(form) {
+    editEnrolment(form) {
       let token = localStorage.getItem("token");
 
       axios
@@ -177,6 +177,7 @@ export default {
         )
 
         .then((response) => {
+          this.$router.push({ name: "enrolments_index" });
           alert(`success\n${response}`);
         })
         .catch((error) => {
