@@ -138,7 +138,7 @@ export default {
     this.getData();
   },
   methods: {
-    async deletelecturer(id) {
+    async deleteLecturer(id) {
       let token = localStorage.getItem("token");
       await axios
         .delete(`https://college-api-mo.herokuapp.com/api/lecturers/${id}`, {

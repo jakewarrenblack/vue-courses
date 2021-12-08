@@ -7,33 +7,57 @@
 
     <hr />
 
-    <v-layout row wrap>
-      <v-flex xs12 sm6 md3 lg4 v-for="lecturer in lecturers" :key="lecturer.id">
-        <!-- Center text inside the card, margin 3 all around -->
-        <v-card class="ma-3 d-flex justify-center flex-column align-center">
-          <v-responsive class="pt-4">
-            <v-avatar size="100" class="primary lighten-3">
-              <v-icon class="lessEmphasis--text">mdi-account</v-icon>
-            </v-avatar>
-          </v-responsive>
-          <v-card-text>
-            <div class="subheading text-center">
-              {{ lecturer.name }}
-            </div>
-            <div class="grey--text text-center">{{ lecturer.phone }}</div>
-          </v-card-text>
-          <v-card-actions router>
-            <v-btn
-              color="secondary"
-              :to="{ name: 'lecturers_show', params: { id: lecturer.id } }"
-            >
-              <v-icon left>mdi-account-eye</v-icon>
-              <span>View</span>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-flex>
-    </v-layout>
+    <paginate name="lecturers" :per="6" :list="lecturers" class="paginate-list">
+      <v-layout row wrap>
+        <v-flex
+          xs12
+          sm6
+          md3
+          lg4
+          v-for="lecturer in paginated('lecturers')"
+          :key="lecturer.id"
+        >
+          <!-- Center text inside the card, margin 3 all around -->
+          <v-card class="ma-3 d-flex justify-center flex-column align-center">
+            <v-responsive class="pt-4">
+              <v-avatar size="100" class="primary lighten-3">
+                <v-icon class="lessEmphasis--text">mdi-account</v-icon>
+              </v-avatar>
+            </v-responsive>
+            <v-card-text>
+              <div class="subheading text-center">
+                {{ lecturer.name }}
+              </div>
+              <div class="grey--text text-center">{{ lecturer.phone }}</div>
+            </v-card-text>
+            <v-card-actions router>
+              <v-btn
+                color="secondary"
+                :to="{ name: 'lecturers_show', params: { id: lecturer.id } }"
+              >
+                <v-icon left>mdi-account-eye</v-icon>
+                <span>View</span>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </paginate>
+    <v-row>
+      <div class="mx-auto text-center">
+        <paginate-links
+          :limit="6"
+          :step-links="{
+            next: '❯',
+            prev: '❮',
+          }"
+          :show-step-links="true"
+          style="width: 100%; justify-content: space-between"
+          class="d-flex flex-row space-between"
+          for="lecturers"
+        ></paginate-links>
+      </div>
+    </v-row>
   </v-container>
 </template>
 
@@ -46,26 +70,30 @@ export default {
   data() {
     return {
       lecturers: [],
+      paginate: ["lecturers"],
       selectedCourse: null,
     };
   },
-  async created() {
-    await this.getData().then((res) => (this.lecturers = res));
+  mounted() {
+    this.getData();
   },
   methods: {
-    async getData() {
+    getData() {
       let token = localStorage.getItem("token");
       try {
-        const response = await axios.get(
-          `https://college-api-mo.herokuapp.com/api/lecturers`,
-          {
+        axios
+          .get(`https://college-api-mo.herokuapp.com/api/lecturers`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
-        );
-        console.log(response);
-        return response.data.data;
+          })
+          .then((res) => {
+            console.log(res);
+            this.lecturers = res.data.data;
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       } catch (error) {
         return console.log(error);
       }
@@ -73,3 +101,31 @@ export default {
   },
 };
 </script>
+<style>
+ul.paginate-links {
+  align-items: center;
+  display: inline-flex;
+  list-style-type: none;
+  justify-content: center;
+  margin: 0;
+  max-width: 100%;
+  width: 100%;
+}
+li.number > a,
+.left-arrow,
+.right-arrow {
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 4px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  height: 32px;
+  width: 32px;
+  margin: 0.3rem 10px;
+}
+.paginate-list {
+  padding-left: 0 !important;
+}
+</style>

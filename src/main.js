@@ -2,7 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
-import VueMasonry from "vue-masonry-css";
+// import VueMasonry from "vue-masonry-css";
+import VuePaginate from "vue-paginate";
 
 import { BootstrapVue } from "bootstrap-vue";
 
@@ -11,7 +12,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import vuetify from "./plugins/vuetify";
 Vue.use(BootstrapVue);
-Vue.use(VueMasonry);
+// Vue.use(VueMasonry);
+Vue.use(VuePaginate);
 
 Vue.config.productionTip = false;
 
