@@ -1,11 +1,19 @@
 <template>
   <v-container>
+    <v-text-field
+      class="ml-3 mr-3"
+      label="Search for a course..."
+      color="secondary"
+      v-model="searchQuery"
+    >
+    </v-text-field>
     <router-link :to="{ name: 'courses_add' }">
       <v-btn class="m-5 ml-0" color="secondary ">
         Add Course
       </v-btn></router-link
     >
-    <paginate name="courses" :per="6" :list="courses" class="paginate-list">
+    <!-- vue-paginate doesn't do anything special to filter a list, we do it ourselves and just pass the result to the :list prop -->
+    <paginate name="courses" :per="6" :list="filtered" class="paginate-list">
       <v-row>
         <v-col
           v-for="course in paginated('courses')"
@@ -78,6 +86,15 @@
 <script>
 import axios from "axios";
 export default {
+  computed: {
+    filtered() {
+      return this.courses.filter((course) => {
+        return course.title
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase());
+      });
+    },
+  },
   mounted() {
     this.getData();
   },
@@ -87,6 +104,7 @@ export default {
       search: "",
       courses: [],
       paginate: ["courses"],
+      searchQuery: "",
     };
   },
   methods: {

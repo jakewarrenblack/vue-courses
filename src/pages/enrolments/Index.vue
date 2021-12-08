@@ -1,17 +1,18 @@
 <template>
   <v-container>
+    <v-text-field
+      class="ml-3 mr-3"
+      label="Search a lecturer name or course title..."
+      color="secondary"
+      v-model="searchQuery"
+    />
     <router-link :to="{ name: 'enrolments_add' }">
       <v-btn class="m-5 ml-0" color="secondary ">
         Add Enrolment
       </v-btn></router-link
     >
 
-    <paginate
-      name="enrolments"
-      :per="6"
-      :list="enrolments"
-      class="paginate-list"
-    >
+    <paginate name="enrolments" :per="6" :list="filtered" class="paginate-list">
       <v-row>
         <v-col
           v-for="enrolment in paginated('enrolments')"
@@ -90,7 +91,23 @@ export default {
       enrolments: [],
       paginate: ["enrolments"],
       selectedEnrolment: null,
+      searchQuery: "",
     };
+  },
+  computed: {
+    filtered() {
+      // Filter for both lecturer names and courses
+      return this.enrolments.filter((enrolment) => {
+        return (
+          enrolment.lecturer.name
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase()) ||
+          enrolment.course.title
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())
+        );
+      });
+    },
   },
   mounted() {
     this.getData();

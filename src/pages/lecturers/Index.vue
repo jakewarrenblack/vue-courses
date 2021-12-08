@@ -1,13 +1,19 @@
 <template>
   <v-container class="my-5">
     <h2>All Lecturers</h2>
+    <v-text-field
+      class="ml-3 mr-3"
+      label="Enter a lecturer name..."
+      color="secondary"
+      v-model="searchQuery"
+    />
     <router-link :to="{ name: 'lecturers_add' }"
       ><v-btn>Add lecturer</v-btn>
     </router-link>
 
     <hr />
 
-    <paginate name="lecturers" :per="6" :list="lecturers" class="paginate-list">
+    <paginate name="lecturers" :per="6" :list="filtered" class="paginate-list">
       <v-layout row wrap>
         <v-flex
           xs12
@@ -69,10 +75,21 @@ export default {
   components: {},
   data() {
     return {
+      searchQuery: "",
       lecturers: [],
       paginate: ["lecturers"],
       selectedCourse: null,
     };
+  },
+  computed: {
+    filtered() {
+      // Filter for both lecturer names and courses
+      return this.lecturers.filter((lecturer) => {
+        return lecturer.name
+          .toLowerCase()
+          .includes(this.searchQuery.toLowerCase());
+      });
+    },
   },
   mounted() {
     this.getData();
