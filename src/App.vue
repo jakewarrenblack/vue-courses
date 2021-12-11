@@ -66,13 +66,19 @@
 
     <v-main>
       <br />
+      <!-- This snackbar will appear at the very top of the page -->
+      <snackbar />
       <router-view class="" />
     </v-main>
   </v-app>
 </template>
 
 <script>
+import Snackbar from "@/components/Snackbar";
 export default {
+  components: {
+    Snackbar,
+  },
   data: () => ({
     drawer: null,
     links: [

@@ -77,6 +77,11 @@ export default {
       // If the user tries to come to this page while not logged in, send them back to the homepage
       if (!token) {
         this.$router.push({ name: "home" });
+        this.$router.push({ name: "home" });
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to add lecturers",
+          timeout: 6000,
+        });
       }
 
       axios

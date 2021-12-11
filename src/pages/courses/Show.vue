@@ -124,7 +124,6 @@
 
 <script>
 import axios from "axios";
-
 export default {
   name: "coursesShow",
   components: {},
@@ -142,6 +141,10 @@ export default {
       // If the user tries to come to this page while not logged in, send them back to the homepage
       if (!token) {
         this.$router.push({ name: "home" });
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to view courses",
+          timeout: 6000,
+        });
       }
       await axios
         .delete(`https://college-api-mo.herokuapp.com/api/courses/${id}`, {

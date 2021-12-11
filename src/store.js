@@ -6,13 +6,48 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    // new state will be mapped to this value by the login/logout events
     loggedIn: false,
+    // we can call this.$store.dispatch(toggleSnackbar) from any page or component, or access the method using ...mapActions
+    // we can pass in a payload to this method to then pass into the TOGGLE_SNACKBAR mutation, which will provide new values to the snackbar's state below
+    // the snackbar models all of these attributes to decide how it should look
+    snackbar: {
+      visible: false,
+      message: null,
+      timeout: 6000,
+      multiline: false,
+    },
   },
   getters: {},
   mutations: {
     // method receives a state and a status
     SET_LOGGED_IN_STATUS(state, loggedIn) {
       state.loggedIn = loggedIn;
+    },
+    TOGGLE_SNACKBAR(state, payload = null) {
+      if (payload) {
+        state.snackbar.message = payload.text;
+        // Use multiline mode if we've passed a very long message in the payload
+        state.snackbar.multiline = payload.text.length > 50 ? true : false;
+
+        payload.colour
+          ? (state.snackbar.colour = payload.colour)
+          : (state.snackbar.colour = "primary");
+
+        // If a custom timeout has been passed
+        if (payload.timeout) {
+          state.snackbar.timeout = payload.timeout;
+        }
+
+        state.snackbar.visible = true;
+      } else {
+        console.log("no payload received");
+        // No payload passed, must be closing the snackbar, so reset all defaults
+        state.snackbar.visible = false;
+        state.snackbar.multiline = false;
+        state.snackbar.timeout = 6000;
+        state.snackbar.text = null;
+      }
     },
   },
   // we want our login action to be performed on form submit
@@ -47,6 +82,11 @@ export default new Vuex.Store({
     logout(context) {
       localStorage.removeItem("token");
       context.commit("SET_LOGGED_IN_STATUS", false);
+    },
+    toggleSnackbar(context, payload = null) {
+      console.log("store toggle snackbar ran, payload is:");
+      console.log(payload);
+      context.commit("TOGGLE_SNACKBAR", payload);
     },
   },
 });

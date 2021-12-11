@@ -46,7 +46,7 @@ export default {
     };
   },
   computed: {
-    // make the 'loggedIn' state available directly inside home
+    // make the store's 'loggedIn' state available directly inside home
     ...mapState(["loggedIn"]),
   },
   methods: {
