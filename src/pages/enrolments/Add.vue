@@ -159,6 +159,10 @@ export default {
   methods: {
     addEnrolment(form) {
       let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+      }
 
       axios
         .post(

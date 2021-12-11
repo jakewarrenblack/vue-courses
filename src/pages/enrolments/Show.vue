@@ -146,6 +146,10 @@ export default {
   methods: {
     async deleteEnrolment(id) {
       let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+      }
       await axios
         .delete(`https://college-api-mo.herokuapp.com/api/enrolments/${id}`, {
           headers: {

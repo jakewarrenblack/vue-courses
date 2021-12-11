@@ -110,6 +110,10 @@ export default {
   methods: {
     getData() {
       let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+      }
       try {
         axios
           .get(`https://college-api-mo.herokuapp.com/api/courses`, {
