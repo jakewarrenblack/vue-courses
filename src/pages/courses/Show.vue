@@ -164,18 +164,38 @@ export default {
           timeout: 6000,
         });
       }
-      await axios
-        .delete(`https://college-api-mo.herokuapp.com/api/courses/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+
+      // Iterate over the enrolments and delete each one
+      let listOfDeleteRequests = this.course.enrolments.map((current) =>
+        axios.delete(
+          `https://college-api-mo.herokuapp.com/api/enrolments/${current.id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+      );
+
+      // Need a reference to the right 'that', scope problem if we try to refer to 'this' inside the .then
+      var that = this;
+      // Run all requests
+      axios
+        .all(listOfDeleteRequests)
+        .then(function () {
+          axios
+            .delete(`https://college-api-mo.herokuapp.com/api/courses/${id}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            })
+            // When that's done, delete the course itself
+            .then((response) => {
+              console.log(response);
+              that.$router.push({ name: "courses_index" });
+              alert("Success");
+            })
+            .catch((error) => console.log(error));
         })
-        .then(async (response) => {
-          console.log(response);
-          this.$router.push({ name: "courses_index" });
-          alert("Success");
-        })
-        .catch((error) => console.log(error));
+        .catch((err) => console.log(err));
     },
     getData() {
       let token = localStorage.getItem("token");
