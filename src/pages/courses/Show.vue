@@ -1,9 +1,31 @@
 <template>
   <v-layout>
+<<<<<<< HEAD
     <Dialog />
+=======
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card elevation="7">
+        <v-card-title class="text-h5"> Are you sure? </v-card-title>
+        <v-card-text v-if="course.enrolments.length > 0"
+          >This deletion will be permanent. All associated enrolments for this
+          course will also be deleted.</v-card-text
+        >
+        <v-card-text v-else>This deletion will be permanent.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false">
+            Cancel
+          </v-btn>
+          <v-btn color="green darken-1" text @click="deleteCourse(course.id)">
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+>>>>>>> tomp
     <v-row class="w-100">
       <v-col class="m-auto mt-10" lg="5" sm="12">
-        <v-card class="mx-auto">
+        <v-card elevation="7" class="mx-auto">
           <v-card-text>
             <v-chip>{{ course.code }}</v-chip>
             <br />
@@ -53,7 +75,7 @@
               lg="6"
               class=""
             >
-              <v-card class="m-4 pb-2">
+              <v-card elevation="7" class="m-4 pb-2">
                 <div class="d-flex flex-column justify-space-between">
                   <v-card-title class="text-h5">{{
                     enrolment.lecturer.name

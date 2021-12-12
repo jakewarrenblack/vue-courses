@@ -2,7 +2,7 @@
   <v-layout>
     <v-row class="w-100">
       <v-col class="m-auto mt-10" lg="5" sm="12">
-        <v-card class="mx-auto">
+        <v-card elevation="7" class="mx-auto">
           <v-card-text>
             <v-chip>ID: {{ lecturer.id }}</v-chip>
             <br />
@@ -66,7 +66,7 @@
               lg="6"
               class=""
             >
-              <v-card class="m-3 pb-2">
+              <v-card elevation="7" class="m-3 pb-2">
                 <div class="d-flex flex-column justify-space-between">
                   <v-card-title fill-width class="text-h5">
                     <v-chip class="mr-4">{{ enrolment.status }}</v-chip>

@@ -8,7 +8,7 @@
       <!-- Prevent default, which is to refresh the page -->
 
       <v-col>
-        <v-card class="p-4">
+        <v-card elevation="7" class="p-4">
           <v-form @submit.prevent="addCourse(form)">
             <div class="input-contain">
               <v-text-field

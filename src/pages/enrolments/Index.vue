@@ -20,7 +20,12 @@
           cols="12"
           sm="4"
         >
-          <v-card :loading="loading" class="mx-auto my-12" max-width="374">
+          <v-card
+            elevation="7"
+            :loading="loading"
+            class="mx-auto my-12"
+            max-width="374"
+          >
             <v-card-title>{{ enrolment.lecturer.name }}</v-card-title>
 
             <v-card-text>

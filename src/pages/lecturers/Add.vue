@@ -6,7 +6,7 @@
       </v-row>
       <v-divider />
       <v-col>
-        <v-card class="p-4">
+        <v-card elevation="7" class="p-4">
           <v-form @submit.prevent="addLecturer(form)">
             <div class="input-contain">
               <v-text-field

@@ -2,7 +2,7 @@
   <v-layout>
     <v-row class="w-100">
       <v-col class="m-auto mt-10" lg="5" sm="12">
-        <v-card class="mx-auto">
+        <v-card elevation="7" class="mx-auto">
           <v-card-text>
             <v-chip>{{ enrolment.status }}</v-chip>
             <br />
@@ -73,7 +73,7 @@
           </v-card-text>
           <v-row>
             <v-col lg="12" class="">
-              <v-card class="m-3 pb-2">
+              <v-card elevation="7" class="m-3 pb-2">
                 <div class="d-flex flex-column justify-space-between">
                   <v-card-title class="text-h5">{{
                     enrolment.lecturer.name
@@ -86,7 +86,7 @@
                       >
                       <v-expansion-panel-content>
                         <v-list-item class="pl-0" two-line>
-                          <v-list-item-content>
+                          <v-list-item-content class="pl-6">
                             <v-list-item-title>Email</v-list-item-title>
                             <v-list-item-subtitle>{{
                               enrolment.lecturer.email
@@ -95,7 +95,7 @@
                         </v-list-item>
 
                         <v-list-item class="pl-0" two-line>
-                          <v-list-item-content>
+                          <v-list-item-content class="pl-6">
                             <v-list-item-title>Phone</v-list-item-title>
                             <v-list-item-subtitle>{{
                               enrolment.lecturer.phone
