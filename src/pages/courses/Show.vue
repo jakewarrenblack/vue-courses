@@ -1,5 +1,23 @@
 <template>
   <v-layout>
+    <v-dialog v-model="dialog" persistent max-width="290">
+      <v-card>
+        <v-card-title class="text-h5"> Are you sure? </v-card-title>
+        <v-card-text
+          >Deleting this lecturer will also delete any relevant enrolment
+          records.</v-card-text
+        >
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false">
+            Cancel
+          </v-btn>
+          <v-btn color="green darken-1" text @click="deleteCourse(course.id)">
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row class="w-100">
       <v-col class="m-auto mt-10" lg="5" sm="12">
         <v-card class="mx-auto">
@@ -37,12 +55,7 @@
             >
               <v-btn text color="deep-purple accent-4">Edit</v-btn>
             </router-link>
-            <v-btn
-              @click="deleteCourse(course.id)"
-              text
-              color="deep-purple accent-4"
-              >Delete</v-btn
-            >
+            <v-btn @click="toggleDialog" color="primary" dark> Delete </v-btn>
           </v-card-actions>
 
           <v-card-text>
@@ -130,12 +143,16 @@ export default {
   data() {
     return {
       course: {},
+      dialog: false,
     };
   },
   mounted() {
     this.getData();
   },
   methods: {
+    toggleDialog() {
+      this.dialog = !this.dialog;
+    },
     async deleteCourse(id) {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage

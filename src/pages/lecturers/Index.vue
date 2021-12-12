@@ -27,7 +27,10 @@
           <v-card class="ma-3 d-flex justify-center flex-column align-center">
             <v-responsive class="pt-4">
               <v-avatar size="100" class="primary lighten-3">
-                <v-icon class="lessEmphasis--text">mdi-account</v-icon>
+                <!-- <v-icon class="lessEmphasis--text"></v-icon> -->
+                <v-img
+                  :src="`https://avatars.dicebear.com/api/human/${lecturer.name}.svg`"
+                />
               </v-avatar>
             </v-responsive>
             <v-card-text>
@@ -103,7 +106,7 @@ export default {
         this.$router.push({ name: "home" });
         this.$router.push({ name: "home" });
         this.$store.dispatch("toggleSnackbar", {
-          text: "Login to view lecturers",
+          text: "Login to add lecturers",
           timeout: 6000,
         });
       }
