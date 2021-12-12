@@ -3,10 +3,11 @@
     <v-dialog v-model="dialog" persistent max-width="290">
       <v-card>
         <v-card-title class="text-h5"> Are you sure? </v-card-title>
-        <v-card-text
-          >Deleting this lecturer will also delete any relevant enrolment
-          records.</v-card-text
+        <v-card-text v-if="course.enrolments.length > 0"
+          >This deletion will be permanent. All associated enrolments for this
+          course will also be deleted.</v-card-text
         >
+        <v-card-text v-else>This deletion will be permanent.</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="green darken-1" text @click="dialog = false">
