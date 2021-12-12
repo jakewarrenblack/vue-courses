@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-dialog v-model="dialog" persistent max-width="290">
-      <v-card>
+      <v-card elevation="7">
         <v-card-title class="text-h5"> Are you sure? </v-card-title>
         <v-card-text v-if="course.enrolments.length > 0"
           >This deletion will be permanent. All associated enrolments for this
@@ -21,7 +21,7 @@
     </v-dialog>
     <v-row class="w-100">
       <v-col class="m-auto mt-10" lg="5" sm="12">
-        <v-card class="mx-auto">
+        <v-card elevation="7" class="mx-auto">
           <v-card-text>
             <v-chip>{{ course.code }}</v-chip>
             <br />
@@ -71,7 +71,7 @@
               lg="6"
               class=""
             >
-              <v-card class="m-4 pb-2">
+              <v-card elevation="7" class="m-4 pb-2">
                 <div class="d-flex flex-column justify-space-between">
                   <v-card-title class="text-h5">{{
                     enrolment.lecturer.name

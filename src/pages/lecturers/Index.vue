@@ -24,7 +24,10 @@
           :key="lecturer.id"
         >
           <!-- Center text inside the card, margin 3 all around -->
-          <v-card class="ma-3 d-flex justify-center flex-column align-center">
+          <v-card
+            elevation="7"
+            class="ma-3 d-flex justify-center flex-column align-center"
+          >
             <v-responsive class="pt-4">
               <v-avatar size="100" class="primary lighten-3">
                 <!-- <v-icon class="lessEmphasis--text"></v-icon> -->
