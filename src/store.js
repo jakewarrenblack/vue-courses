@@ -30,6 +30,7 @@ export default new Vuex.Store({
     },
     TOGGLE_SNACKBAR(state, payload = null) {
       if (payload) {
+        console.log("SNACKBAR SET TO VISIBLE");
         state.snackbar.message = payload.text;
         // Use multiline mode if we've passed a very long message in the payload
         state.snackbar.multiline = payload.text.length > 50 ? true : false;
@@ -45,6 +46,7 @@ export default new Vuex.Store({
 
         state.snackbar.visible = true;
       } else {
+        console.log("SNACKBAR HAS BEEN HIDDEN");
         console.log("no payload received");
         // No payload passed, must be closing the snackbar, so reset all defaults
         state.snackbar.visible = false;

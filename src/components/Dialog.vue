@@ -73,11 +73,13 @@ export default {
               },
             })
             // When that's done, delete the course itself
-            .then((response) => {
-              console.log(response);
+            .then(() => {
               that.$router.push({ name: "courses_index" });
+              that.$store.dispatch("toggleSnackbar", {
+                text: "Course deleted successfully!",
+                timeout: 6000,
+              });
               that.closeDialog();
-              alert("Success");
             })
             .catch(function (error) {
               console.log(error);

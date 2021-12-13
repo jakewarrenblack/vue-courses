@@ -113,7 +113,11 @@ export default {
 
         .then((response) => {
           this.$router.push({ name: "courses_index" });
-          alert(`success\n${response}`);
+          // alert(`success\n${response}`);
+          this.$store.dispatch("toggleSnackbar", {
+            text: response.data.status,
+            timeout: 6000,
+          });
         })
         .catch((error) => {
           console.log(error);
