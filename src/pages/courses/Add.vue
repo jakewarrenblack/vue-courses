@@ -12,15 +12,19 @@
           <v-form @submit.prevent="addCourse(form)">
             <div class="input-contain">
               <v-text-field
-                :error-messages="titleErrors"
                 label="Title"
                 v-model="form.title"
                 type="text"
                 name="title"
+                :error-messages="titleErrors"
                 @input="$v.form.title.$touch()"
                 @blur="$v.form.title.$touch()"
               />
             </div>
+            <!-- These api errors are included for redundancy, the form shouldn't submit without meeting the validation requirements anyway -->
+            <v-alert v-if="errors.title" type="error">{{
+              errors.title
+            }}</v-alert>
             <br />
             <div class="input-contain">
               <v-text-field
@@ -33,6 +37,7 @@
                 @blur="$v.form.code.$touch()"
               />
             </div>
+            <v-alert v-if="errors.code" type="error">{{ errors.code }}</v-alert>
             <br />
             <div class="input-contain">
               <v-textarea
@@ -45,6 +50,9 @@
                 @blur="$v.form.description.$touch()"
               />
             </div>
+            <v-alert v-if="errors.description" type="error">{{
+              errors.description
+            }}</v-alert>
             <br />
             <div class="input-contain">
               <v-text-field
@@ -57,6 +65,9 @@
                 @blur="$v.form.points.$touch()"
               />
             </div>
+            <v-alert v-if="errors.points" type="error">{{
+              errors.points
+            }}</v-alert>
             <br />
             <div class="input-contain">
               <v-text-field
@@ -69,6 +80,9 @@
                 @blur="$v.form.level.$touch()"
               />
             </div>
+            <v-alert v-if="errors.level" type="error">{{
+              errors.level
+            }}</v-alert>
             <br />
             <v-btn type="submit">Submit</v-btn>
           </v-form>
@@ -80,17 +94,19 @@
 
 <script>
 import axios from "axios";
+import { validationMixin } from "vuelidate";
 import {
   required,
   minLength,
   maxLength,
   between,
-  alpha,
+  alphaNum,
   integer,
 } from "vuelidate/lib/validators";
 export default {
   name: "coursesAdd",
   components: {},
+  mixins: [validationMixin],
   data() {
     return {
       form: {
@@ -100,6 +116,8 @@ export default {
         points: "",
         level: "",
       },
+      validations: {},
+      errors: [],
     };
   },
   validations: {
@@ -108,21 +126,20 @@ export default {
         required,
         minLength: minLength(3),
         maxLength: maxLength(50),
-        alpha,
       },
       code: {
         required,
         minLength: minLength(1),
         maxLength: maxLength(5),
-        alpha,
+        alphaNum,
       },
       description: {
         required,
-        alpha,
       },
       points: {
         required,
         between: between(100, 1000),
+        integer,
       },
       level: {
         required,
@@ -144,7 +161,6 @@ export default {
       !this.$v.form.title.maxLength &&
         errors.push("Title must be no more than 50 characters");
       !this.$v.form.title.required && errors.push("Title is required");
-      !this.$v.form.title.alpha && errors.push("Title must be a string");
       return errors;
     },
     codeErrors() {
@@ -155,7 +171,7 @@ export default {
       !this.$v.form.code.maxLength &&
         errors.push("Code must be no more than 5 characters");
       !this.$v.form.code.required && errors.push("Code is required");
-      !this.$v.form.code.alpha && errors.push("Code must be a string");
+      !this.$v.form.code.alphaNum && errors.push("Code must be alphanumeric");
       return errors;
     },
     descriptionErrors() {
@@ -163,8 +179,6 @@ export default {
       if (!this.$v.form.description.$dirty) return errors;
       !this.$v.form.description.required &&
         errors.push("Description is required");
-      !this.$v.form.description.alpha &&
-        errors.push("Description must be a string");
       return errors;
     },
     pointsErrors() {
@@ -173,7 +187,7 @@ export default {
       !this.$v.form.points.between &&
         errors.push("Points must be between 100 and 1000");
       !this.$v.form.points.required && errors.push("Points are required");
-      !this.$v.form.integer && errors.push("Points must be an integer");
+      !this.$v.form.points.integer && errors.push("Points must be an integer");
       return errors;
     },
     levelErrors() {
@@ -187,51 +201,52 @@ export default {
     },
   },
   methods: {
-    addCourse(form) {
-      if (this.$v.form.$touch()) {
-        let token = localStorage.getItem("token");
-        // If the user tries to come to this page while not logged in, send them back to the homepage
-        if (!token) {
-          this.$router.push({ name: "home" });
+    async addCourse(form) {
+      //if (!this.$v.$invalid) {
+      let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to add courses",
+          timeout: 6000,
+        });
+      }
+
+      axios
+        .post(
+          `https://college-api-mo.herokuapp.com/api/courses`,
+          {
+            title: form.title,
+            code: form.code,
+            description: form.description,
+            points: form.points,
+            level: form.level,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+
+        .then(() => {
+          this.$router.push({ name: "courses_index" });
+          // alert(`success\n${response}`);
           this.$store.dispatch("toggleSnackbar", {
-            text: "Login to add courses",
+            text: "Course added successfully!",
             timeout: 6000,
           });
-        }
-
-        axios
-          .post(
-            `https://college-api-mo.herokuapp.com/api/courses`,
-            {
-              title: form.title,
-              code: form.code,
-              description: form.description,
-              points: form.points,
-              level: form.level,
-            },
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          )
-
-          .then(() => {
-            this.$router.push({ name: "courses_index" });
-            // alert(`success\n${response}`);
-            this.$store.dispatch("toggleSnackbar", {
-              text: "Course added successfully!",
-              timeout: 6000,
-            });
-          })
-          .catch((error) => {
-            console.log(error);
-            this.$router.push({ name: "courses_index" });
-            // alert(`success\n${response}`);
-            this.$store.dispatch("toggleSnackbar", {
-              text: "Something went wrong",
-              timeout: 6000,
-            });
+        })
+        .catch((error) => {
+          console.log(error);
+          //            this.$router.push({ name: "courses_index" });
+          this.errors = error.response.data.errors;
+          // alert(`success\n${response}`);
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Something went wrong",
+            timeout: 6000,
           });
-      }
+        });
+      //}
     },
   },
 };

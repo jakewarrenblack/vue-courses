@@ -23,6 +23,7 @@ Vue.config.productionTip = false;
 
 new Vue({
   router,
+  validations: {},
   store,
   vuetify,
   render: (h) => h(App),
