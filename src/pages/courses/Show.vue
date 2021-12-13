@@ -1,28 +1,6 @@
 <template>
   <v-layout>
-<<<<<<< HEAD
-    <Dialog />
-=======
-    <v-dialog v-model="dialog" persistent max-width="290">
-      <v-card elevation="7">
-        <v-card-title class="text-h5"> Are you sure? </v-card-title>
-        <v-card-text v-if="course.enrolments.length > 0"
-          >This deletion will be permanent. All associated enrolments for this
-          course will also be deleted.</v-card-text
-        >
-        <v-card-text v-else>This deletion will be permanent.</v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Cancel
-          </v-btn>
-          <v-btn color="green darken-1" text @click="deleteCourse(course.id)">
-            Delete
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
->>>>>>> tomp
+    <Dialog :course="course" />
     <v-row class="w-100">
       <v-col class="m-auto mt-10" lg="5" sm="12">
         <v-card elevation="7" class="mx-auto">
@@ -60,7 +38,7 @@
             >
               <v-btn text color="deep-purple accent-4">Edit</v-btn>
             </router-link>
-            <v-btn @click="toggleDialog" color="primary" dark> Delete </v-btn>
+            <v-btn @click="showDialog()" color="primary" dark> Delete </v-btn>
           </v-card-actions>
 
           <v-card-text>
@@ -142,20 +120,29 @@
 
 <script>
 import axios from "axios";
+import Dialog from "@/components/Dialog";
 export default {
   name: "coursesShow",
-  components: {},
   data() {
     return {
       course: {},
     };
   },
+  components: {
+    Dialog,
+  },
   mounted() {
     this.getData();
   },
   methods: {
-    toggleDialog() {
-      this.dialog = !this.dialog;
+    showDialog() {
+      this.$store.dispatch("toggleDialog", {
+        text:
+          this.course.enrolments.length != 0
+            ? "All enrolments for this course will also be deleted"
+            : "",
+        visible: true,
+      });
     },
     getData() {
       let token = localStorage.getItem("token");

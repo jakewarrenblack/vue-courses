@@ -1,15 +1,11 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="290">
+  <v-dialog v-model="dialog.visible" persistent max-width="290">
     <v-card>
       <v-card-title class="text-h5"> Are you sure? </v-card-title>
-      <v-card-text v-if="course.enrolments.length > 0"
-        >This deletion will be permanent. All associated enrolments for this
-        course will also be deleted.</v-card-text
-      >
-      <v-card-text v-else>This deletion will be permanent.</v-card-text>
+      <v-card-text>{{ dialog.message }}</v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="green darken-1" text @click="dialog = false">
+        <v-btn color="green darken-1" text @click="closeDialog()">
           Cancel
         </v-btn>
         <v-btn color="green darken-1" text @click="deleteCourse(course.id)">
@@ -23,17 +19,26 @@
 <script>
 import axios from "axios";
 export default {
-  name: "Dialog",
   props: {
-    message: String,
     course: Object,
+  },
+  computed: {
+    dialog() {
+      return this.$store.state.dialog;
+    },
   },
   data() {
     return {
-      dialog: false,
+      // We can't mutate a prop directly, instead use data or a computed property
+      childDialog: this.dialog,
     };
   },
+  name: "Dialog",
   methods: {
+    // If we pass no payload, the method presumes we're closing the dialog
+    closeDialog() {
+      this.$store.dispatch("toggleDialog");
+    },
     async deleteCourse(id) {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage
@@ -71,11 +76,18 @@ export default {
             .then((response) => {
               console.log(response);
               that.$router.push({ name: "courses_index" });
+              that.closeDialog();
               alert("Success");
             })
-            .catch((error) => console.log(error));
+            .catch(function (error) {
+              console.log(error);
+              that.closeDialog();
+            });
         })
-        .catch((err) => console.log(err));
+        .catch(function (err) {
+          console.log(err);
+          that.closeDialog();
+        });
     },
   },
 };

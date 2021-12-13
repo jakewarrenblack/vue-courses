@@ -17,6 +17,10 @@ export default new Vuex.Store({
       timeout: 6000,
       multiline: false,
     },
+    dialog: {
+      message: null,
+      visible: false,
+    },
   },
   getters: {},
   mutations: {
@@ -47,6 +51,16 @@ export default new Vuex.Store({
         state.snackbar.multiline = false;
         state.snackbar.timeout = 6000;
         state.snackbar.text = null;
+      }
+    },
+    TOGGLE_DIALOG(state, payload = null) {
+      if (payload) {
+        state.dialog.message = payload.text;
+        state.dialog.visible = true;
+      } else {
+        console.log("STATE HAS BEEN SET TO FALSE");
+        state.dialog.message = null;
+        state.dialog.visible = false;
       }
     },
   },
@@ -87,6 +101,9 @@ export default new Vuex.Store({
       console.log("store toggle snackbar ran, payload is:");
       console.log(payload);
       context.commit("TOGGLE_SNACKBAR", payload);
+    },
+    toggleDialog(context, payload = null) {
+      context.commit("TOGGLE_DIALOG", payload);
     },
   },
 });
