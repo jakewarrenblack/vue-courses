@@ -160,15 +160,6 @@ export default {
   methods: {
     editEnrolment(form) {
       let token = localStorage.getItem("token");
-      // If the user tries to come to this page while not logged in, send them back to the homepage
-      if (!token) {
-        this.$router.push({ name: "home" });
-        this.$router.push({ name: "home" });
-        this.$store.dispatch("toggleSnackbar", {
-          text: "Login to edit enrolments",
-          timeout: 6000,
-        });
-      }
 
       axios
         .put(
@@ -185,13 +176,21 @@ export default {
           }
         )
 
-        .then((response) => {
+        .then(() => {
           this.$router.push({ name: "enrolments_index" });
-          alert(`success\n${response}`);
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Enrolment edited successfully!",
+            timeout: 6000,
+          });
         })
         .catch((error) => {
           console.log(error);
-          console.log(form);
+          // console.log(form);
+          this.$router.push({ name: "enrolments_index" });
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Something went wrong",
+            timeout: 6000,
+          });
         });
     },
     getCourses() {
@@ -220,6 +219,15 @@ export default {
     },
     getData() {
       let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to edit courses",
+          timeout: 6000,
+        });
+      }
       axios
         .get(
           `https://college-api-mo.herokuapp.com/api/enrolments/${this.$route.params.id}`,
@@ -238,7 +246,7 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-          localStorage.removeItem("token");
+          //localStorage.removeItem("token");
           // this.$emit('invalid-token')
         });
     },

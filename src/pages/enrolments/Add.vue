@@ -159,14 +159,6 @@ export default {
   methods: {
     addEnrolment(form) {
       let token = localStorage.getItem("token");
-      // If the user tries to come to this page while not logged in, send them back to the homepage
-      if (!token) {
-        this.$router.push({ name: "home" });
-        this.$store.dispatch("toggleSnackbar", {
-          text: "Login to add enrolments",
-          timeout: 6000,
-        });
-      }
 
       axios
         .post(
@@ -183,18 +175,37 @@ export default {
           }
         )
 
-        .then((response) => {
-          alert(`success\n${response}`);
+        .then(() => {
+          this.$router.push({ name: "enrolments_index" });
+          // alert(`success\n${response}`);
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Enrolment added successfully!",
+            timeout: 6000,
+          });
         })
         .catch((error) => {
           console.log(error);
-          console.log(form);
-          console.log(this.date);
-          console.log(this.time);
+          // console.log(form);
+          // console.log(this.date);
+          // console.log(this.time);
+          this.$router.push({ name: "enrolments_index" });
+          // alert(`success\n${response}`);
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Something went wrong",
+            timeout: 6000,
+          });
         });
     },
     getCourses() {
       let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to add courses",
+          timeout: 6000,
+        });
+      }
       axios
         .get(`https://college-api-mo.herokuapp.com/api/courses`, {
           headers: { Authorization: `Bearer ${token}` },

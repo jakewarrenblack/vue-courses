@@ -86,6 +86,15 @@ export default {
   methods: {
     getData() {
       let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to edit courses",
+          timeout: 6000,
+        });
+      }
       axios
         .get(
           `https://college-api-mo.herokuapp.com/api/courses/${this.$route.params.id}`,
@@ -112,14 +121,6 @@ export default {
     },
     editCourse(form) {
       let token = localStorage.getItem("token");
-      // If the user tries to come to this page while not logged in, send them back to the homepage
-      if (!token) {
-        this.$router.push({ name: "home" });
-        this.$store.dispatch("toggleSnackbar", {
-          text: "Login to edit courses",
-          timeout: 6000,
-        });
-      }
       axios
         .put(
           `https://college-api-mo.herokuapp.com/api/courses/${this.$route.params.id}`,
@@ -135,14 +136,20 @@ export default {
           }
         )
 
-        .then((response) => {
+        .then(() => {
           this.$router.push({ name: "courses_index" });
-          alert(`success\n${response}`);
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Course edited successfully!",
+            timeout: 6000,
+          });
         })
         .catch((error) => {
           console.log(error);
-          //localStorage.removeItem("token");
-          // this.$emit('invalid-token')
+          this.$router.push({ name: "courses_index" });
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Something went wrong",
+            timeout: 6000,
+          });
         });
     },
   },

@@ -8,7 +8,28 @@
         <v-btn color="green darken-1" text @click="closeDialog()">
           Cancel
         </v-btn>
-        <v-btn color="green darken-1" text @click="deleteCourse(course.id)">
+        <v-btn
+          v-if="course != null"
+          color="green darken-1"
+          text
+          @click="deleteCourse(course.id)"
+        >
+          Delete
+        </v-btn>
+        <v-btn
+          v-if="enrolment != null"
+          color="green darken-1"
+          text
+          @click="deleteEnrolment(enrolment.id)"
+        >
+          Delete
+        </v-btn>
+        <v-btn
+          v-if="lecturer != null"
+          color="green darken-1"
+          text
+          @click="deleteLecturer(lecturer.id)"
+        >
           Delete
         </v-btn>
       </v-card-actions>
@@ -21,6 +42,8 @@ import axios from "axios";
 export default {
   props: {
     course: Object,
+    enrolment: Object,
+    lecturer: Object,
   },
   computed: {
     dialog() {
@@ -83,11 +106,106 @@ export default {
             })
             .catch(function (error) {
               console.log(error);
+              that.$router.push({ name: "courses_index" });
+              that.$store.dispatch("toggleSnackbar", {
+                text: "Something went wrong",
+                timeout: 6000,
+              });
               that.closeDialog();
             });
         })
         .catch(function (err) {
           console.log(err);
+          that.$router.push({ name: "courses_index" });
+          that.$store.dispatch("toggleSnackbar", {
+            text: "Something went wrong",
+            timeout: 6000,
+          });
+          that.closeDialog();
+        });
+    },
+    async deleteEnrolment(id) {
+      let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+        this.$router.push({ name: "home" });
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to view enrolments",
+          timeout: 6000,
+        });
+      }
+      var that = this;
+      await axios
+        .delete(`https://college-api-mo.herokuapp.com/api/enrolments/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then(async (response) => {
+          console.log(response);
+          that.$router.push({ name: "enrolments_index" });
+          that.$store.dispatch("toggleSnackbar", {
+            text: "Enrolment deleted successfully!",
+            timeout: 6000,
+          });
+          that.closeDialog();
+        })
+        .catch((error) => console.log(error));
+    },
+    async deleteLecturer(id) {
+      let token = localStorage.getItem("token");
+      // If the user tries to come to this page while not logged in, send them back to the homepage
+      if (!token) {
+        this.$router.push({ name: "home" });
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to view lecturers",
+          timeout: 6000,
+        });
+      }
+
+      // Iterate over the enrolments and delete each one
+      let listOfDeleteRequests = this.lecturer.enrolments.map((current) =>
+        axios.delete(
+          `https://college-api-mo.herokuapp.com/api/enrolments/${current.id}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+      );
+
+      var that = this;
+
+      axios
+        .all(listOfDeleteRequests)
+        .then(function () {
+          axios
+            .delete(
+              `https://college-api-mo.herokuapp.com/api/lecturers/${id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            )
+            .then((response) => {
+              console.log(response);
+              that.$router.push({ name: "lecturers_index" });
+              that.$store.dispatch("toggleSnackbar", {
+                text: "Lecturer deleted successfully!",
+                timeout: 6000,
+              });
+              that.closeDialog();
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch(function (err) {
+          console.log(err);
+          that.$router.push({ name: "lecturers_index" });
+          that.$store.dispatch("toggleSnackbar", {
+            text: "Something went wrong",
+            timeout: 6000,
+          });
           that.closeDialog();
         });
     },

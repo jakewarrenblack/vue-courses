@@ -134,10 +134,6 @@ export default {
           .then((res) => {
             console.log(res);
             this.courses = res.data.data;
-            for (var course in this.courses) {
-              // Want them all to be selectable, have to add this to each of them for the table
-              course.isSelectable = true;
-            }
           });
       } catch (error) {
         return console.log(error);

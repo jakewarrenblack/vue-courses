@@ -98,14 +98,22 @@ export default {
           }
         )
 
-        .then((response) => {
+        .then(() => {
           this.$router.push({ name: "lecturers_index" });
-          alert(`success\n${response}`);
+          // alert(`success\n${response}`);
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Lecturer added successfully!",
+            timeout: 6000,
+          });
         })
         .catch((error) => {
           console.log(error);
-          //localStorage.removeItem("token");
-          // this.$emit('invalid-token')
+          this.$router.push({ name: "lecturers_index" });
+          // alert(`success\n${response}`);
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Something went wrong",
+            timeout: 6000,
+          });
         });
     },
   },

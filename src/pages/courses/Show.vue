@@ -140,7 +140,7 @@ export default {
         text:
           this.course.enrolments.length != 0
             ? "All enrolments for this course will also be deleted"
-            : "",
+            : "This course will be permanently deleted",
         visible: true,
       });
     },

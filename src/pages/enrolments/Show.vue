@@ -1,5 +1,6 @@
 <template>
   <v-layout>
+    <Dialog :enrolment="enrolment" />
     <v-row class="w-100">
       <v-col class="m-auto mt-10" lg="5" sm="12">
         <v-card elevation="7" class="mx-auto">
@@ -59,10 +60,7 @@
             >
               <v-btn text color="deep-purple accent-4">Edit</v-btn>
             </router-link>
-            <v-btn
-              @click="deleteEnrolment(enrolment.id)"
-              text
-              color="deep-purple accent-4"
+            <v-btn @click="showDialog()" text color="deep-purple accent-4"
               >Delete</v-btn
             >
           </v-card-actions>
@@ -131,10 +129,11 @@
 
 <script>
 import axios from "axios";
+import Dialog from "@/components/Dialog";
 
 export default {
   name: "EnrolmentsShow",
-  components: {},
+  components: { Dialog },
   data() {
     return {
       enrolment: {},
@@ -144,6 +143,12 @@ export default {
     this.getData();
   },
   methods: {
+    showDialog() {
+      this.$store.dispatch("toggleDialog", {
+        text: "This enrolment will be permanently deleted",
+        visible: true,
+      });
+    },
     async deleteEnrolment(id) {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage

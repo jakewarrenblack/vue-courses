@@ -1,5 +1,6 @@
 <template>
   <v-layout>
+    <Dialog :lecturer="lecturer" />
     <v-row class="w-100">
       <v-col class="m-auto mt-10" lg="5" sm="12">
         <v-card elevation="7" class="mx-auto">
@@ -46,10 +47,7 @@
             >
               <v-btn text color="deep-purple accent-4">Edit</v-btn>
             </router-link>
-            <v-btn
-              @click="deleteLecturer(lecturer.id)"
-              text
-              color="deep-purple accent-4"
+            <v-btn @click="showDialog()" text color="deep-purple accent-4"
               >Delete</v-btn
             >
           </v-card-actions>
@@ -125,10 +123,11 @@
 
 <script>
 import axios from "axios";
+import Dialog from "@/components/Dialog";
 
 export default {
   name: "LecturersShow",
-  components: {},
+  components: { Dialog },
   data() {
     return {
       lecturer: {},
@@ -138,36 +137,25 @@ export default {
     this.getData();
   },
   methods: {
-    async deleteLecturer(id) {
+    showDialog() {
+      this.$store.dispatch("toggleDialog", {
+        text:
+          this.lecturer.enrolments.length != 0
+            ? "All enrolments for this lecturer will also be deleted"
+            : "This lecturer will be permanently deleted",
+        visible: true,
+      });
+    },
+    getData() {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage
       if (!token) {
-        this.$router.push({ name: "home" });
-        this.$router.push({ name: "home" });
         this.$router.push({ name: "home" });
         this.$store.dispatch("toggleSnackbar", {
           text: "Login to view lecturers",
           timeout: 6000,
         });
       }
-      await axios
-        .delete(`https://college-api-mo.herokuapp.com/api/lecturers/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then(async (response) => {
-          console.log(response);
-          alert("Success");
-          // this.lecturers = response.data.data;
-          //this.lecturers.pop()
-
-          //await this.getData().then((res) => (this.lecturers = res));
-        })
-        .catch((error) => console.log(error));
-    },
-    getData() {
-      let token = localStorage.getItem("token");
       axios
         .get(
           `https://college-api-mo.herokuapp.com/api/lecturers/${this.$route.params.id}`,
