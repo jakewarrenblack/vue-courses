@@ -103,6 +103,7 @@ import {
   alphaNum,
   integer,
 } from "vuelidate/lib/validators";
+
 export default {
   name: "coursesAdd",
   components: {},
@@ -202,51 +203,52 @@ export default {
   },
   methods: {
     async addCourse(form) {
-      //if (!this.$v.$invalid) {
-      let token = localStorage.getItem("token");
-      // If the user tries to come to this page while not logged in, send them back to the homepage
-      if (!token) {
-        this.$router.push({ name: "home" });
-        this.$store.dispatch("toggleSnackbar", {
-          text: "Login to add courses",
-          timeout: 6000,
-        });
+      if (!this.$v.$invalid) {
+        let token = localStorage.getItem("token");
+
+        this.$v.$touch();
+        if (!token) {
+          this.$router.push({ name: "home" });
+          this.$store.dispatch("toggleSnackbar", {
+            text: "Login to add courses",
+            timeout: 6000,
+          });
+        }
+
+        axios
+          .post(
+            `https://college-api-mo.herokuapp.com/api/courses`,
+            {
+              title: form.title,
+              code: form.code,
+              description: form.description,
+              points: form.points,
+              level: form.level,
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
+
+          .then(() => {
+            this.$router.push({ name: "courses_index" });
+            // alert(`success\n${response}`);
+            this.$store.dispatch("toggleSnackbar", {
+              text: "Course added successfully!",
+              timeout: 6000,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            //            this.$router.push({ name: "courses_index" });
+            this.errors = error.response.data.errors;
+            // alert(`success\n${response}`);
+            this.$store.dispatch("toggleSnackbar", {
+              text: "Something went wrong",
+              timeout: 6000,
+            });
+          });
       }
-
-      axios
-        .post(
-          `https://college-api-mo.herokuapp.com/api/courses`,
-          {
-            title: form.title,
-            code: form.code,
-            description: form.description,
-            points: form.points,
-            level: form.level,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
-
-        .then(() => {
-          this.$router.push({ name: "courses_index" });
-          // alert(`success\n${response}`);
-          this.$store.dispatch("toggleSnackbar", {
-            text: "Course added successfully!",
-            timeout: 6000,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          //            this.$router.push({ name: "courses_index" });
-          this.errors = error.response.data.errors;
-          // alert(`success\n${response}`);
-          this.$store.dispatch("toggleSnackbar", {
-            text: "Something went wrong",
-            timeout: 6000,
-          });
-        });
-      //}
     },
   },
 };

@@ -11,7 +11,7 @@
         <v-card elevation="7" class="p-4">
           <v-form @submit.prevent="editEnrolment(form)">
             <div class="input-contain">
-              <v-select
+              <v-autocomplete
                 v-model="form.status"
                 :hint="`${select.state}`"
                 persistent-hint
@@ -22,33 +22,52 @@
                 :items="items"
                 name="status"
                 id="status"
+                :error-messages="statusErrors"
+                @input="$v.form.status.$touch()"
+                @blur="$v.form.status.$touch()"
               >
-              </v-select>
+              </v-autocomplete>
             </div>
+            <v-alert v-if="errors.status" type="error">{{
+              errors.status
+            }}</v-alert>
             <br />
             <div class="input-contain">
-              <v-select
+              <v-autocomplete
                 v-model="form.course_id"
                 :items="courses"
                 label="Course"
                 single-line
                 item-text="title"
                 item-value="id"
+                :error-messages="course_idErrors"
+                @input="$v.form.course_id.$touch()"
+                @blur="$v.form.course_id.$touch()"
               >
-              </v-select>
+              </v-autocomplete>
             </div>
+            <!-- This error will be shown if the lecturer is already enrolled on a course -->
+            <v-alert v-if="errors.course_id" type="error">{{
+              errors.course_id
+            }}</v-alert>
             <br />
             <div class="input-contain">
-              <v-select
+              <v-autocomplete
                 v-model="form.lecturer_id"
                 :items="lecturers"
                 label="Lecturer"
                 single-line
                 item-text="name"
                 item-value="id"
+                :error-messages="lecturer_idErrors"
+                @input="$v.form.lecturer_id.$touch()"
+                @blur="$v.form.lecturer_id.$touch()"
               >
-              </v-select>
+              </v-autocomplete>
             </div>
+            <v-alert v-if="errors.lecturer_id" type="error">{{
+              errors.lecturer_id
+            }}</v-alert>
             <br />
             <div class="input-contain">
               <div class="mb-6"></div>
@@ -68,6 +87,9 @@
                     readonly
                     v-bind="attrs"
                     v-on="on"
+                    :error-messages="dateErrors"
+                    @input="$v.date.$touch()"
+                    @blur="$v.date.$touch()"
                   ></v-text-field>
                 </template>
                 <v-date-picker
@@ -78,6 +100,7 @@
                 ></v-date-picker>
               </v-menu>
             </div>
+            <v-alert v-if="errors.date" type="error">{{ errors.date }}</v-alert>
             <br />
             <div class="input-contain">
               <div class="mb-6">
@@ -100,6 +123,9 @@
                       readonly
                       v-bind="attrs"
                       v-on="on"
+                      :error-messages="timeErrors"
+                      @input="$v.time.$touch()"
+                      @blur="$v.time.$touch()"
                     ></v-text-field>
                   </template>
                   <v-time-picker
@@ -111,6 +137,7 @@
                 </v-menu>
               </div>
             </div>
+            <v-alert v-if="errors.time" type="error">{{ errors.time }}</v-alert>
 
             <br />
             <v-btn type="submit">Submit</v-btn>
@@ -122,13 +149,17 @@
 </template>
 <script>
 import axios from "axios";
+import { validationMixin } from "vuelidate";
+import { required, integer } from "vuelidate/lib/validators";
 
 export default {
   name: "coursesAdd",
   components: {},
+  mixins: [validationMixin],
   data() {
     return {
       date_menu: false,
+      date: null,
       time: null,
       menu2: false,
       modal2: false,
@@ -148,7 +179,67 @@ export default {
       // Init to empty arrays, then fill them on mount
       courses: [],
       lecturers: [],
+      errors: [],
     };
+  },
+  validations: {
+    form: {
+      status: {
+        required,
+      },
+      course_id: {
+        required,
+        integer,
+      },
+      lecturer_id: {
+        required,
+        integer,
+      },
+    },
+    date: {
+      required,
+    },
+    time: {
+      required,
+    },
+  },
+  computed: {
+    statusErrors() {
+      const errors = [];
+      if (!this.$v.form.status.$dirty) return errors;
+      !this.$v.form.status.required && errors.push("Status is required");
+      return errors;
+    },
+    course_idErrors() {
+      const errors = [];
+      if (!this.$v.form.course_id.$dirty) return errors;
+      !this.$v.form.course_id.required && errors.push("Course ID is required");
+      !this.$v.form.course_id.integer &&
+        errors.push("Course ID must be an integer");
+      return errors;
+    },
+    lecturer_idErrors() {
+      const errors = [];
+      if (!this.$v.form.lecturer_id.$dirty) return errors;
+      !this.$v.form.lecturer_id.required &&
+        errors.push("Lecturer ID is required");
+      !this.$v.form.lecturer_id.integer &&
+        errors.push("Lecturer ID must be an integer");
+      return errors;
+    },
+    dateErrors() {
+      const errors = [];
+      if (!this.$v.date.$dirty) return errors;
+      !this.$v.date.required && errors.push("Date is required");
+      // !this.$v.date.date && errors.push("Date must be a valid date");
+      return errors;
+    },
+    timeErrors() {
+      const errors = [];
+      if (!this.$v.time.$dirty) return errors;
+      !this.$v.time.required && errors.push("Time is required");
+      return errors;
+    },
   },
   mounted() {
     //this.getData();\
@@ -158,40 +249,45 @@ export default {
     this.getLecturers();
   },
   methods: {
-    editEnrolment(form) {
+    async editEnrolment(form) {
       let token = localStorage.getItem("token");
 
-      axios
-        .put(
-          `https://college-api-mo.herokuapp.com/api/enrolments/${this.$route.params.id}`,
-          {
-            status: form.status,
-            course_id: form.course_id,
-            lecturer_id: form.lecturer_id,
-            date: this.date,
-            time: this.time,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        )
+      this.$v.$touch();
 
-        .then(() => {
-          this.$router.push({ name: "enrolments_index" });
-          this.$store.dispatch("toggleSnackbar", {
-            text: "Enrolment edited successfully!",
-            timeout: 6000,
+      if (!this.$v.$invalid) {
+        axios
+          .put(
+            `https://college-api-mo.herokuapp.com/api/enrolments/${this.$route.params.id}`,
+            {
+              status: form.status,
+              course_id: form.course_id,
+              lecturer_id: form.lecturer_id,
+              date: this.date,
+              time: this.time,
+            },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          )
+
+          .then(() => {
+            this.$router.push({ name: "enrolments_index" });
+            this.$store.dispatch("toggleSnackbar", {
+              text: "Enrolment edited successfully!",
+              timeout: 6000,
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+            // console.log(form);
+            //this.$router.push({ name: "enrolments_index" });
+            this.$store.dispatch("toggleSnackbar", {
+              text: "Something went wrong",
+              timeout: 6000,
+            });
+            this.errors = error.response.data.errors;
           });
-        })
-        .catch((error) => {
-          console.log(error);
-          // console.log(form);
-          this.$router.push({ name: "enrolments_index" });
-          this.$store.dispatch("toggleSnackbar", {
-            text: "Something went wrong",
-            timeout: 6000,
-          });
-        });
+      }
     },
     getCourses() {
       let token = localStorage.getItem("token");
