@@ -6,70 +6,85 @@
       color="secondary"
       v-model="searchQuery"
     />
-    <router-link :to="{ name: 'enrolments_add' }">
-      <v-btn class="m-5 ml-0" color="secondary ">
-        Add Enrolment
-      </v-btn></router-link
+    <router-link :to="{ name: 'enrolments_add' }" />
+
+    <!-- <v-select
+      v-model="statusQuery"
+      hint="Select an enrolment status"
+      persistent-hint
+      single-line
+      item-text="state"
+      item-value="value"
+      label="Select"
+      :items="statusOptions"
     >
+    </v-select> -->
 
-    <paginate name="enrolments" :per="6" :list="filtered" class="paginate-list">
-      <v-row>
-        <v-col
-          v-for="enrolment in paginated('enrolments')"
-          :key="enrolment.id"
-          cols="12"
-          sm="4"
-        >
-          <v-card
-            elevation="7"
-            :loading="loading"
-            class="mx-auto my-12"
-            max-width="374"
+    <!-- Reset if you mess up your search and then clear -->
+    <div v-if="filtered.length">
+      <paginate name="enrolments" :per="6" :list="filter" class="paginate-list">
+        <v-row>
+          <v-col
+            v-for="enrolment in paginated('enrolments')"
+            :key="enrolment.id"
+            cols="12"
+            sm="4"
           >
-            <v-card-title>{{ enrolment.lecturer.name }}</v-card-title>
+            <v-card
+              elevation="7"
+              :loading="loading"
+              class="mx-auto my-12"
+              max-width="374"
+            >
+              <v-card-title>{{ enrolment.lecturer.name }}</v-card-title>
 
-            <v-card-text>
-              <div class="my-4 text-subtitle-1">
-                Course {{ enrolment.course.title }}
-              </div>
+              <v-card-text>
+                <div class="my-4 text-subtitle-1">
+                  Course {{ enrolment.course.title }}
+                </div>
 
-              <v-expansion-panels flat>
-                <v-expansion-panel class="pl-0">
-                  <v-expansion-panel-header class="p-0"
-                    >Read more</v-expansion-panel-header
-                  >
-                  <v-expansion-panel-content class="p-0 m-0">
-                    {{ enrolment.course.description }}
-                  </v-expansion-panel-content>
-                </v-expansion-panel>
-              </v-expansion-panels>
-            </v-card-text>
+                <v-expansion-panels flat>
+                  <v-expansion-panel class="pl-0">
+                    <v-expansion-panel-header class="p-0"
+                      >Read more</v-expansion-panel-header
+                    >
+                    <v-expansion-panel-content class="p-0 m-0">
+                      {{ enrolment.course.description }}
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-expansion-panels>
+              </v-card-text>
 
-            <v-divider class="mx-4"></v-divider>
+              <v-divider class="mx-4"></v-divider>
 
-            <v-card-title>Status:</v-card-title>
+              <v-card-title>Status:</v-card-title>
 
-            <v-card-text>
-              <v-chip :class="`${enrolment.status}`">{{
-                enrolment.status
-              }}</v-chip>
-            </v-card-text>
+              <v-card-text>
+                <v-chip :class="`${enrolment.status}`">{{
+                  enrolment.status
+                }}</v-chip>
+              </v-card-text>
 
-            <v-card-actions>
-              <router-link
-                :to="{ name: 'enrolments_show', params: { id: enrolment.id } }"
-              >
-                <v-btn color="deep-purple lighten-2" text> View </v-btn>
-              </router-link>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-    </paginate>
+              <v-card-actions>
+                <router-link
+                  :to="{
+                    name: 'enrolments_show',
+                    params: { id: enrolment.id },
+                  }"
+                >
+                  <v-btn color="deep-purple lighten-2" text> View </v-btn>
+                </router-link>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </paginate>
+    </div>
     <v-divider />
     <v-row>
       <div class="mx-auto text-center">
         <paginate-links
+          :async="true"
           :limit="6"
           :step-links="{
             next: '❯',
@@ -97,11 +112,40 @@ export default {
       paginate: ["enrolments"],
       selectedEnrolment: null,
       searchQuery: "",
+      statusQuery: "",
+      select: { state: "interested" },
+      statusOptions: [
+        { state: "interested", value: "interested" },
+        { state: "assigned", value: "assigned" },
+        { state: "career break", value: "career_break" },
+        { state: "associate", value: "associate" },
+        { state: "none", value: "none" },
+      ],
     };
   },
   computed: {
+    //   filteredPeople() {
+    //     const { name, age, people } = this;
+    //     return this.people
+    //       .filter(
+    //         (person) => person.name.toLowerCase().indexOf(name.toLowerCase()) > -1
+    //       )
+    //       .filter((person) => person.age === age);
+    //   },
+    // },
+    // filterStatus() {
+    //   return this.filter.filter((enrolment) => {
+    //     if (this.statusQuery != "none") {
+    //       return enrolment.status
+    //         .toLowerCase()
+    //         .includes(this.statusQuery.toLowerCase());
+    //     } else {
+    //       return this.enrolments;
+    //     }
+    //   });
+    // },
     filtered() {
-      // Filter for both lecturer names and courses
+      // Filter for both lecturer names and courses, as well as enrolment status
       return this.enrolments.filter((enrolment) => {
         return (
           enrolment.lecturer.name
@@ -109,9 +153,17 @@ export default {
             .includes(this.searchQuery.toLowerCase()) ||
           enrolment.course.title
             .toLowerCase()
+            .includes(this.searchQuery.toLowerCase()) ||
+          enrolment.status
+            .toLowerCase()
             .includes(this.searchQuery.toLowerCase())
         );
       });
+      // .filter((enrolment) => {
+      //   return enrolment.course.title
+      //     .toLowerCase()
+      //     .includes(this.searchQuery.toLowerCase());
+      // });
     },
   },
   mounted() {
@@ -122,7 +174,6 @@ export default {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage
       if (!token) {
-        this.$router.push({ name: "home" });
         this.$router.push({ name: "home" });
         this.$store.dispatch("toggleSnackbar", {
           text: "Login to view enrolments",

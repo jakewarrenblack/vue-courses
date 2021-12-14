@@ -13,48 +13,55 @@
 
     <hr />
 
-    <paginate name="lecturers" :per="6" :list="filtered" class="paginate-list">
-      <v-layout row wrap>
-        <v-flex
-          xs12
-          sm6
-          md3
-          lg4
-          v-for="lecturer in paginated('lecturers')"
-          :key="lecturer.id"
-        >
-          <!-- Center text inside the card, margin 3 all around -->
-          <v-card
-            elevation="7"
-            class="ma-3 d-flex justify-center flex-column align-center"
+    <div v-if="filtered.length">
+      <paginate
+        name="lecturers"
+        :per="6"
+        :list="filtered"
+        class="paginate-list"
+      >
+        <v-layout row wrap>
+          <v-flex
+            xs12
+            sm6
+            md3
+            lg4
+            v-for="lecturer in paginated('lecturers')"
+            :key="lecturer.id"
           >
-            <v-responsive class="pt-4">
-              <v-avatar size="100" class="primary lighten-3">
-                <!-- <v-icon class="lessEmphasis--text"></v-icon> -->
-                <v-img
-                  :src="`https://avatars.dicebear.com/api/human/${lecturer.name}.svg`"
-                />
-              </v-avatar>
-            </v-responsive>
-            <v-card-text>
-              <div class="subheading text-center">
-                {{ lecturer.name }}
-              </div>
-              <div class="grey--text text-center">{{ lecturer.phone }}</div>
-            </v-card-text>
-            <v-card-actions router>
-              <v-btn
-                color="secondary"
-                :to="{ name: 'lecturers_show', params: { id: lecturer.id } }"
-              >
-                <v-icon left>mdi-account-eye</v-icon>
-                <span>View</span>
-              </v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-flex>
-      </v-layout>
-    </paginate>
+            <!-- Center text inside the card, margin 3 all around -->
+            <v-card
+              elevation="7"
+              class="ma-3 d-flex justify-center flex-column align-center"
+            >
+              <v-responsive class="pt-4">
+                <v-avatar size="100" class="primary lighten-3">
+                  <!-- <v-icon class="lessEmphasis--text"></v-icon> -->
+                  <v-img
+                    :src="`https://avatars.dicebear.com/api/human/${lecturer.name}.svg`"
+                  />
+                </v-avatar>
+              </v-responsive>
+              <v-card-text>
+                <div class="subheading text-center">
+                  {{ lecturer.name }}
+                </div>
+                <div class="grey--text text-center">{{ lecturer.phone }}</div>
+              </v-card-text>
+              <v-card-actions router>
+                <v-btn
+                  color="secondary"
+                  :to="{ name: 'lecturers_show', params: { id: lecturer.id } }"
+                >
+                  <v-icon left>mdi-account-eye</v-icon>
+                  <span>View</span>
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </paginate>
+    </div>
     <v-row>
       <div class="mx-auto text-center">
         <paginate-links
