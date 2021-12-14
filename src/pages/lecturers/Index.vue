@@ -6,6 +6,8 @@
       label="Enter a lecturer name..."
       color="secondary"
       v-model="searchQuery"
+      clearable
+      @click:clear="clearSearch()"
     />
     <router-link :to="{ name: 'lecturers_add' }"
       ><v-btn>Add lecturer</v-btn>
@@ -109,6 +111,9 @@ export default {
     this.getData();
   },
   methods: {
+    clearSearch() {
+      this.searchQuery = "";
+    },
     getData() {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage

@@ -5,6 +5,8 @@
       label="Search for a course..."
       color="secondary"
       v-model="searchQuery"
+      clearable
+      @click:clear="clearSearch()"
     >
     </v-text-field>
     <router-link :to="{ name: 'courses_add' }">
@@ -113,6 +115,9 @@ export default {
     };
   },
   methods: {
+    clearSearch() {
+      this.searchQuery = "";
+    },
     getData() {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage
