@@ -38,16 +38,16 @@
               </v-list-item-content>
             </v-list-item>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions class="ml-2">
             <router-link
               :to="{
                 name: 'lecturers_edit',
                 params: { id: lecturer.id },
               }"
             >
-              <v-btn text color="deep-purple accent-4">Edit</v-btn>
+              <v-btn color="secondary">Edit</v-btn>
             </router-link>
-            <v-btn @click="showDialog()" text color="deep-purple accent-4"
+            <v-btn @click="showDialog()" color="error" class="ml-4"
               >Delete</v-btn
             >
           </v-card-actions>
@@ -66,7 +66,7 @@
             >
               <v-card elevation="7" class="m-3 pb-2">
                 <div class="d-flex flex-column justify-space-between">
-                  <v-card-title fill-width class="text-h5">
+                  <v-card-title fill-width class="text-h5 pl-6">
                     <v-chip class="mr-4" :class="`${enrolment.status}`">{{
                       enrolment.status
                     }}</v-chip>

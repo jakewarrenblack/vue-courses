@@ -9,7 +9,7 @@
 
       <v-col>
         <v-card elevation="7" class="p-4">
-          <v-form @submit.prevent="addCourse(form)">
+          <v-form @submit.prevent="addCourse(form)" ref="form">
             <div class="input-contain">
               <v-text-field
                 label="Title"
@@ -84,7 +84,10 @@
               JSON.stringify(errors.level)
             }}</v-alert>
             <br />
-            <v-btn type="submit">Submit</v-btn>
+            <v-btn type="submit" color="secondary">Submit</v-btn>
+            <v-btn color="error" class="ml-4" @click="reset">
+              Reset Form
+            </v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -202,6 +205,9 @@ export default {
     },
   },
   methods: {
+    reset() {
+      this.$refs.form.reset();
+    },
     async addCourse(form) {
       let token = localStorage.getItem("token");
 

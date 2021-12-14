@@ -51,16 +51,16 @@
               </v-list-item-content>
             </v-list-item>
           </v-card-text>
-          <v-card-actions>
+          <v-card-actions class="ml-2">
             <router-link
               :to="{
                 name: 'enrolments_edit',
                 params: { id: enrolment.id },
               }"
             >
-              <v-btn text color="deep-purple accent-4">Edit</v-btn>
+              <v-btn color="secondary">Edit</v-btn>
             </router-link>
-            <v-btn @click="showDialog()" text color="deep-purple accent-4"
+            <v-btn @click="showDialog()" color="error" class="ml-4"
               >Delete</v-btn
             >
           </v-card-actions>

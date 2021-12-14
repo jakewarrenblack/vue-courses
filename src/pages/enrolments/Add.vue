@@ -9,7 +9,7 @@
 
       <v-col>
         <v-card elevation="7" class="p-4">
-          <v-form @submit.prevent="addEnrolment(form)">
+          <v-form @submit.prevent="addEnrolment(form)" ref="form">
             <div class="input-contain">
               <v-autocomplete
                 v-model="form.status"
@@ -140,7 +140,10 @@
             <v-alert v-if="errors.time" type="error">{{ errors.time }}</v-alert>
 
             <br />
-            <v-btn type="submit">Submit</v-btn>
+            <v-btn type="submit" color="secondary">Submit</v-btn>
+            <v-btn color="error" class="ml-4" @click="reset">
+              Reset Form
+            </v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -248,6 +251,9 @@ export default {
     this.getLecturers();
   },
   methods: {
+    reset() {
+      this.$refs.form.reset();
+    },
     async addEnrolment(form) {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage

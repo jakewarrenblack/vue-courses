@@ -9,7 +9,7 @@
 
       <v-col>
         <v-card elevation="7" class="p-4">
-          <v-form @submit.prevent="editEnrolment(form)">
+          <v-form @submit.prevent="editEnrolment(form)" ref="form">
             <div class="input-contain">
               <v-autocomplete
                 v-model="form.status"
@@ -140,7 +140,13 @@
             <v-alert v-if="errors.time" type="error">{{ errors.time }}</v-alert>
 
             <br />
-            <v-btn type="submit">Submit</v-btn>
+            <v-btn type="submit" color="secondary">Submit</v-btn>
+            <v-btn color="error" class="ml-4" @click="reset">
+              Reset Form
+            </v-btn>
+            <v-btn color="" class="ml-4" @click="refillValues()">
+              Refill Values
+            </v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -179,6 +185,7 @@ export default {
       // Init to empty arrays, then fill them on mount
       courses: [],
       lecturers: [],
+      enrolment: {},
       errors: [],
     };
   },
@@ -249,6 +256,16 @@ export default {
     this.getLecturers();
   },
   methods: {
+    reset() {
+      this.$refs.form.reset();
+    },
+    refillValues() {
+      this.form.status = this.enrolment.status;
+      this.form.course_id = this.enrolment.course_id;
+      this.form.lecturer_id = this.enrolment.lecturer_id;
+      this.date = this.enrolment.date;
+      this.time = this.enrolment.time;
+    },
     async editEnrolment(form) {
       let token = localStorage.getItem("token");
 
@@ -339,6 +356,8 @@ export default {
           this.form.lecturer_id = resp.lecturer_id;
           this.date = resp.date;
           this.time = resp.time;
+
+          this.enrolment = response.data.data;
         })
         .catch((error) => {
           console.log(error);

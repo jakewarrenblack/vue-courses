@@ -9,7 +9,7 @@
 
       <v-col>
         <v-card elevation="7" class="p-4">
-          <v-form @submit.prevent="editCourse(form)">
+          <v-form @submit.prevent="editCourse(form)" ref="form">
             <div class="input-contain">
               <v-text-field
                 label="Title"
@@ -84,7 +84,13 @@
               errors.level
             }}</v-alert>
             <br />
-            <v-btn type="submit">Submit</v-btn>
+            <v-btn type="submit" color="secondary">Submit</v-btn>
+            <v-btn color="error" class="ml-4" @click="reset">
+              Reset Form
+            </v-btn>
+            <v-btn color="" class="ml-4" @click="refillValues()">
+              Refill Values
+            </v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -120,6 +126,7 @@ export default {
       course_id: "",
       validations: {},
       errors: [],
+      course: {},
     };
   },
   validations: {
@@ -201,7 +208,20 @@ export default {
   mounted() {
     this.getData();
   },
+
   methods: {
+    reset() {
+      this.$refs.form.reset();
+    },
+    refillValues() {
+      this.form.title = this.course.title;
+      this.form.code = this.course.code;
+      this.form.description = this.course.description;
+      this.form.points = this.course.points;
+      this.form.level = this.course.level;
+
+      this.course_id = this.course.id;
+    },
     getData() {
       let token = localStorage.getItem("token");
 
@@ -231,6 +251,8 @@ export default {
           this.form.level = res.level;
 
           this.course_id = res.id;
+
+          this.course = response.data.data;
         })
         .catch((error) => {
           console.log(error);

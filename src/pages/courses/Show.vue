@@ -36,12 +36,16 @@
                 params: { id: course.id },
               }"
             >
-              <v-btn text color="deep-purple accent-4">Edit</v-btn>
+              <v-btn color="secondary">Edit</v-btn>
             </router-link>
-            <v-btn @click="showDialog()" color="primary" dark> Delete </v-btn>
+            <v-btn @click="showDialog()" color="error" class="ml-4" dark>
+              Delete
+            </v-btn>
           </v-card-actions>
 
-          <v-card-text>
+          <br />
+
+          <v-card-text v-if="course.enrolments.length > 0">
             <v-divider />
             <p class="text-h4 text--primary">Enrolments for this course</p>
           </v-card-text>
@@ -114,7 +118,6 @@
         </v-card>
       </v-col>
     </v-row>
-    <v-row></v-row>
   </v-layout>
 </template>
 

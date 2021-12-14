@@ -7,7 +7,7 @@
       <v-divider />
       <v-col>
         <v-card elevation="7" class="p-4">
-          <v-form @submit.prevent="editLecturer(form)">
+          <v-form @submit.prevent="editLecturer(form)" ref="form">
             <div class="input-contain">
               <v-text-field
                 label="Name"
@@ -66,7 +66,13 @@
               errors.email
             }}</v-alert>
             <br />
-            <v-btn type="submit">Submit</v-btn>
+            <v-btn type="submit" color="secondary">Submit</v-btn>
+            <v-btn color="error" class="ml-4" @click="reset">
+              Reset Form
+            </v-btn>
+            <v-btn color="" class="ml-4" @click="refillValues()">
+              Refill Values
+            </v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -90,6 +96,8 @@ export default {
         phone: "",
         email: "",
       },
+      lecturer: {},
+      errors: [],
     };
   },
   validations: {
@@ -155,6 +163,15 @@ export default {
     this.getData();
   },
   methods: {
+    reset() {
+      this.$refs.form.reset();
+    },
+    refillValues() {
+      this.form.name = this.lecturer.name;
+      this.form.address = this.lecturer.address;
+      this.form.phone = this.lecturer.phone;
+      this.form.email = this.lecturer.email;
+    },
     getData() {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage
@@ -181,6 +198,8 @@ export default {
           this.form.address = res.address;
           this.form.phone = res.phone;
           this.form.email = res.email;
+
+          this.lecturer = response.data.data;
         })
         .catch((error) => {
           console.log(error);
@@ -218,11 +237,12 @@ export default {
           .catch((error) => {
             console.log(error);
             //console.log(form);
-            this.$router.push({ name: "lecturers_index" });
+            //this.$router.push({ name: "lecturers_index" });
             this.$store.dispatch("toggleSnackbar", {
               text: "Something went wrong",
               timeout: 6000,
             });
+            this.errors = error.response.data.errors;
             //localStorage.removeItem("token");
             // this.$emit('invalid-token')
           });
