@@ -55,7 +55,7 @@
             >
               <v-card elevation="7" class="m-4 pb-2">
                 <div class="d-flex flex-column justify-space-between">
-                  <v-card-title class="text-h5">{{
+                  <v-card-title class="text-h5 pl-6">{{
                     enrolment.lecturer.name
                   }}</v-card-title>
 
@@ -65,7 +65,7 @@
                         >Details</v-expansion-panel-header
                       >
                       <v-expansion-panel-content>
-                        <v-list-item class="pl-0" two-line>
+                        <v-list-item class="pl-5" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Status</v-list-item-title>
                             <v-list-item-subtitle>{{
@@ -74,7 +74,7 @@
                           </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item class="pl-0" two-line>
+                        <v-list-item class="pl-5" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Email</v-list-item-title>
                             <v-list-item-subtitle>{{
@@ -83,7 +83,7 @@
                           </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item class="pl-0" two-line>
+                        <v-list-item class="pl-5" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Phone</v-list-item-title>
                             <v-list-item-subtitle>{{

@@ -67,7 +67,11 @@
               <v-card elevation="7" class="m-3 pb-2">
                 <div class="d-flex flex-column justify-space-between">
                   <v-card-title fill-width class="text-h5">
-                    <v-chip class="mr-4">{{ enrolment.status }}</v-chip>
+                    <v-chip class="mr-4" :class="`${enrolment.status}`">{{
+                      enrolment.status
+                    }}</v-chip>
+                  </v-card-title>
+                  <v-card-title fill-width class="text-h5 pl-6">
                     {{ enrolment.course.title }}
                   </v-card-title>
 
@@ -77,7 +81,7 @@
                         >Details</v-expansion-panel-header
                       >
                       <v-expansion-panel-content>
-                        <v-list-item class="pl-0" two-line>
+                        <v-list-item class="pl-5" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Course code</v-list-item-title>
                             <v-list-item-subtitle>{{
@@ -86,7 +90,7 @@
                           </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item class="pl-0" two-line>
+                        <v-list-item class="pl-5" two-line>
                           <v-list-item-content>
                             <v-list-item-title>CAO points</v-list-item-title>
                             <v-list-item-subtitle>{{

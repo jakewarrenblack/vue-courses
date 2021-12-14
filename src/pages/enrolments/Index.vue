@@ -6,10 +6,15 @@
       color="secondary"
       v-model="searchQuery"
     />
-    <router-link :to="{ name: 'enrolments_add' }" />
 
-    <!-- <v-select
-      v-model="statusQuery"
+    <router-link :to="{ name: 'enrolments_add' }">
+      <v-btn class="m-5 ml-0" color="secondary ">
+        Add Enrolment
+      </v-btn></router-link
+    >
+
+    <v-select
+      v-model="searchQuery"
       hint="Select an enrolment status"
       persistent-hint
       single-line
@@ -18,11 +23,16 @@
       label="Select"
       :items="statusOptions"
     >
-    </v-select> -->
+    </v-select>
 
     <!-- Reset if you mess up your search and then clear -->
     <div v-if="filtered.length">
-      <paginate name="enrolments" :per="6" :list="filter" class="paginate-list">
+      <paginate
+        name="enrolments"
+        :per="6"
+        :list="filtered"
+        class="paginate-list"
+      >
         <v-row>
           <v-col
             v-for="enrolment in paginated('enrolments')"
@@ -54,8 +64,6 @@
                   </v-expansion-panel>
                 </v-expansion-panels>
               </v-card-text>
-
-              <v-divider class="mx-4"></v-divider>
 
               <v-card-title>Status:</v-card-title>
 
@@ -119,7 +127,6 @@ export default {
         { state: "assigned", value: "assigned" },
         { state: "career break", value: "career_break" },
         { state: "associate", value: "associate" },
-        { state: "none", value: "none" },
       ],
     };
   },

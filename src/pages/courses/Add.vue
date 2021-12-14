@@ -81,7 +81,7 @@
               />
             </div>
             <v-alert v-if="errors.level" type="error">{{
-              errors.level
+              JSON.stringify(errors.level)
             }}</v-alert>
             <br />
             <v-btn type="submit">Submit</v-btn>
@@ -203,18 +203,19 @@ export default {
   },
   methods: {
     async addCourse(form) {
+      let token = localStorage.getItem("token");
+
+      if (!token) {
+        this.$router.push({ name: "home" });
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to add courses",
+          timeout: 6000,
+        });
+      }
+
+      this.$v.$touch();
+
       if (!this.$v.$invalid) {
-        let token = localStorage.getItem("token");
-
-        this.$v.$touch();
-        if (!token) {
-          this.$router.push({ name: "home" });
-          this.$store.dispatch("toggleSnackbar", {
-            text: "Login to add courses",
-            timeout: 6000,
-          });
-        }
-
         axios
           .post(
             `https://college-api-mo.herokuapp.com/api/courses`,

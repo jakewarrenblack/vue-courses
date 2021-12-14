@@ -62,6 +62,7 @@
         </v-layout>
       </paginate>
     </div>
+
     <v-row>
       <div class="mx-auto text-center">
         <paginate-links

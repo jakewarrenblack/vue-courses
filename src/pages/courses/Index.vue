@@ -45,15 +45,13 @@
                 </v-expansion-panels>
               </v-card-text>
 
-              <v-divider class="mx-4"></v-divider>
-
               <v-card-title>Course code:</v-card-title>
 
               <v-card-text>
-                <v-chip>{{ course.code }}</v-chip>
+                <v-chip class="pl-0">{{ course.code }}</v-chip>
               </v-card-text>
 
-              <v-card-actions>
+              <v-card-actions class="pl-0">
                 <router-link
                   :to="{ name: 'courses_show', params: { id: course.id } }"
                 >

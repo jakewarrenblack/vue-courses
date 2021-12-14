@@ -73,7 +73,7 @@
             <v-col lg="12" class="">
               <v-card elevation="7" class="m-3 pb-2">
                 <div class="d-flex flex-column justify-space-between">
-                  <v-card-title class="text-h5">{{
+                  <v-card-title class="text-h5 pl-6">{{
                     enrolment.lecturer.name
                   }}</v-card-title>
 
