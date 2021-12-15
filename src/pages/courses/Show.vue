@@ -69,7 +69,7 @@
                         >Details</v-expansion-panel-header
                       >
                       <v-expansion-panel-content>
-                        <v-list-item class="pl-5" two-line>
+                        <v-list-item class="pl-0" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Status</v-list-item-title>
                             <v-list-item-subtitle>{{
@@ -78,7 +78,7 @@
                           </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item class="pl-5" two-line>
+                        <v-list-item class="pl-0" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Email</v-list-item-title>
                             <v-list-item-subtitle>{{
@@ -87,7 +87,7 @@
                           </v-list-item-content>
                         </v-list-item>
 
-                        <v-list-item class="pl-5" two-line>
+                        <v-list-item class="pl-0" two-line>
                           <v-list-item-content>
                             <v-list-item-title>Phone</v-list-item-title>
                             <v-list-item-subtitle>{{
