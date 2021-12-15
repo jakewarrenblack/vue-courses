@@ -149,6 +149,14 @@ export default {
     },
     getData() {
       let token = localStorage.getItem("token");
+      if (!token || !this.loggedIn) {
+        this.$router.push({ name: "home" });
+
+        this.$store.dispatch("toggleSnackbar", {
+          text: "Login to view courses",
+          timeout: 6000,
+        });
+      }
       axios
         .get(
           `https://college-api-mo.herokuapp.com/api/courses/${this.$route.params.id}`,

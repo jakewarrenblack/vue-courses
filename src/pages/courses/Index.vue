@@ -50,14 +50,16 @@
               <v-card-title>Course code:</v-card-title>
 
               <v-card-text>
-                <v-chip class="pl-0">{{ course.code }}</v-chip>
+                <v-chip color="green lighten-2" class="">{{
+                  course.code
+                }}</v-chip>
               </v-card-text>
 
-              <v-card-actions class="pl-0">
+              <v-card-actions class="pl-02 pb-4">
                 <router-link
                   :to="{ name: 'courses_show', params: { id: course.id } }"
                 >
-                  <v-btn color="deep-purple lighten-2" text @click="reserve">
+                  <v-btn color="pink lighten-1" text @click="reserve">
                     View
                   </v-btn>
                 </router-link>
@@ -92,8 +94,10 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 export default {
   computed: {
+    ...mapState(["loggedIn"]),
     filtered() {
       return this.courses.filter((course) => {
         return (
@@ -122,7 +126,7 @@ export default {
     getData() {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage
-      if (!token) {
+      if (!token || !this.loggedIn) {
         this.$router.push({ name: "home" });
 
         this.$store.dispatch("toggleSnackbar", {

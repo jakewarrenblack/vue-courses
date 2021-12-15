@@ -214,7 +214,7 @@ export default {
     async addCourse(form) {
       let token = localStorage.getItem("token");
 
-      if (!token) {
+      if (!token || !this.loggedIn) {
         this.$router.push({ name: "home" });
         this.$store.dispatch("toggleSnackbar", {
           text: "Login to add courses",

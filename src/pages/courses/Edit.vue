@@ -229,7 +229,7 @@ export default {
       let token = localStorage.getItem("token");
 
       this.$v.$touch();
-      if (!token) {
+      if (!token || !this.loggedIn) {
         this.$router.push({ name: "home" });
 
         this.$store.dispatch("toggleSnackbar", {

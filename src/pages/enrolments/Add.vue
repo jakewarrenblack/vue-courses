@@ -262,7 +262,7 @@ export default {
     async addEnrolment(form) {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage
-      if (!token) {
+      if (!token || !this.loggedIn) {
         this.$router.push({ name: "home" });
         this.$store.dispatch("toggleSnackbar", {
           text: "Login to add enrolments",
