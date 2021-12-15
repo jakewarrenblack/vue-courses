@@ -39,7 +39,7 @@
             </v-list-tile-action>
           </v-list-item>
         </div>
-        <div class="mt-auto">
+        <div v-if="$store.state.loggedIn" class="mt-auto">
           <v-list-item class="mb-5 secondary m-3 rounded" @click="logOut()">
             <v-list-tile-action>
               <v-icon left class="lessEmphasis--text">mdi-exit-to-app</v-icon>

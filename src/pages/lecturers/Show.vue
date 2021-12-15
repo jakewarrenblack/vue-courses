@@ -52,6 +52,8 @@
             >
           </v-card-actions>
 
+          <br />
+
           <v-card-text v-if="lecturer.enrolments.length > 0">
             <v-divider />
             <p class="text-h4 text--primary">Enrolments</p>

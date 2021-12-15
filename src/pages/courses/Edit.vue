@@ -212,6 +212,7 @@ export default {
   methods: {
     reset() {
       this.$refs.form.reset();
+      this.$v.$reset();
     },
     refillValues() {
       this.form.title = this.course.title;

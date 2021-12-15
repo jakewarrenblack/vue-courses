@@ -258,6 +258,7 @@ export default {
   methods: {
     reset() {
       this.$refs.form.reset();
+      this.$v.$reset();
     },
     refillValues() {
       this.form.status = this.enrolment.status;

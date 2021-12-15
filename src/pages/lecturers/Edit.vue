@@ -165,6 +165,7 @@ export default {
   methods: {
     reset() {
       this.$refs.form.reset();
+      this.$v.$reset();
     },
     refillValues() {
       this.form.name = this.lecturer.name;

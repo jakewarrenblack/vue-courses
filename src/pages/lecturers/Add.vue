@@ -66,7 +66,10 @@
               errors.email
             }}</v-alert>
             <br />
-            <v-btn type="submit">Submit</v-btn>
+            <v-btn type="submit" color="secondary">Submit</v-btn>
+            <v-btn color="error" class="ml-4" @click="reset">
+              Reset Form
+            </v-btn>
           </v-form>
         </v-card>
       </v-col>
@@ -157,6 +160,10 @@ export default {
     console.log(localStorage.getItem("token"));
   },
   methods: {
+    reset() {
+      this.$refs.form.reset();
+      this.$v.$reset();
+    },
     addLecturer(form) {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage

@@ -253,6 +253,7 @@ export default {
   methods: {
     reset() {
       this.$refs.form.reset();
+      this.$v.$reset();
     },
     async addEnrolment(form) {
       let token = localStorage.getItem("token");

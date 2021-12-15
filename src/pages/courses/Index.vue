@@ -96,9 +96,10 @@ export default {
   computed: {
     filtered() {
       return this.courses.filter((course) => {
-        return course.title
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
+        return (
+          course.title.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+          course.code.toLowerCase().includes(this.searchQuery.toLowerCase())
+        );
       });
     },
   },
