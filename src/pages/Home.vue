@@ -96,8 +96,8 @@ export default {
         password: "",
       },
       name: "",
-      smallSrc: "",
-      largeSrc: "",
+      smallSrc: localStorage.getItem("smallSrc"),
+      largeSrc: localStorage.getItem("largeSrc"),
       activeForm: "login",
     };
   },
@@ -106,18 +106,34 @@ export default {
     ...mapState(["loggedIn"]),
   },
   methods: {
+    // I only want an the background image to change once a day, not every time the user visits the homepage
+    hasOneDayPassed() {
+      // form is: "12/15/2021"
+      var date = new Date().toLocaleDateString();
+
+      // If todays_date exists in localstorage and it's the same as the current date we got above, a day must not have passed yet, so leave it as is
+      if (localStorage.todays_date == date) return false;
+
+      // If existing localStorage date is not the same as today's date, a day must have past, so change it
+      localStorage.todays_date = date;
+      return true;
+    },
     // this provides a reference to a method within the vuex store
     ...mapActions(["login", "register"]),
     getName() {
       return localStorage.getItem("name");
     },
     removeBreakTag() {
-      if (document.getElementsByTagName("BR"[0]) != null) {
+      if (
+        document.getElementsByTagName("BR"[0]) != null &&
+        document.getElementsByTagName("BR"[0]) != undefined
+      ) {
         document.getElementsByTagName("BR")[0].remove();
       }
     },
     getImage() {
-      var that = this;
+      if (!this.hasOneDayPassed()) return false;
+      //var that = this;
       // if the call to unsplash fails, it will call to pexels instead
       axios
         .get(
@@ -127,8 +143,10 @@ export default {
           // document.getElementById(
           //   "background"
           // ).style.backgroundImage = `url(${response.data.urls.full})`;
-          that.smallSrc = response.data.urls.small;
-          that.largeSrc = response.data.urls.full;
+          // that.smallSrc = response.data.urls.small;
+          localStorage.setItem("smallSrc", response.data.urls.small);
+          // that.largeSrc = response.data.urls.full;
+          localStorage.setItem("largeSrc", response.data.urls.full);
         })
         .catch(function (error) {
           console.log(error);
@@ -145,8 +163,10 @@ export default {
               // document.getElementById(
               //   "background"
               // ).style.backgroundImage = `url(${response.data.photos[0].src.large2x})`;
-              that.smallSrc = response.data.urls.small;
-              that.largeSrc = response.data.urls.large2x;
+              // that.smallSrc = response.data.urls.small;
+              localStorage.setItem("smallSrc", response.data.urls.small);
+              // that.largeSrc = response.data.urls.large2x;
+              localStorage.setItem("largeSrc", response.data.urls.large2x);
             })
             .catch((error) => console.log(error));
         });
