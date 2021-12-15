@@ -34,43 +34,8 @@
               >
             </v-row>
             <v-divider v-if="!loggedIn" />
-            <div v-if="activeForm == 'login'" class="p-5">
-              <h2 class="mb-10">Login</h2>
-              <div v-if="!loggedIn">
-                <v-text-field type="email" label="Email" v-model="form.email" />
-                <br />
-                <v-text-field
-                  type="password"
-                  label="Password"
-                  v-model="form.password"
-                />
-                <br />
-                <!-- we can still refer to a seemingly nonexistent login() method, because it exists
-              inside the vuex store, it's like it gets pasted in by ...mapActions -->
-                <!-- pass the entire form data as the 'credentials' param of the login method -->
-                <v-btn color="secondary" @click="login(form)">Submit</v-btn>
-              </div>
-              <p v-else>Welcome back, {{ this.getName() }}</p>
-            </div>
-            <div v-if="activeForm == 'register'" class="p-5">
-              <h2 class="mb-10">Register</h2>
-              <div v-if="!loggedIn">
-                <v-text-field type="text" label="Name" v-model="form.name" />
-                <br />
-                <v-text-field type="email" label="Email" v-model="form.email" />
-                <v-text-field
-                  type="password"
-                  label="Password"
-                  v-model="form.password"
-                />
-                <br />
-                <!-- we can still refer to a seemingly nonexistent login() method, because it exists
-              inside the vuex store, it's like it gets pasted in by ...mapActions -->
-                <!-- pass the entire form data as the 'credentials' param of the login method -->
-                <v-btn color="secondary" @click="register(form)">Submit</v-btn>
-              </div>
-              <p v-else>Welcome back, {{ this.getName() }}</p>
-            </div>
+            <LoginForm v-if="activeForm == 'login'" />
+            <RegisterForm v-if="activeForm == 'register'" />
           </v-card>
         </v-col>
       </v-layout>
@@ -81,9 +46,14 @@
 <script>
 import axios from "axios";
 import { mapActions, mapState } from "vuex";
-
+import LoginForm from "@/components/LoginForm";
+import RegisterForm from "@/components/RegisterForm";
 export default {
   name: "Home",
+  components: {
+    LoginForm,
+    RegisterForm,
+  },
   mounted() {
     this.removeBreakTag();
     this.getImage();
