@@ -70,19 +70,21 @@
               <v-card-title>Status:</v-card-title>
 
               <v-card-text>
-                <v-chip :class="`${enrolment.status}`">{{
-                  enrolment.status
-                }}</v-chip>
+                <v-chip
+                  color="green lighten-2"
+                  :class="`${enrolment.status}`"
+                  >{{ enrolment.status }}</v-chip
+                >
               </v-card-text>
 
-              <v-card-actions>
+              <v-card-actions class="pl-02 pb-04">
                 <router-link
                   :to="{
                     name: 'enrolments_show',
                     params: { id: enrolment.id },
                   }"
                 >
-                  <v-btn color="deep-purple lighten-2" text> View </v-btn>
+                  <v-btn color="pink lighten-1" text> View </v-btn>
                 </router-link>
               </v-card-actions>
             </v-card>

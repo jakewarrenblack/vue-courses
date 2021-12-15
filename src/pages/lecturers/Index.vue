@@ -50,9 +50,10 @@
                 </div>
                 <div class="grey--text text-center">{{ lecturer.phone }}</div>
               </v-card-text>
-              <v-card-actions router>
+              <v-card-actions class="pl-02 pb-4" router>
                 <v-btn
-                  color="secondary"
+                  text
+                  color="pink lighten-1"
                   :to="{ name: 'lecturers_show', params: { id: lecturer.id } }"
                 >
                   <v-icon left>mdi-account-eye</v-icon>
