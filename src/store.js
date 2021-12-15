@@ -22,6 +22,7 @@ export default new Vuex.Store({
       visible: false,
     },
     registerErrors: null,
+    loginErrors: null,
   },
   getters: {},
   mutations: {
@@ -73,6 +74,13 @@ export default new Vuex.Store({
         state.registerErrors = null;
       }
     },
+    SET_LOGIN_ERRORS(state, payload = null) {
+      if (payload) {
+        state.loginErrors = payload;
+      } else {
+        state.loginErrors = null;
+      }
+    },
   },
   // we want our login action to be performed on form submit
   actions: {
@@ -88,6 +96,8 @@ export default new Vuex.Store({
         .then((response) => {
           console.log(response.data.token);
           console.log("username: " + response.data.name);
+          // If login succeeds, pass no payload, which resets the errors to null
+          context.commit("SET_LOGIN_ERRORS");
 
           // we did this in the old way:
           //this.$emit("login", response.data.token);
@@ -100,6 +110,7 @@ export default new Vuex.Store({
         .catch((error) => {
           console.log(error);
           console.log(error.response.data.message);
+          context.commit("SET_LOGIN_ERRORS", error.response.data);
         });
     },
     register(context, credentials) {
@@ -112,6 +123,7 @@ export default new Vuex.Store({
           password: credentials.password,
         })
         .then((response) => {
+          // Log the newly registered user in immediately and show the welcome screen
           console.log(response.data.token);
           console.log("username: " + response.data.name);
 
@@ -134,10 +146,12 @@ export default new Vuex.Store({
               context.commit("SET_LOGGED_IN_STATUS", true);
               localStorage.setItem("token", response.data.token);
               localStorage.setItem("name", response.data.name);
+              context.commit("SET_LOGIN_ERRORS");
             })
             .catch((error) => {
               console.log(error);
               console.log(error.response);
+              context.commit("SET_LOGIN_ERRORS", error.response.data);
             });
 
           // we did this in the old way:

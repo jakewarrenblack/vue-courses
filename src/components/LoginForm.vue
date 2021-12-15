@@ -11,6 +11,12 @@
         @input="$v.form.email.$touch()"
         @blur="$v.form.email.$touch()"
       />
+      <v-alert
+        v-if="loginErrors != null && loginErrors.email"
+        type="error"
+        dismissible
+        >{{ JSON.stringify(loginErrors.email) }}</v-alert
+      >
       <br />
       <v-text-field
         type="password"
@@ -20,7 +26,20 @@
         @input="$v.form.password.$touch()"
         @blur="$v.form.password.$touch()"
       />
+      <v-alert
+        v-if="loginErrors != null && loginErrors.name"
+        type="error"
+        dismissible
+        >{{ JSON.stringify(loginErrors.name) }}</v-alert
+      >
       <br />
+      <!--Otherwise, show the generic error, probably 'unauthorised' -->
+      <v-alert
+        v-if="loginErrors != null && loginErrors.error"
+        type="error"
+        dismissible
+        >{{ JSON.stringify(loginErrors.error) }}</v-alert
+      >
       <!-- we can still refer to a seemingly nonexistent login() method, because it exists
               inside the vuex store, it's like it gets pasted in by ...mapActions -->
       <!-- pass the entire form data as the 'credentials' param of the login method -->
@@ -60,6 +79,9 @@ export default {
     },
   },
   computed: {
+    loginErrors() {
+      return this.$store.state.loginErrors;
+    },
     // make the store's 'loggedIn' state available directly inside home
     ...mapState(["loggedIn"]),
     emailErrors() {
