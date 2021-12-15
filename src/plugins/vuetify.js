@@ -19,8 +19,11 @@ export default new Vuetify({
         primary: "#111111",
         secondary: "#4003ab",
         lessEmphasis: "#E1E1E1",
-        background: "#272525",
+        background: "#011627",
       },
+    },
+    options: {
+      customProperties: true,
     },
   },
 });

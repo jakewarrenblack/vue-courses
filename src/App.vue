@@ -1,6 +1,9 @@
 <template>
   <!-- v-app needs to be the root in App.vue, acts as mounting point for Vuetify -->
-  <v-app id="inspire">
+  <v-app
+    id="inspire"
+    :style="{ background: $vuetify.theme.themes[theme].background }"
+  >
     <!-- 'app' prop makes position fixed -->
     <v-navigation-drawer
       class="primary navigation-drawer"
@@ -56,16 +59,24 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>College management system</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-row class="w-20 justify-content-end">
+      <v-row class="w-20 justify-content-end align-items-center">
         <v-btn
           v-if="$store.state.loggedIn"
           @click="logOut()"
           class="v-btn secondary"
           >Log Out</v-btn
         >
-        <v-btn color="secondary" class="ml-5 mr-4" @click="toggleTheme()"
+        <!-- <v-btn color="secondary" class="ml-5 mr-4" @click="toggleTheme()"
           >Toggle theme</v-btn
-        >
+        > -->
+
+        <v-switch
+          class="mt-5 mx-5"
+          value="dark"
+          color="pink"
+          @change="toggleTheme()"
+          prepend-icon="mdi-theme-light-dark"
+        ></v-switch>
       </v-row>
     </v-app-bar>
 
@@ -85,6 +96,7 @@ export default {
     Snackbar,
   },
   data: () => ({
+    dark: false,
     drawer: null,
     links: [
       { icon: "mdi-home", text: "Home", route: "home" },
@@ -101,6 +113,11 @@ export default {
       },
     ],
   }),
+  computed: {
+    theme() {
+      return this.$vuetify.theme.dark ? "dark" : "light";
+    },
+  },
 
   methods: {
     toggleTheme() {
