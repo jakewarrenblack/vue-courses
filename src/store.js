@@ -94,6 +94,54 @@ export default new Vuex.Store({
           console.log(error.response.data.message);
         });
     },
+    register(context, credentials) {
+      console.log(credentials);
+
+      axios
+        .post(`https://college-api-mo.herokuapp.com/api/register`, {
+          name: credentials.name,
+          email: credentials.email,
+          password: credentials.password,
+        })
+        .then((response) => {
+          console.log(response.data.token);
+          console.log("username: " + response.data.name);
+
+          axios
+            .post(`https://college-api-mo.herokuapp.com/api/login`, {
+              email: credentials.email,
+              password: credentials.password,
+            })
+            .then((response) => {
+              console.log(response.data.token);
+              console.log("username: " + response.data.name);
+
+              // we did this in the old way:
+              //this.$emit("login", response.data.token);
+
+              // takes the name of the mutation and the new value
+              context.commit("SET_LOGGED_IN_STATUS", true);
+              localStorage.setItem("token", response.data.token);
+              localStorage.setItem("name", response.data.name);
+            })
+            .catch((error) => {
+              console.log(error);
+              console.log(error.response.data.message);
+            });
+
+          // we did this in the old way:
+          //this.$emit("login", response.data.token);
+
+          // takes the name of the mutation and the new value
+          // context.commit("SET_LOGGED_IN_STATUS", true);
+          // localStorage.setItem("token", response.data.token);
+          // localStorage.setItem("name", response.data.name);
+        })
+        .catch((error) => {
+          console.log(error);
+          console.log(error.response.data.message);
+        });
+    },
     // Again, we *always* pass in the context!
     logout(context) {
       localStorage.removeItem("token");

@@ -4,20 +4,63 @@
       <v-layout align-center justify-center class="m-auto" style="height: 40%">
         <v-col lg="8" class="">
           <v-card>
-            <div class="p-5">
-              <h2 class="mb-10">Welcome</h2>
-              <hr />
+            <v-row
+              v-if="!loggedIn"
+              class="d-flex justify-space-between flex-row m-0"
+              fill-width
+            >
+              <v-btn
+                tile
+                large
+                depressed
+                class="w-50"
+                @click="activeForm = 'login'"
+                >Login</v-btn
+              >
+              <v-btn
+                tile
+                large
+                depressed
+                class="w-50"
+                @click="activeForm = 'register'"
+                >Register</v-btn
+              >
+            </v-row>
+            <v-divider v-if="!loggedIn" />
+            <div v-if="activeForm == 'login'" class="p-5">
+              <h2 class="mb-10">Login</h2>
               <div v-if="!loggedIn">
-                <h4>Email</h4>
-                <v-text-field type="email" v-model="form.email" />
+                <v-text-field type="email" label="Email" v-model="form.email" />
                 <br />
-                <h4>Password</h4>
-                <v-text-field type="password" v-model="form.password" />
+                <v-text-field
+                  type="password"
+                  label="Password"
+                  v-model="form.password"
+                />
                 <br />
                 <!-- we can still refer to a seemingly nonexistent login() method, because it exists
               inside the vuex store, it's like it gets pasted in by ...mapActions -->
                 <!-- pass the entire form data as the 'credentials' param of the login method -->
-                <v-btn @click="login(form)">Submit</v-btn>
+                <v-btn color="secondary" @click="login(form)">Submit</v-btn>
+              </div>
+              <p v-else>Welcome back, {{ this.getName() }}</p>
+            </div>
+            <div v-if="activeForm == 'register'" class="p-5">
+              <h2 class="mb-10">Register</h2>
+              <div v-if="!loggedIn">
+                <v-text-field type="text" label="Name" v-model="form.name" />
+                <br />
+                <v-text-field type="email" label="Email" v-model="form.email" />
+                <v-text-field
+                  type="password"
+                  label="Password"
+                  v-model="form.password"
+                />
+                <br />
+                <!-- we can still refer to a seemingly nonexistent login() method, because it exists
+              inside the vuex store, it's like it gets pasted in by ...mapActions -->
+                <!-- pass the entire form data as the 'credentials' param of the login method -->
+                <v-btn color="secondary" @click="register(form)">Submit</v-btn>
               </div>
               <p v-else>Welcome back, {{ this.getName() }}</p>
             </div>
@@ -39,10 +82,12 @@ export default {
   data() {
     return {
       form: {
-        email: "billy@bob.com",
-        password: "secret",
+        name: "",
+        email: "",
+        password: "",
       },
       name: "",
+      activeForm: "login",
     };
   },
   computed: {
@@ -51,7 +96,7 @@ export default {
   },
   methods: {
     // this provides a reference to a method within the vuex store
-    ...mapActions(["login"]),
+    ...mapActions(["login", "register"]),
     getName() {
       return localStorage.getItem("name");
     },
