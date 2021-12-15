@@ -28,7 +28,7 @@
               >
               </v-autocomplete>
             </div>
-            <v-alert v-if="errors.status" type="error">{{
+            <v-alert v-if="errors.status" dismissible type="error">{{
               errors.status
             }}</v-alert>
             <br />
@@ -47,7 +47,7 @@
               </v-autocomplete>
             </div>
             <!-- This error will be shown if the lecturer is already enrolled on a course -->
-            <v-alert v-if="errors.course_id" type="error">{{
+            <v-alert v-if="errors.course_id" dismissible type="error">{{
               errors.course_id
             }}</v-alert>
             <br />
@@ -65,7 +65,7 @@
               >
               </v-autocomplete>
             </div>
-            <v-alert v-if="errors.lecturer_id" type="error">{{
+            <v-alert v-if="errors.lecturer_id" dismissible type="error">{{
               errors.lecturer_id
             }}</v-alert>
             <br />
@@ -100,7 +100,9 @@
                 ></v-date-picker>
               </v-menu>
             </div>
-            <v-alert v-if="errors.date" type="error">{{ errors.date }}</v-alert>
+            <v-alert v-if="errors.date" dismissible type="error">{{
+              errors.date
+            }}</v-alert>
             <br />
             <div class="input-contain">
               <div class="mb-6">
@@ -137,7 +139,9 @@
                 </v-menu>
               </div>
             </div>
-            <v-alert v-if="errors.time" type="error">{{ errors.time }}</v-alert>
+            <v-alert v-if="errors.time" dismissible type="error">{{
+              errors.time
+            }}</v-alert>
 
             <br />
             <v-btn type="submit" color="secondary">Submit</v-btn>

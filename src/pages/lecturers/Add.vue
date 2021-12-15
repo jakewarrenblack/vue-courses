@@ -19,7 +19,9 @@
                 @blur="$v.form.name.$touch()"
               />
             </div>
-            <v-alert v-if="errors.name" type="error">{{ errors.name }}</v-alert>
+            <v-alert v-if="errors.name" dismissible type="error">{{
+              errors.name
+            }}</v-alert>
             <br />
             <div class="input-contain">
               <v-text-field
@@ -32,7 +34,7 @@
                 @blur="$v.form.address.$touch()"
               />
             </div>
-            <v-alert v-if="errors.address" type="error">{{
+            <v-alert v-if="errors.address" dismissible type="error">{{
               errors.address
             }}</v-alert>
             <br />
@@ -47,7 +49,7 @@
                 @blur="$v.form.phone.$touch()"
               />
             </div>
-            <v-alert v-if="errors.phone" type="error">{{
+            <v-alert v-if="errors.phone" dismissible type="error">{{
               errors.phone
             }}</v-alert>
             <br />
@@ -62,7 +64,7 @@
                 @blur="$v.form.email.$touch()"
               />
             </div>
-            <v-alert v-if="errors.email" type="error">{{
+            <v-alert v-if="errors.email" dismissible type="error">{{
               errors.email
             }}</v-alert>
             <br />

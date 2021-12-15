@@ -22,7 +22,7 @@
               />
             </div>
             <!-- These api errors are included for redundancy, the form shouldn't submit without meeting the validation requirements anyway -->
-            <v-alert v-if="errors.title" type="error">{{
+            <v-alert v-if="errors.title" dismissible type="error">{{
               errors.title
             }}</v-alert>
             <br />
@@ -37,7 +37,9 @@
                 @blur="$v.form.code.$touch()"
               />
             </div>
-            <v-alert v-if="errors.code" type="error">{{ errors.code }}</v-alert>
+            <v-alert v-if="errors.code" dismissible type="error">{{
+              errors.code
+            }}</v-alert>
             <br />
             <div class="input-contain">
               <v-textarea
@@ -50,7 +52,7 @@
                 @blur="$v.form.description.$touch()"
               />
             </div>
-            <v-alert v-if="errors.description" type="error">{{
+            <v-alert v-if="errors.description" dismissible type="error">{{
               errors.description
             }}</v-alert>
             <br />
@@ -65,7 +67,7 @@
                 @blur="$v.form.points.$touch()"
               />
             </div>
-            <v-alert v-if="errors.points" type="error">{{
+            <v-alert v-if="errors.points" dismissible type="error">{{
               errors.points
             }}</v-alert>
             <br />
@@ -80,7 +82,7 @@
                 @blur="$v.form.level.$touch()"
               />
             </div>
-            <v-alert v-if="errors.level" type="error">{{
+            <v-alert dismissible v-if="errors.level" type="error">{{
               JSON.stringify(errors.level)
             }}</v-alert>
             <br />
@@ -207,6 +209,7 @@ export default {
   methods: {
     reset() {
       this.$refs.form.reset();
+      this.$v.$reset();
     },
     async addCourse(form) {
       let token = localStorage.getItem("token");
