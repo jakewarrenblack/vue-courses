@@ -130,6 +130,7 @@
 <script>
 import axios from "axios";
 import Dialog from "@/components/Dialog";
+import { mapState } from "vuex";
 
 export default {
   name: "EnrolmentsShow",
@@ -142,6 +143,9 @@ export default {
   mounted() {
     this.getData();
   },
+  computed: {
+    ...mapState(["loggedIn"]),
+  },
   methods: {
     showDialog() {
       this.$store.dispatch("toggleDialog", {
@@ -152,8 +156,7 @@ export default {
     async deleteEnrolment(id) {
       let token = localStorage.getItem("token");
       // If the user tries to come to this page while not logged in, send them back to the homepage
-      if (!token) {
-        this.$router.push({ name: "home" });
+      if (!token || !this.loggedIn) {
         this.$router.push({ name: "home" });
         this.$store.dispatch("toggleSnackbar", {
           text: "Login to view enrolments",

@@ -85,6 +85,7 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   name: "coursesIndex",
@@ -98,6 +99,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["loggedIn"]),
     filtered() {
       // Filter for both lecturer names and courses
       return this.lecturers.filter((lecturer) => {

@@ -103,6 +103,7 @@
 import axios from "axios";
 
 import { validationMixin } from "vuelidate";
+import { mapState } from "vuex";
 import {
   required,
   minLength,
@@ -160,6 +161,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(["loggedIn"]),
     titleErrors() {
       const errors = [];
       if (!this.$v.form.title.$dirty) return errors;

@@ -112,6 +112,7 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   name: "EnrolmentsIndex",
@@ -133,6 +134,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["loggedIn"]),
     //   filteredPeople() {
     //     const { name, age, people } = this;
     //     return this.people

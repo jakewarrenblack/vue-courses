@@ -130,6 +130,7 @@
 <script>
 import axios from "axios";
 import Dialog from "@/components/Dialog";
+import { mapState } from "vuex";
 
 export default {
   name: "LecturersShow",
@@ -138,6 +139,9 @@ export default {
     return {
       lecturer: {},
     };
+  },
+  computed: {
+    ...mapState(["loggedIn"]),
   },
   mounted() {
     this.getData();

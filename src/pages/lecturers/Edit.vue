@@ -85,6 +85,7 @@
 import axios from "axios";
 import { validationMixin } from "vuelidate";
 import { required, numeric, email, maxLength } from "vuelidate/lib/validators";
+import { mapState } from "vuex";
 
 export default {
   name: "coursesAdd",
@@ -125,6 +126,7 @@ export default {
     },
   },
   computed: {
+    ...mapState(["loggedIn"]),
     nameErrors() {
       const errors = [];
       if (!this.$v.form.name.$dirty) return errors;
