@@ -56,12 +56,17 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>College management system</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn
-        v-if="$store.state.loggedIn"
-        @click="logOut()"
-        class="v-btn secondary"
-        >Log Out</v-btn
-      >
+      <v-row class="w-20 justify-content-end">
+        <v-btn
+          v-if="$store.state.loggedIn"
+          @click="logOut()"
+          class="v-btn secondary"
+          >Log Out</v-btn
+        >
+        <v-btn color="secondary" class="ml-5 mr-4" @click="toggleTheme()"
+          >Toggle theme</v-btn
+        >
+      </v-row>
     </v-app-bar>
 
     <v-main>
@@ -98,6 +103,9 @@ export default {
   }),
 
   methods: {
+    toggleTheme() {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+    },
     logOut() {
       this.$store.dispatch("logout");
       this.$router.replace("/");

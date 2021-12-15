@@ -15,6 +15,12 @@ export default new Vuetify({
         lessEmphasis: "#E1E1E1",
         background: "#EEEEEE",
       },
+      dark: {
+        primary: "#535352",
+        secondary: "#60B664",
+        lessEmphasis: "#E1E1E1",
+        background: "#272525",
+      },
     },
   },
 });
