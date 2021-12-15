@@ -1,6 +1,7 @@
 <template>
   <div class="p-5">
-    <h2 class="mb-10">Register</h2>
+    <h2 v-if="!loggedIn" class="mb-10">Register</h2>
+    <h2 v-else class="mb-10">Welcome</h2>
     <div v-if="!loggedIn">
       <v-text-field
         type="text"
@@ -10,6 +11,12 @@
         @input="$v.form.name.$touch()"
         @blur="$v.form.name.$touch()"
       />
+      <v-alert
+        v-if="registerErrors != null && registerErrors.name"
+        type="error"
+        dismissible
+        >{{ JSON.stringify(registerErrors.name) }}</v-alert
+      >
       <v-text-field
         type="email"
         label="Email"
@@ -18,6 +25,12 @@
         @input="$v.form.email.$touch()"
         @blur="$v.form.email.$touch()"
       />
+      <v-alert
+        v-if="registerErrors != null && registerErrors.email"
+        type="error"
+        dismissible
+        >{{ JSON.stringify(registerErrors.email) }}</v-alert
+      >
       <v-text-field
         type="password"
         label="Password"
@@ -26,6 +39,12 @@
         @input="$v.form.password.$touch()"
         @blur="$v.form.password.$touch()"
       />
+      <v-alert
+        v-if="registerErrors != null && registerErrors.password"
+        type="error"
+        dismissible
+        >{{ JSON.stringify(registerErrors.password) }}</v-alert
+      >
       <br />
       <!-- we can still refer to a seemingly nonexistent login() method, because it exists
               inside the vuex store, it's like it gets pasted in by ...mapActions -->
@@ -52,6 +71,7 @@ export default {
         email: "",
         password: "",
       },
+      // registerErrors: localStorage.getItem("registerErrors"),
     };
   },
   validations: {
@@ -71,6 +91,10 @@ export default {
     },
   },
   computed: {
+    registerErrors() {
+      return this.$store.state.registerErrors;
+    },
+
     // make the store's 'loggedIn' state available directly inside home
     ...mapState(["loggedIn"]),
     nameErrors() {

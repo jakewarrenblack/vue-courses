@@ -1,11 +1,11 @@
 <template>
   <v-img
     class="bgImage"
-    :lazy-src="smallSrc"
+    :lazy-src="`${storedSmallSrc != null ? storedSmallSrc : smallSrc}`"
     height="100%"
     max-height="100%"
     max-width="100%"
-    :src="largeSrc"
+    :src="`${storedLargeSrc != null ? storedLargeSrc : largeSrc}`"
   >
     <v-container fill-height class="container">
       <v-layout align-center justify-center class="m-auto" style="height: 40%">
@@ -54,9 +54,9 @@ export default {
     LoginForm,
     RegisterForm,
   },
-  mounted() {
+  async mounted() {
     this.removeBreakTag();
-    this.getImage();
+    await this.getImage();
   },
   data() {
     return {
@@ -66,12 +66,18 @@ export default {
         password: "",
       },
       name: "",
-      smallSrc: localStorage.getItem("smallSrc"),
-      largeSrc: localStorage.getItem("largeSrc"),
+      largeSrc: "",
+      smallSrc: "",
       activeForm: "login",
     };
   },
   computed: {
+    storedSmallSrc() {
+      return localStorage.getItem("smallSrc");
+    },
+    storedLargeSrc() {
+      return localStorage.getItem("largeSrc");
+    },
     // make the store's 'loggedIn' state available directly inside home
     ...mapState(["loggedIn"]),
   },
@@ -101,11 +107,21 @@ export default {
         document.getElementsByTagName("BR")[0].remove();
       }
     },
-    getImage() {
-      if (!this.hasOneDayPassed()) return false;
-      //var that = this;
+    async getImage() {
+      // If a day has not passed and there are **ALREADY** images stored locally, cancel, use the existing images
+      if (
+        !this.hasOneDayPassed() &&
+        this.storedSmallSrc != null &&
+        this.storedLargeSrc != null
+      )
+        return false;
+
+      // Otherwise, a day has either passed, or there are no images, meaning we're running the app for the first time (or localstorage has been cleared),
+      // so fetch a new image
+
+      var that = this;
       // if the call to unsplash fails, it will call to pexels instead
-      axios
+      await axios
         .get(
           `https://api.unsplash.com/photos/random?client_id=9LhVwLjJrdIy5jX3svklsUACp0mByDjsrzbJNTZGAqg&query=nature`
         )
@@ -113,9 +129,13 @@ export default {
           // document.getElementById(
           //   "background"
           // ).style.backgroundImage = `url(${response.data.urls.full})`;
-          // that.smallSrc = response.data.urls.small;
+
+          // Setting this one as well so the image updates immediately without needing a refresh if it's fetching for the first  time
+          that.smallSrc = response.data.urls.small;
+          that.largeSrc = response.data.urls.full;
+
           localStorage.setItem("smallSrc", response.data.urls.small);
-          // that.largeSrc = response.data.urls.full;
+
           localStorage.setItem("largeSrc", response.data.urls.full);
         })
         .catch(function (error) {
@@ -133,9 +153,11 @@ export default {
               // document.getElementById(
               //   "background"
               // ).style.backgroundImage = `url(${response.data.photos[0].src.large2x})`;
-              // that.smallSrc = response.data.urls.small;
+              that.smallSrc = response.data.urls.small;
+
+              that.largeSrc = response.data.urls.large2x;
+
               localStorage.setItem("smallSrc", response.data.urls.small);
-              // that.largeSrc = response.data.urls.large2x;
               localStorage.setItem("largeSrc", response.data.urls.large2x);
             })
             .catch((error) => console.log(error));

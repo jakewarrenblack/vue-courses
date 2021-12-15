@@ -21,6 +21,7 @@ export default new Vuex.Store({
       message: null,
       visible: false,
     },
+    registerErrors: null,
   },
   getters: {},
   mutations: {
@@ -65,6 +66,13 @@ export default new Vuex.Store({
         state.dialog.visible = false;
       }
     },
+    SET_REGISTER_ERRORS(state, payload = null) {
+      if (payload) {
+        state.registerErrors = payload;
+      } else {
+        state.registerErrors = null;
+      }
+    },
   },
   // we want our login action to be performed on form submit
   actions: {
@@ -107,6 +115,9 @@ export default new Vuex.Store({
           console.log(response.data.token);
           console.log("username: " + response.data.name);
 
+          // If register was successful, remove any stored register errors
+          context.commit("SET_REGISTER_ERRORS");
+
           axios
             .post(`https://college-api-mo.herokuapp.com/api/login`, {
               email: credentials.email,
@@ -126,7 +137,7 @@ export default new Vuex.Store({
             })
             .catch((error) => {
               console.log(error);
-              console.log(error.response.data.message);
+              console.log(error.response);
             });
 
           // we did this in the old way:
@@ -139,7 +150,10 @@ export default new Vuex.Store({
         })
         .catch((error) => {
           console.log(error);
-          console.log(error.response.data.message);
+          console.log(error.response.data);
+          // Pass our errors as payload, if payload is passed, state.registerErrors is set to the payload
+          // Computed property in register form returns these errors and displays them in alerts
+          context.commit("SET_REGISTER_ERRORS", error.response.data);
         });
     },
     // Again, we *always* pass in the context!

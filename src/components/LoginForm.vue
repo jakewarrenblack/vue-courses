@@ -1,6 +1,7 @@
 <template>
   <div class="p-5">
-    <h2 class="mb-10">Login</h2>
+    <h2 v-if="!loggedIn" class="mb-10">Login</h2>
+    <h2 v-else class="mb-10">Welcome</h2>
     <div v-if="!loggedIn">
       <v-text-field
         type="email"
