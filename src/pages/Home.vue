@@ -58,6 +58,9 @@ export default {
     this.removeBreakTag();
     await this.getImage();
   },
+  created() {
+    document.title = "Home";
+  },
   data() {
     return {
       form: {

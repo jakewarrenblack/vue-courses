@@ -160,6 +160,9 @@ export default {
       },
     },
   },
+  created() {
+    document.title = "Edit Course";
+  },
   computed: {
     ...mapState(["loggedIn"]),
     titleErrors() {

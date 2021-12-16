@@ -121,6 +121,9 @@ export default {
       },
     },
   },
+  created() {
+    document.title = "Add Lecturer";
+  },
   computed: {
     ...mapState(["loggedIn"]),
     nameErrors() {

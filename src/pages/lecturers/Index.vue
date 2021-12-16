@@ -113,6 +113,9 @@ export default {
   mounted() {
     this.getData();
   },
+  created() {
+    document.title = "All Lecturers";
+  },
   methods: {
     clearSearch() {
       this.searchQuery = "";

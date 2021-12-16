@@ -146,6 +146,9 @@ export default {
   mounted() {
     this.getData();
   },
+  created() {
+    document.title = "View Lecturer";
+  },
   methods: {
     showDialog() {
       this.$store.dispatch("toggleDialog", {

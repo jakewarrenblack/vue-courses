@@ -107,6 +107,9 @@ export default {
       });
     },
   },
+  created() {
+    document.title = "All Courses";
+  },
   mounted() {
     this.getData();
   },

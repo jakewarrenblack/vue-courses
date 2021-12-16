@@ -215,6 +215,9 @@ export default {
       required,
     },
   },
+  created() {
+    document.title = "Edit Enrolment";
+  },
   computed: {
     ...mapState(["loggedIn"]),
     statusErrors() {

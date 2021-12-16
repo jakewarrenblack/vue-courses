@@ -125,6 +125,9 @@ export default {
       },
     },
   },
+  created() {
+    document.title = "Edit Lecturer";
+  },
   computed: {
     ...mapState(["loggedIn"]),
     nameErrors() {

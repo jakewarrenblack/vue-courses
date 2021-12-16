@@ -182,6 +182,9 @@ export default {
   mounted() {
     this.getData();
   },
+  created() {
+    document.title = "All Enrolments";
+  },
   methods: {
     clearSearch() {
       this.searchQuery = "";

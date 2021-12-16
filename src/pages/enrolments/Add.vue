@@ -211,6 +211,9 @@ export default {
       required,
     },
   },
+  created() {
+    document.title = "Add Enrolment";
+  },
   computed: {
     ...mapState(["loggedIn"]),
     statusErrors() {

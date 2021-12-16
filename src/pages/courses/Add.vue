@@ -155,6 +155,9 @@ export default {
       },
     },
   },
+  created() {
+    document.title = "Add Course";
+  },
   mounted() {
     //this.getData();\
     console.log(localStorage.getItem("token"));

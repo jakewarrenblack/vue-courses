@@ -146,6 +146,9 @@ export default {
   computed: {
     ...mapState(["loggedIn"]),
   },
+  created() {
+    document.title = "View Enrolment";
+  },
   methods: {
     showDialog() {
       this.$store.dispatch("toggleDialog", {
