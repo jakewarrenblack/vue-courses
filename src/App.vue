@@ -84,7 +84,9 @@
       <br />
       <!-- This snackbar will appear at the very top of the page -->
       <snackbar />
-      <router-view class="" />
+      <transition name="fade" mode="out-in">
+        <router-view class="" />
+      </transition>
     </v-main>
   </v-app>
 </template>
@@ -131,6 +133,17 @@ export default {
 };
 </script>
 
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
+
 <style scoped>
 v-main {
   margin: 1rem;
@@ -140,4 +153,3 @@ v-main {
   width: 100%;
 }
 </style>
-.
