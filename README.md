@@ -29,6 +29,10 @@ Vue CRUD application allowing users to view and manipulate data about courses, l
   <li>Vuex state management, incorporated into dialogs and snackbars.</li>
 
   <li>Simple lecturer images from dicebear.com avatar API</li>
+  
+  <li>Pagination using Vue-Paginate plugin</li>
+  
+  <li>Animations (fade transition) between pages</li>
 
   <li>Dark mode</li>
 </ul>
@@ -37,30 +41,30 @@ Vue CRUD application allowing users to view and manipulate data about courses, l
 <details>
   <summary><b>View gallery</b></summary>
   
-  <h2>Homepage, new image every day from Unsplash or Pexels (Dark mode on)</h2>
+  ### Homepage, new image every day from Unsplash or Pexels (Dark mode on)
   ![home](https://user-images.githubusercontent.com/47800618/146282326-24456e3a-b55b-4b07-a341-049b9313be4f.png)
   
   <hr/>
   
-  <h2>All Courses</h2>
+  ### All Courses
   ![all_courses](https://user-images.githubusercontent.com/47800618/146282544-9a989b46-9032-45b6-bd34-24720b4d23c7.png)
   
   <hr/>
   
-  <h2>View Course Details</h2>
+  ### View Course Details
   ![view_course](https://user-images.githubusercontent.com/47800618/146282597-175c58bd-d4c3-401d-bc37-c8947b875ffd.png)
   
   <hr/>
   
-  <h2>Edit Course (All forms include validation with Vuelidate and server-side validation through the API</h2>
+  ### Edit Course (All forms include validation with Vuelidate and server-side validation through the API
   ![course_edit](https://user-images.githubusercontent.com/47800618/146282681-0bf44e4c-6b69-4b7b-9dcd-2b7ae1c7347f.png)
   
   <hr/>
   
-  <h2>Deleting a Course (Dialog runs the delete method, will delete all enrolments first, then the course)</h2>
+  ### Deleting a Course (Dialog runs the delete method, will delete all enrolments first, then the course)
   ![course_with_dialog](https://user-images.githubusercontent.com/47800618/146282736-fd596d8d-c411-4cf0-8e6e-859c3e15b286.png)
   
-  <h2>View all lecturers</h2>
+  ### View all lecturers
   ![all_lecturers](https://user-images.githubusercontent.com/47800618/146282820-bebe3f38-693b-4d4d-b5f6-9ca096806d5d.png)
   
 </details>
