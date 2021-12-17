@@ -98,6 +98,7 @@ export default {
     Snackbar,
   },
   data: () => ({
+    loggedIn: false,
     dark: false,
     drawer: null,
     links: [
@@ -119,6 +120,11 @@ export default {
     theme() {
       return this.$vuetify.theme.dark ? "dark" : "light";
     },
+  },
+  created() {
+    localStorage.getItem("token")
+      ? this.$store.commit("SET_LOGGED_IN_STATUS", true)
+      : this.$store.commit("SET_LOGGED_IN_STATUS", false);
   },
 
   methods: {
