@@ -5,6 +5,14 @@
 Vue CRUD application allowing users to view and manipulate data about courses, lecturers and enrolments at a college. Authentication and data access is provided by a REST API. Application also incorporates Vuex for state management and the Vuetify design framework. 
 <hr/>  
 
+<b>Login</b>
+
+Email: billy@bob.com
+
+Password: secret
+
+<hr/>
+
 ## Features:
 ### Required:
 <ul>
